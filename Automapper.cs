@@ -38,13 +38,10 @@ namespace Automapper
     public class Automapper
     {
         private UI _ui;
-        private BeatSaberSongContainer _beatSaberSongContainer;
+        static public BeatSaberSongContainer _beatSaberSongContainer;
         private NotesContainer _notesContainer;
         private EventsContainer _eventsContainer;
         private ObstaclesContainer _obstaclesContainer;
-        private BPMChangesContainer _bpmChangesContainer;
-        private string path;
-        
 
         [Init]
         private void Init()
@@ -57,16 +54,12 @@ namespace Automapper
         {
             if (arg0.buildIndex == 3)
             {
-                _notesContainer = UnityEngine.Object.FindObjectOfType<NotesContainer>();
-                _eventsContainer = UnityEngine.Object.FindObjectOfType<EventsContainer>();
-                _bpmChangesContainer = UnityEngine.Object.FindObjectOfType<BPMChangesContainer>();
-                _obstaclesContainer = UnityEngine.Object.FindObjectOfType<ObstaclesContainer>();
-                _beatSaberSongContainer = UnityEngine.Object.FindObjectOfType<BeatSaberSongContainer>();
+                _notesContainer = Object.FindObjectOfType<NotesContainer>();
+                _eventsContainer = Object.FindObjectOfType<EventsContainer>();
+                _obstaclesContainer = Object.FindObjectOfType<ObstaclesContainer>();
+                _beatSaberSongContainer = Object.FindObjectOfType<BeatSaberSongContainer>();
 
-                float BPM = _beatSaberSongContainer.Song.BeatsPerMinute;
-                Options.Mapper.BPMs = BPM;
-
-                 MapEditorUI mapEditorUI = UnityEngine.Object.FindObjectOfType<MapEditorUI>();
+                 MapEditorUI mapEditorUI = Object.FindObjectOfType<MapEditorUI>();
                 _ui.AddMenu(mapEditorUI);
             }
         }
@@ -198,7 +191,7 @@ namespace Automapper
                 }
 
                 // Get new notes
-                List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, Options.Mapper.BPMs, select.First().Type, before, beforeBefore);
+                List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, before, beforeBefore);
 
                 List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
 
@@ -222,53 +215,32 @@ namespace Automapper
 
         public void Audio()
         {
-            string filePath = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "*.*gg|*.*gg|*.mp3|*.mp3";
-            openFileDialog.Title = "Open audio";
-            if(path != "")
+            List<BeatmapNote> no;
+            no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
+
+            List<BeatmapNote> notes = _notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList();
+            List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
+
+            // Delete old obstacles
+            foreach (var o in obstacles)
             {
-                openFileDialog.InitialDirectory = path;
+                _obstaclesContainer.DeleteObject(o, false);
             }
-            else
+
+            // Delete old notes
+            foreach (var n in notes)
             {
-                openFileDialog.InitialDirectory = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\\Beat Saber_Data";
+                _notesContainer.DeleteObject(n, false);
             }
-            DialogResult result = openFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
+
+            // Add new notes
+            foreach (var n in no)
             {
-                filePath = openFileDialog.FileName;
-                path = filePath;
+                _notesContainer.SpawnObject(n, false, false);
             }
-            if (filePath != "") // A file is selected
-            {
-                List<BeatmapNote> no;
-                no = Methods.Onset.GetMap(filePath, Options.Mapper.BPMs);
 
-                List<BeatmapNote> notes = _notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList();
-                List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
-
-                // Delete old obstacles
-                foreach (var o in obstacles)
-                {
-                    _obstaclesContainer.DeleteObject(o, false);
-                }
-
-                // Delete old notes
-                foreach (var n in notes)
-                {
-                    _notesContainer.DeleteObject(n, false);
-                }
-
-                // Add new notes
-                foreach (var n in no)
-                {
-                    _notesContainer.SpawnObject(n, false, false);
-                }
-
-                BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);
-                BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Note).RefreshPool(true);
-            } 
+            BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);
+            BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Note).RefreshPool(true);
         }
 
         [Exit]

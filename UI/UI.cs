@@ -57,22 +57,14 @@ namespace Automapper.UserInterface
             {
                 Options.Light.AllowBoostColor = check;
             });
-            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -160), Options.Mapper.Limiter, (check) =>
+            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -195), Options.Mapper.Limiter, (check) =>
             {
                 Options.Mapper.Limiter = check;
             });
 
             // Swap, Speed, Boost, BPM
-            AddLabel(_automapperMenu.transform, "Mapper", "Mapper", new Vector2(-150, -155));
+            AddLabel(_automapperMenu.transform, "Mapper", "Mapper", new Vector2(-75, -190));
             AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -15));
-            AddTextInput(_automapperMenu.transform, "BPM", "BPM", new Vector2(-90, -155), Options.Mapper.BPMs.ToString(), (value) =>
-            {
-                float res;
-                if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))
-                {
-                    Options.Mapper.BPMs = res;
-                }
-            });
             AddTextInput(_automapperMenu.transform, "Indistinguishable Range", "Indistinguishable Range", new Vector2(110, -190), Options.Mapper.IndistinguishableRange.ToString(), (value) =>
             {
                 float res;

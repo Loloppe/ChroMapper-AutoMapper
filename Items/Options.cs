@@ -19,7 +19,6 @@
         public static class Mapper
         {
             private static float indistinguishableRange = 0.003f;
-            private static float bpm = 200f;
             private static float onsetSensitivity = 1.3f;
             private static float doubleThreshold = 0.2f;
             private static double maxSpeed = (1d / 8d);
@@ -27,7 +26,6 @@
 
             public static bool Limiter { set; get; } = true;
             public static float IndistinguishableRange { set => indistinguishableRange = value > 0.0f ? value : 0.003f; get => indistinguishableRange; }
-            public static float BPMs { set => bpm = value > 0.0f ? value : 200.0f; get => bpm; }
             public static float OnsetSensitivity { set => onsetSensitivity = value > 0.0f ? value : 1.3f; get => onsetSensitivity; }
             public static float DoubleThreshold { set => doubleThreshold = value >= 0.0f ? value : 0.2f; get => doubleThreshold; }
             public static double MaxSpeed { set => maxSpeed = value > 0.0f ? value : (1d / 8d); get => maxSpeed; }
