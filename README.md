@@ -9,7 +9,6 @@ This is a stripped-down port of Lolighter, now as a plugin for ChroMapper.
 -   Lightshow Generator
 -   Map Generator from Notes
 -   Map Generator from Audio
--   
 
 ### Credits
 
