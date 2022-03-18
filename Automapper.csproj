@@ -1,0 +1,747 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0385AAB4-FBB6-4D64-9D61-521EF4E97038}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Automapper</RootNamespace>
+    <AssemblyName>Automapper</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Main, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\Main.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Plugins, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\Plugins.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.RegularExpressions.4.3.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\..\..\Desktop\ChroMapper\chromapper\ChroMapper_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChroMapper\chromapper\ChroMapper_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Items\Enumerator.cs" />
+    <Compile Include="Items\Helper.cs" />
+    <Compile Include="Items\Utils.cs" />
+    <Compile Include="Items\Options.cs" />
+    <Compile Include="Methods\Light.cs" />
+    <Compile Include="Automapper.cs" />
+    <Compile Include="Methods\NoteGenerator.cs" />
+    <Compile Include="Methods\Onset.cs" />
+    <Compile Include="NAudio\NAudio.Core\Codecs\ALawDecoder.cs" />
+    <Compile Include="NAudio\NAudio.Core\Codecs\ALawEncoder.cs" />
+    <Compile Include="NAudio\NAudio.Core\Codecs\G722Codec.cs" />
+    <Compile Include="NAudio\NAudio.Core\Codecs\MuLawDecoder.cs" />
+    <Compile Include="NAudio\NAudio.Core\Codecs\MuLawEncoder.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\BiQuadFilter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\Complex.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\EnvelopeDetector.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\EnvelopeGenerator.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\FastFourierTransform.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\ImpulseResponseConvolution.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\SimpleCompressor.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\SimpleGate.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\SmbPitchShifter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Dsp\WdlResampler.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\ChannelMode.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\Id3v2Tag.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\IMp3FrameDecompressor.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\Mp3Frame.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\MpegLayer.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\MpegVersion.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Mp3\XingHeader.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\Generator.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\GeneratorBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\GeneratorEnum.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\InfoChunk.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\Instrument.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\InstrumentBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\Modulator.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\ModulatorBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\ModulatorType.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\Preset.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\PresetBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\PresetsChunk.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\RiffChunk.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SampleDataChunk.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SampleHeader.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SampleHeaderBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SampleMode.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SFSampleLink.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SFVersion.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SFVersionBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\SoundFont.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\StructureBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\Zone.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\SoundFont\ZoneBuilder.cs" />
+    <Compile Include="NAudio\NAudio.Core\FileFormats\Wav\WaveFileChunkReader.cs" />
+    <Compile Include="NAudio\NAudio.Core\Manufacturers.cs" />
+    <Compile Include="NAudio\NAudio.Core\MmException.cs" />
+    <Compile Include="NAudio\NAudio.Core\MmResult.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\BufferHelpers.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\ByteArrayExtensions.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\ByteEncoding.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\ChunkIdentifier.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\CircularBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\Decibels.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\FieldDescriptionAttribute.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\FieldDescriptionHelper.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\HResult.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\IEEE.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\IgnoreDisposeStream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\NativeMethods.cs" />
+    <Compile Include="NAudio\NAudio.Core\Utils\WavePositionExtensions.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\ISampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Mono16SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Mono24SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Mono8SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\MonoFloatSampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Stereo16SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Stereo24SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\Stereo8SampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleChunkConverters\StereoFloatSampleChunkConverter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\AdsrSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\ConcatenatingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\FadeInOutSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\MeteringSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\MixingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\MonoToStereoSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\MultiplexingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\NotifyingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\OffsetSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\PanningSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\Pcm16BitToSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\Pcm24BitToSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\Pcm32BitToSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\Pcm8BitToSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleChannel.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleProviderConverterBase.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleProviderConverters.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleToWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleToWaveProvider16.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SampleToWaveProvider24.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SignalGenerator.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\SMBPitchShiftingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\StereoToMonoSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\VolumeSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\WaveToSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\WaveToSampleProvider64.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\SampleProviders\WdlResamplingSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveExtensionMethods.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\AdpcmWaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\AudioMediaSubtypes.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\Gsm610WaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\ImaAdpcmWaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\Mp3WaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\OggWaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\TrueSpeechWaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WaveFormatCustomMarshaler.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WaveFormatEncoding.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WaveFormatExtensible.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WaveFormatExtraData.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveFormats\WmaWaveFormat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveInputs\CaptureState.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveInputs\IWaveIn.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveInputs\WaveInEventArgs.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\AiffFileWriter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\BextChunkInfo.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\BwfWriter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\CueWaveFileWriter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\DirectSoundOut.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\IWaveBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\IWavePlayer.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\IWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\IWaveProviderFloat.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\PlaybackState.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\StoppedEventArgs.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\WaveBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveOutputs\WaveFileWriter.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\BufferedWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\MixingWaveProvider32.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\MonoToStereoProvider16.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\MultiplexingWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\SilenceWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\StereoToMonoProvider16.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\VolumeWaveProvider16.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\Wave16toFloatProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\WaveFloatTo16Provider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\WaveInProvider.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\WaveProvider16.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\WaveProvider32.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveProviders\WaveRecorder.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\AiffFileReader.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\BlockAlignReductionStream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\CueList.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\CueWaveFileReader.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\ISampleNotifier.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\Mp3FileReaderBase.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\RawSourceWaveStream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\RiffChunk.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\SimpleCompressorStream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\Wave32To16Stream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\WaveChannel32.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\WaveFileReader.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\WaveMixerStream32.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\WaveOffsetStream.cs" />
+    <Compile Include="NAudio\NAudio.Core\Wave\WaveStreams\WaveStream.cs" />
+    <Compile Include="NAudio\NAudio.Vorbis\EndOfStreamEventArgs.cs" />
+    <Compile Include="NAudio\NAudio.Vorbis\VorbisSampleProvider.cs" />
+    <Compile Include="NAudio\NAudio.Vorbis\VorbisWaveReader.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\ComStream.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioCaptureClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClientBufferFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClientProperties.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClientShareMode.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClientStreamFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClientStreamOptions.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioClockClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeCallback.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeChannel.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeChannels.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeNotificationDelegate.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeStepInformation.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioEndpointVolumeVolumeRange.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioMeterInformation.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioMeterInformationChannels.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioRenderClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioSessionControl.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioSessionEventsCallback.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioSessionManager.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioSessionNotification.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioStreamCategory.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioStreamVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\AudioVolumeNotificationData.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Connector.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\ConnectorType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\DataFlow.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\DeviceState.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\DeviceTopology.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\EEndpointHardwareSupport.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\AudioVolumeNotificationDataStruct.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\Blob.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\ClsCtx.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\ErrorCodes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioCaptureClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioClock2.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioEndpointVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioEndpointVolumeCallback.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioMeterInformation.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioRenderClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionControl.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionEnumerator.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionEvents.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionEventsHandler.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionManager.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioSessionNotification.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IAudioStreamVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IConnector.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IDeviceTopology.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IMMDevice.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IMMDeviceCollection.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IMMDeviceEnumerator.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IMMEndpoint.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IMMNotificationClient.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IPart.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IPartsList.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\IPropertyStore.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\ISimpleAudioVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\ISubunit.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\MMDeviceEnumeratorComObject.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Interfaces\StorageAccessMode.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\MMDevice.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\MMDeviceCollection.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\MMDeviceEnumerator.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropertyKey.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropertyKeys.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropertyStore.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropertyStoreProperty.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropVariant.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\PropVariantNative.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\Role.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\SessionCollection.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\CoreAudioApi\SimpleAudioVolume.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\DmoEffectWaveProvider.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\DmoMp3FrameDecompressor.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoDescriptor.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoEnumerator.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoEnumFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoGuids.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoHResults.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoInPlaceProcessFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoInPlaceProcessReturn.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoInputDataBufferFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoInputStatusFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoInterop.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoMediaType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoOutputDataBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoOutputDataBufferFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoPartialMediaType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoProcessOutputFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\DmoSetTypeFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\ChorusPhase.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\ChorusWaveForm.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoChorus.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoCompressor.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoDistortion.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoEcho.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoFlanger.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoGargle.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoI3DL2Reverb.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoParamEq.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\DmoWavesReverb.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\EchoPanDelay.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\FlangerPhase.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\FlangerWaveForm.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\GargleWaveShape.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\I3Dl2EnvironmentPreset.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\Effect\IDmoEffector.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IEnumDmo.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IMediaBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IMediaObject.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IMediaObjectInPlace.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IMediaParamInfo.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\InputStreamInfoFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\IWMResamplerProps.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaObject.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaObjectInPlace.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaObjectSizeInfo.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaParamInfo.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\MediaTypes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\OutputStreamInfoFlags.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\ResamplerMediaObject.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\Dmo\WindowsMediaMp3Decoder.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundationEncoder.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundationReader.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundationResampler.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\AudioSubtypes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFActivate.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFAttributes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFByteStream.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFCollection.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFMediaBuffer.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFMediaEvent.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFMediaType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFReadWriteClassFactory.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFSample.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFSinkWriter.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFSourceReader.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\IMFTransform.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaEventType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationAttributes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationErrors.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationHelpers.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationInterop.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationTransform.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaFoundationTransformCategories.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaType.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MediaTypes.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MFT_INPUT_STREAM_INFO.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MFT_MESSAGE_TYPE.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MFT_OUTPUT_DATA_BUFFER.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MFT_OUTPUT_STREAM_INFO.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MFT_REGISTER_TYPE_INFO.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\MF_SINK_WRITER_STATISTICS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_ENUM_FLAG.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_INPUT_STATUS_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_INPUT_STREAM_INFO_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_OUTPUT_DATA_BUFFER_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_OUTPUT_STATUS_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_OUTPUT_STREAM_INFO_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_PROCESS_OUTPUT_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_PROCESS_OUTPUT_STATUS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\MediaFoundation\_MFT_SET_TYPE_FLAGS.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\ResamplerDmoStream.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\StreamMediaFoundationReader.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\WasapiCapture.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\WasapiLoopbackCapture.cs" />
+    <Compile Include="NAudio\NAudio.Wasapi\WasapiOut.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmDriver.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmDriverAddFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmDriverDetails.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmDriverDetailsSupportFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmDriverEnumFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormat.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatChoose.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatChooseStyleFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatDetails.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatEnumFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatSuggestFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatTag.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmFormatTagDetails.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmInterop.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmMetrics.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStream.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamConvertFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamHeader.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamHeaderStatusFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamHeaderStruct.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamOpenFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\AcmStreamSizeFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Compression\WaveFilter.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\BooleanMixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\CustomMixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\ListTextMixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\Mixer.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerControlType.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerInterop.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerLine.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\MixerLineComponentType.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\SignedMixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mixer\UnsignedMixerControl.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\MmTime.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveCallbackStrategy.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveHeader.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveHeaderFlags.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveInCapabilities.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveInterop.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveOutCapabilities.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\MmeInterop\WaveOutSupport.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\Mp3FrameDecompressor.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveFormatConversionProvider.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveFormatConversionStream.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveInBuffer.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveInEvent.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveOutBuffer.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveOutEvent.cs" />
+    <Compile Include="NAudio\NAudio.WinMM\WaveOutUtils.cs" />
+    <Compile Include="NAudio\NAudio\AudioFileReader.cs" />
+    <Compile Include="NAudio\NAudio\Mp3FileReader.cs" />
+    <Compile Include="NAudio\NVorbis\Codebook.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\HuffmanListNode.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\ICodebook.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IContainerReader.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IFactory.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IFloor.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IFloorData.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IHuffman.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IMapping.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IMdct.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IMode.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IPacket.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IPacketProvider.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IResidue.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IStreamDecoder.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IStreamStats.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\ITagData.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\IVorbisReader.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\ICrc.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\IForwardOnlyPacketProvider.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\IPacketReader.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\IPageData.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\IPageReader.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\IStreamPageReader.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\Ogg\PageFlags.cs" />
+    <Compile Include="NAudio\NVorbis\Contracts\ParameterChangeEventArgs.cs" />
+    <Compile Include="NAudio\NVorbis\DataPacket.cs" />
+    <Compile Include="NAudio\NVorbis\Extensions.cs" />
+    <Compile Include="NAudio\NVorbis\Factory.cs" />
+    <Compile Include="NAudio\NVorbis\Floor0.cs" />
+    <Compile Include="NAudio\NVorbis\Floor1.cs" />
+    <Compile Include="NAudio\NVorbis\Huffman.cs" />
+    <Compile Include="NAudio\NVorbis\IContainerReader.cs" />
+    <Compile Include="NAudio\NVorbis\IPacketProvider.cs" />
+    <Compile Include="NAudio\NVorbis\IVorbisStreamStatus.cs" />
+    <Compile Include="NAudio\NVorbis\Mapping.cs" />
+    <Compile Include="NAudio\NVorbis\Mdct.cs" />
+    <Compile Include="NAudio\NVorbis\Mode.cs" />
+    <Compile Include="NAudio\NVorbis\NewStreamEventArgs.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\ContainerReader.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\Crc.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\ForwardOnlyPacketProvider.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\ForwardOnlyPageReader.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\Packet.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\PacketProvider.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\PageReader.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\PageReaderBase.cs" />
+    <Compile Include="NAudio\NVorbis\Ogg\StreamPageReader.cs" />
+    <Compile Include="NAudio\NVorbis\Residue0.cs" />
+    <Compile Include="NAudio\NVorbis\Residue1.cs" />
+    <Compile Include="NAudio\NVorbis\Residue2.cs" />
+    <Compile Include="NAudio\NVorbis\StreamDecoder.cs" />
+    <Compile Include="NAudio\NVorbis\StreamStats.cs" />
+    <Compile Include="NAudio\NVorbis\TagData.cs" />
+    <Compile Include="NAudio\NVorbis\Utils.cs" />
+    <Compile Include="NAudio\NVorbis\VorbisReader.cs" />
+    <Compile Include="Onset\AudioFileReader.cs" />
+    <Compile Include="Onset\OnsetDetection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\UI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NAudio\NAudio\Changes.xml" />
+    <Content Include="UnityEngine.StreamingModule.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NAudio\NAudio.Core\NAudio.Core.csproj" />
+    <None Include="NAudio\NAudio.Vorbis\NAudio.Vorbis.csproj" />
+    <None Include="NAudio\NAudio.Wasapi\NAudio.Wasapi.csproj" />
+    <None Include="NAudio\NAudio.WinMM\NAudio.WinMM.csproj" />
+    <None Include="NAudio\NAudio\NAudio.csproj" />
+    <None Include="NAudio\NAudio\NAudio.csproj.DotSettings" />
+    <None Include="NAudio\NAudio\NAudio.csproj.vspscc" />
+    <None Include="NAudio\NAudio\NAudio.ruleset" />
+    <None Include="NAudio\NVorbis\NVorbis.csproj" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
