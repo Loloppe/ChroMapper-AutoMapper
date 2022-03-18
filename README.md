@@ -1,4 +1,4 @@
-# Lolighter
+# AutoMapper
 
 ## ChroMapper plugin
 
