@@ -728,7 +728,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NAudio\NAudio\Changes.xml" />
-    <Content Include="UnityEngine.StreamingModule.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NAudio\NAudio.Core\NAudio.Core.csproj" />
@@ -740,7 +739,6 @@
     <None Include="NAudio\NAudio\NAudio.csproj.vspscc" />
     <None Include="NAudio\NAudio\NAudio.ruleset" />
     <None Include="NAudio\NVorbis\NVorbis.csproj" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
