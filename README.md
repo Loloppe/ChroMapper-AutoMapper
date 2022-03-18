@@ -2,18 +2,16 @@
 
 ## ChroMapper plugin
 
-A well-known autolighter comes to ChroMapper as a plugin. New and updated features including boost light placement and extended event for specific environment.
+This is a stripped-down port of Lolighter, now as a plugin for ChroMapper.
 
 ### Features
 
--   Autolighting
--   Downlighting
--   Note Modifier
-    -   Bombs
-    -   Inverted
-    -   Loloppe
-    -   Sliders
+-   Lightshow Generator
+-   Map Generator from Notes
+-   Map Generator from Audio
+-   
 
 ### Credits
 
 [Lolighter](https://github.com/Loloppe/Lolighter) by [Loloppe](https://github.com/Loloppe)
+[ChroMapper-Lolighter](https://github.com/KivalEvan/ChroMapper-Lolighter) by [Kival Evan](https://github.com/KivalEvan/)
