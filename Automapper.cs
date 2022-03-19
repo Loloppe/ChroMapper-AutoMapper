@@ -29,7 +29,6 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using Automapper.Items;
 using Automapper.UserInterface;
-using System.Windows.Forms;
 using UnityEngine;
 
 namespace Automapper
@@ -96,6 +95,7 @@ namespace Automapper
         public void Converter()
         {
             List<BeatmapNote> notes = new List<BeatmapNote>(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList());
+            notes = notes.OrderBy(o => o.Time).ToList();
             List<BeatmapNote> select = null;
 
             var selection = SelectionController.SelectedObjects;
@@ -119,93 +119,129 @@ namespace Automapper
 
             if(select != null)
             {
+                // Add the first note if the second note is selected
                 if (select.Contains(notes[1]) && !select.Contains(notes.First()))
                 {
                     select.Add(notes.First());
                     select.OrderBy(o => o.Time);
                 }
 
-                List<BeatmapNote> redNotes = new List<BeatmapNote>(select.Where(w => w.Type == 0).ToList());
-                List<BeatmapNote> blueNotes = new List<BeatmapNote>(select.Where(w => w.Type == 1).ToList());
+                List<BeatmapNote> redNotes = new List<BeatmapNote>();
+                List<BeatmapNote> blueNotes = new List<BeatmapNote>();
+
+                // Separate note per type
+                if (select.Exists(o => o.Type == 0))
+                {
+                    redNotes = new List<BeatmapNote>(select.Where(w => w.Type == 0).ToList());
+                }
+
+                if (select.Exists(o => o.Type == 1))
+                {
+                    blueNotes = new List<BeatmapNote>(select.Where(w => w.Type == 1).ToList());
+                }
 
                 // We do nothing with patterns for now
                 List<List<BeatmapNote>> patterns = new List<List<BeatmapNote>>();
-                (patterns, redNotes) = Helper.FindPattern(redNotes);
+                List<BeatmapNote> toDelete = new List<BeatmapNote>(select);
+                select = new List<BeatmapNote>();
 
-                // We keep the first note of each pattern
-                foreach (List<BeatmapNote> pattern in patterns)
+                if (redNotes.Any())
                 {
-                    redNotes.Add(pattern[0]);
+                    Debug.Log("Red Notes start");
+                    (patterns, redNotes) = Helper.FindPattern(redNotes);
+
+                    // We keep the first note of each pattern
+                    foreach (List<BeatmapNote> pattern in patterns)
+                    {
+                        redNotes.Add(pattern[0]);
+                    }
+
+                    select.AddRange(redNotes);
+
+                    Debug.Log("Red Notes end");
                 }
 
-                // We do nothing with patterns for now
-                patterns = new List<List<BeatmapNote>>();
-                (patterns, blueNotes) = Helper.FindPattern(blueNotes);
-
-                // We keep the first note of each pattern
-                foreach (List<BeatmapNote> pattern in patterns)
+                if(blueNotes.Any())
                 {
-                    blueNotes.Add(pattern[0]);
+                    Debug.Log("Blue Notes start");
+                    // We do nothing with patterns for now
+                    patterns = new List<List<BeatmapNote>>();
+                    (patterns, blueNotes) = Helper.FindPattern(blueNotes);
+
+                    // We keep the first note of each pattern
+                    foreach (List<BeatmapNote> pattern in patterns)
+                    {
+                        blueNotes.Add(pattern[0]);
+                    }
+
+                    select.AddRange(blueNotes);
+                    Debug.Log("Blue Notes end");
                 }
 
                 // Delete old notes
-                foreach (var n in select)
+                foreach (var n in toDelete)
                 {
                     _notesContainer.DeleteObject(n, false);
                 }
 
-                select = new List<BeatmapNote>();
-                select.AddRange(redNotes);
-                select.AddRange(blueNotes);
-                select = select.OrderBy(o => o.Time).ToList();
+                Debug.Log("Deleted Notes");
 
                 List<float> timings = new List<float>();
-                foreach (BeatmapNote note in select)
-                {
-                    timings.Add(note.Time);
-                }
 
-                BeatmapNote before = null;
-                BeatmapNote beforeBefore = null;
-
-                if(!select.Contains(notes.First()) && !select.Contains(notes[1]) && notes.Count > 1)
+                if (select.Count > 0)
                 {
-                    int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
-                    before = notes[index - 2];
-                    beforeBefore = notes[index - 1];
-                }
-                else if(!select.Contains(notes.First()) && notes.Count > 1)
-                {
-                    int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
-                    before = notes[index - 1];
-                    beforeBefore = new BeatmapNote();
-                    beforeBefore.Type = notes[index - 1].Type;
-                    if (beforeBefore.Type == 0)
+                    select = select.OrderBy(o => o.Time).ToList();
+                    foreach (BeatmapNote note in select)
                     {
-                        beforeBefore.Type = 1;
+                        timings.Add(note.Time);
                     }
-                    else
+
+                    BeatmapNote before = null;
+                    BeatmapNote beforeBefore = null;
+
+                    if (!select.Contains(notes.First()) && !select.Contains(notes[1]) && select.First().Time != notes.First().Time && select[1].Time != notes[1].Time && notes.Count > 1)
                     {
-                        beforeBefore.Type = 0;
+                        int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
+                        Debug.Log(index);
+                        before = notes[index - 2];
+                        beforeBefore = notes[index - 1];
                     }
-                }
+                    else if (!select.Contains(notes.First()) && select.First().Time != notes[0].Time && notes.Count > 1)
+                    {
+                        int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
+                        Debug.Log(index);
+                        before = notes[index - 1];
+                        beforeBefore = new BeatmapNote();
+                        beforeBefore.Type = notes[index - 1].Type;
+                        if (beforeBefore.Type == 0)
+                        {
+                            beforeBefore.Type = 1;
+                        }
+                        else
+                        {
+                            beforeBefore.Type = 0;
+                        }
+                    }
 
-                // Get new notes
-                List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, before, beforeBefore);
+                    Debug.Log("Select before notes");
 
-                List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
+                    // Get new notes
+                    List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, before, beforeBefore);
 
-                // Delete old obstacles
-                foreach (var o in obstacles)
-                {
-                    _obstaclesContainer.DeleteObject(o, false);
-                }
+                    List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
 
-                // Add new notes
-                foreach (var n in no)
-                {
-                    _notesContainer.SpawnObject(n, false, false);
-                    selection.Add(n);
+                    // Delete old obstacles
+                    foreach (var o in obstacles)
+                    {
+                        _obstaclesContainer.DeleteObject(o, false);
+                    }
+
+                    // Add new notes
+                    foreach (var n in no)
+                    {
+                        _notesContainer.SpawnObject(n, false, false);
+                        selection.Add(n);
+                    }
                 }
 
                 BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);
