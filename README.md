@@ -4,6 +4,8 @@
 
 This is a stripped-down port of Lolighter, now as a plugin for ChroMapper.
 
+Explanation: https://www.youtube.com/watch?v=tH3t3J9Aymw
+
 ### Features
 
 -   Lightshow Generator
