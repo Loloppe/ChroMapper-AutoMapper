@@ -147,7 +147,6 @@ namespace Automapper
 
                 if (redNotes.Any())
                 {
-                    Debug.Log("Red Notes start");
                     (patterns, redNotes) = Helper.FindPattern(redNotes);
 
                     // We keep the first note of each pattern
@@ -157,13 +156,10 @@ namespace Automapper
                     }
 
                     select.AddRange(redNotes);
-
-                    Debug.Log("Red Notes end");
                 }
 
                 if(blueNotes.Any())
                 {
-                    Debug.Log("Blue Notes start");
                     // We do nothing with patterns for now
                     patterns = new List<List<BeatmapNote>>();
                     (patterns, blueNotes) = Helper.FindPattern(blueNotes);
@@ -175,7 +171,6 @@ namespace Automapper
                     }
 
                     select.AddRange(blueNotes);
-                    Debug.Log("Blue Notes end");
                 }
 
                 // Delete old notes
@@ -183,8 +178,6 @@ namespace Automapper
                 {
                     _notesContainer.DeleteObject(n, false);
                 }
-
-                Debug.Log("Deleted Notes");
 
                 List<float> timings = new List<float>();
 
@@ -222,8 +215,6 @@ namespace Automapper
                             beforeBefore.Type = 0;
                         }
                     }
-
-                    Debug.Log("Select before notes");
 
                     // Get new notes
                     List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, before, beforeBefore);
