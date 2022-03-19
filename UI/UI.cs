@@ -11,12 +11,12 @@ namespace Automapper.UserInterface
     public class UI
     {
         private GameObject _automapperMenu;
-        private readonly Automapper _lolighter;
+        private readonly Automapper _automapper;
         private readonly ExtensionButton _extensionBtn = new ExtensionButton();
 
-        public UI(Automapper lolighter)
+        public UI(Automapper automapper)
         {
-            this._lolighter = lolighter;
+            this._automapper = automapper;
 
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Automapper.Icon.png");
             byte[] data = new byte[stream.Length];
@@ -57,13 +57,17 @@ namespace Automapper.UserInterface
             {
                 Options.Light.AllowBoostColor = check;
             });
-            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -195), Options.Mapper.Limiter, (check) =>
+
+            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -175), Options.Mapper.Limiter, (check) =>
             {
                 Options.Mapper.Limiter = check;
             });
+            AddCheckbox(_automapperMenu.transform, "Timing Only", "Timing Only", new Vector2(-60, -175), Options.Mapper.GenerateAsTiming, (check) =>
+            {
+                Options.Mapper.GenerateAsTiming = check;
+            });
 
             // Swap, Speed, Boost, BPM
-            AddLabel(_automapperMenu.transform, "Mapper", "Mapper", new Vector2(-75, -190));
             AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -15));
             AddTextInput(_automapperMenu.transform, "Indistinguishable Range", "Indistinguishable Range", new Vector2(110, -190), Options.Mapper.IndistinguishableRange.ToString(), (value) =>
             {
@@ -134,15 +138,15 @@ namespace Automapper.UserInterface
             AddLabel(_automapperMenu.transform, "Algorithm", "Algorithm", new Vector2(-150, -15));
             AddButton(_automapperMenu.transform, "GenAudio", "Audio", new Vector2(-150, -50), () =>
             {
-                _lolighter.Audio();
+                _automapper.Audio();
             });
             AddButton(_automapperMenu.transform, "GenMap", "Map", new Vector2(-150, -85), () =>
             {
-                _lolighter.Converter();
+                _automapper.Converter();
             });
             AddButton(_automapperMenu.transform, "GenLight", "Light", new Vector2(-150, -120), () =>
             {
-                _lolighter.Light();
+                _automapper.Light();
             });
 
             _automapperMenu.SetActive(false);
@@ -214,7 +218,7 @@ namespace Automapper.UserInterface
             var entryLabel = new GameObject(title + " Label", typeof(TextMeshProUGUI));
             var rectTransform = ((RectTransform)entryLabel.transform);
             rectTransform.SetParent(parent);
-            MoveTransform(rectTransform, 80, 16, 0.5f, 1, pos.x + 10, pos.y + 5);
+            MoveTransform(rectTransform, 50, 16, 0.45f, 1, pos.x + 10, pos.y + 5);
             var textComponent = entryLabel.GetComponent<TextMeshProUGUI>();
 
             textComponent.name = title;
