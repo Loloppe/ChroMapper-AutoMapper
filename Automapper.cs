@@ -285,19 +285,28 @@ namespace Automapper
             // Delete old obstacles
             foreach (var o in obstacles)
             {
-                _obstaclesContainer.DeleteObject(o, false);
+                if (o.Time >= Options.Mapper.MinRange && o.Time <= Options.Mapper.MaxRange)
+                {
+                    _obstaclesContainer.DeleteObject(o, false);
+                }
             }
 
             // Delete old notes
             foreach (var n in notes)
             {
-                _notesContainer.DeleteObject(n, false);
+                if(n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
+                {
+                    _notesContainer.DeleteObject(n, false);
+                }
             }
 
             // Add new notes
             foreach (var n in no)
             {
-                _notesContainer.SpawnObject(n, false, false);
+                if (n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
+                {
+                    _notesContainer.SpawnObject(n, false, false);
+                }
             }
 
             BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);

@@ -58,17 +58,34 @@ namespace Automapper.UserInterface
                 Options.Light.AllowBoostColor = check;
             });
 
-            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -175), Options.Mapper.Limiter, (check) =>
+            AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -160), Options.Mapper.Limiter, (check) =>
             {
                 Options.Mapper.Limiter = check;
             });
-            AddCheckbox(_automapperMenu.transform, "Timing Only", "Timing Only", new Vector2(-60, -175), Options.Mapper.GenerateAsTiming, (check) =>
+            AddCheckbox(_automapperMenu.transform, "Timing Only", "Timing Only", new Vector2(-60, -160), Options.Mapper.GenerateAsTiming, (check) =>
             {
                 Options.Mapper.GenerateAsTiming = check;
             });
 
             // Swap, Speed, Boost, BPM
             AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -15));
+            AddLabel(_automapperMenu.transform, "Audio", "Audio Range", new Vector2(-140, -190));
+            AddTextInput(_automapperMenu.transform, "Minimum", "Min", new Vector2(-90, -190), Options.Mapper.MinRange.ToString(), (value) =>
+            {
+                float res;
+                if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))
+                {
+                    Options.Mapper.MinRange = res;
+                }
+            });
+            AddTextInput(_automapperMenu.transform, "Max", "Max", new Vector2(-15, -190), Options.Mapper.MaxRange.ToString(), (value) =>
+            {
+                float res;
+                if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))
+                {
+                    Options.Mapper.MaxRange = res;
+                }
+            });
             AddTextInput(_automapperMenu.transform, "Indistinguishable Range", "Indistinguishable Range", new Vector2(110, -190), Options.Mapper.IndistinguishableRange.ToString(), (value) =>
             {
                 float res;
@@ -101,7 +118,7 @@ namespace Automapper.UserInterface
                     Options.Light.ColorBoostSwap = res;
                 }
             });
-            AddTextInput(_automapperMenu.transform, "OnsetSensitivity", "Onset Sensitivity", new Vector2(110, -120), Options.Mapper.OnsetSensitivity.ToString(), (value) =>
+            AddTextInput(_automapperMenu.transform, "OnsetSensitivity", "Onset Sensitivity", new Vector2(110, -155), Options.Mapper.OnsetSensitivity.ToString(), (value) =>
             {
                 float res;
                 if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))
@@ -109,7 +126,7 @@ namespace Automapper.UserInterface
                     Options.Mapper.OnsetSensitivity = res;
                 }
             });
-            AddTextInput(_automapperMenu.transform, "DoubleThreshold", "Double Threshold", new Vector2(110, -155), Options.Mapper.DoubleThreshold.ToString(), (value) =>
+            AddTextInput(_automapperMenu.transform, "DoubleThreshold", "Double Threshold", new Vector2(110, -120), Options.Mapper.DoubleThreshold.ToString(), (value) =>
             {
                 float res;
                 if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))

@@ -21,6 +21,8 @@
             private static float indistinguishableRange = 0.003f;
             private static float onsetSensitivity = 1.3f;
             private static float doubleThreshold = 0.2f;
+            private static float minRange = 0f;
+            private static float maxRange = 100000f;
             private static double maxSpeed = (1d / 8d);
             private static double maxDoubleSpeed = (1d / 3d);
 
@@ -29,6 +31,8 @@
             public static float IndistinguishableRange { set => indistinguishableRange = value > 0.0f ? value : 0.003f; get => indistinguishableRange; }
             public static float OnsetSensitivity { set => onsetSensitivity = value > 0.0f ? value : 1.3f; get => onsetSensitivity; }
             public static float DoubleThreshold { set => doubleThreshold = value >= 0.0f ? value : 0.2f; get => doubleThreshold; }
+            public static float MinRange { set => minRange = value >= 0.0f ? value : 0f; get => minRange; }
+            public static float MaxRange { set => maxRange = value >= 0.0f ? value : 100000f; get => maxRange; }
             public static double MaxSpeed { set => maxSpeed = value > 0.0f ? value : (1d / 8d); get => maxSpeed; }
             public static double MaxDoubleSpeed { set => maxDoubleSpeed = value > 0.0f ? value : (1d / 3d); get => maxDoubleSpeed; }
         }
