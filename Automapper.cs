@@ -69,29 +69,57 @@ namespace Automapper
             {
                 List<BeatmapNote> notes = _notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList();
                 notes = notes.OrderBy(o => o.Time).ToList();
-                List<MapEvent> oldEvents = _eventsContainer.LoadedObjects.Cast<MapEvent>().Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev)).ToList();
 
-                if (Options.Light.IgnoreBomb)
+                List<BeatmapNote> select = null;
+
+                var selection = SelectionController.SelectedObjects;
+                if (selection.Count > 0)
                 {
-                    notes = new List<BeatmapNote>(notes.Where(x => x.Type != Enumerator.NoteType.BOMB));
+                    if (selection.All(x => x is BeatmapNote))
+                    {
+                        select = new List<BeatmapNote>(selection.Cast<BeatmapNote>());
+                        if (notes.Exists(o => o.Time > select.First().Time && o.Time < select.Last().Time && !select.Contains(o)))
+                        {
+                            // This is not a whole selection
+                            Debug.Log("Automapper: This is not a whole section selection. Notes might be missing.");
+                            select = null;
+                        }
+                    }
+                }
+                else
+                {
+                    select = notes;
                 }
 
-                // Get new events
-                List<MapEvent> newEvents = Methods.Light.CreateLight(notes);
-
-                // Delete old events
-                foreach (var ev in oldEvents)
+                if(select != null)
                 {
-                    _eventsContainer.DeleteObject(ev, false);
-                }
+                    select = select.OrderBy(o => o.Time).ToList();
 
-                // Add new events
-                foreach (var ev in newEvents)
-                {
-                    _eventsContainer.SpawnObject(ev, false, false);
-                }
+                    List<MapEvent> oldEvents = _eventsContainer.LoadedObjects.Cast<MapEvent>().Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
+                    ev.Time >= select.First().Time && ev.Time <= select.Last().Time).ToList();
 
-                BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Event).RefreshPool(true);
+                    if (Options.Light.IgnoreBomb)
+                    {
+                        select = new List<BeatmapNote>(select.Where(x => x.Type != Enumerator.NoteType.BOMB));
+                    }
+
+                    // Get new events
+                    List<MapEvent> newEvents = Methods.Light.CreateLight(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList(), select, _notesContainer.LoadedObjects.Cast<BeatmapNote>().First().Time);
+
+                    // Delete old events
+                    foreach (var ev in oldEvents)
+                    {
+                        _eventsContainer.DeleteObject(ev, false);
+                    }
+
+                    // Add new events
+                    foreach (var ev in newEvents)
+                    {
+                        _eventsContainer.SpawnObject(ev, false, false);
+                    }
+
+                    BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Event).RefreshPool(true);
+                }
             }
         }
 

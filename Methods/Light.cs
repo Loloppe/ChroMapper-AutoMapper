@@ -8,7 +8,7 @@ namespace Automapper.Methods
 {
     internal static class Light
     {
-        internal static List<MapEvent> CreateLight(List<BeatmapNote> Notes)
+        internal static List<MapEvent> CreateLight(List<BeatmapNote> Notes, List<BeatmapNote> Selection, float First)
         {
             // Bunch of var to keep timing in check
             float last = new float();
@@ -20,9 +20,6 @@ namespace Automapper.Methods
 
             //Light counter, stop at maximum.
             int count;
-
-            //Set color start value.
-            int color;
 
             // For laser speed
             int currentSpeed = 3;
@@ -69,10 +66,10 @@ namespace Automapper.Methods
 
             void ResetTimer() //Pretty much reset everything necessary.
             {
-                color = EventLightValue.BLUE_FADE; //Blue Fade
                 firstNote = Notes[0].Time;
                 offset = firstNote;
-                count = 0;
+                boostIncrement = firstNote;
+                count = 1;
                 for (int i = 0; i < 2; i++)
                 {
                     time[i] = 0.0f;
@@ -82,34 +79,86 @@ namespace Automapper.Methods
                 time[3] = 0.0f;
             }
 
-            void TimerDuration() //Check the checkpoint
+            ResetTimer();
+
+            bool found = false;
+
+            // Place all spin/zoom/boost
+            foreach(BeatmapNote note in Notes)
             {
-                timer = time[0];
-                if (timer >= ColorOffset + ColorSwap + offset) //If the timer is above offset + ColorOffset + ColorSwap (From the interface), then it's time to change color.
+                float now = note.Time;
+                time[0] = now;
+
+                //Here we process Spin and Zoom
+                if (now == firstNote && time[1] == 0.0D) //If we are processing the first note, add spin + zoom + boost to it.
                 {
-                    int swapTime = (int)((time[0] - time[1]) / ColorSwap) + 1; //We get the number of "beat" since the last time it entered here this way.
-                    for (int i = 0; i < swapTime; i++) //For each time that it need to swap. (Dumb fix for a dumb method)
+                    eventTempo.Add(new MapEvent(now, EventType.SPIN, 0, 1));
+                    eventTempo.Add(new MapEvent(now, EventType.ZOOM, 0, 1));
+                    if (Options.AllowBoostColor)
                     {
-                        color = Utils.Inverse(color); //Swap color
-                        offset += ColorSwap; //Offset incremented
+                        eventTempo.Add(new MapEvent(now, EventType.BOOST, 0));
+                        boost = false;
                     }
                 }
-                if (timer >= ColorOffset + boostSwap + boostIncrement) //If the timer is above offset + ColorOffset + ColorSwap (From the interface), then it's time to change color.
+                else if (now >= Options.ColorOffset + Options.ColorSwap + offset && now > firstNote) //If we are reaching the next threshold of the timer
                 {
-                    int swapTime = (int)((time[0] - time[1]) / boostSwap) + 1; //We get the number of "beat" since the last time it entered here this way.
-                    for (int i = 0; i < swapTime; i++) //For each time that it need to swap. (Dumb fix for a dumb method)
+                    int calc = (int)((int)(now - offset) / Options.ColorSwap);
+
+                    for (int i = 0; i < calc; i++)
                     {
-                        boostIncrement += boostSwap; //Offset incremented
+                        offset += Options.ColorSwap;
+
+                        //Add a spin at timer.
+                        eventTempo.Add(new MapEvent(offset, EventType.SPIN, 0, 1));
+                        if (count == 0) //Only add zoom every 2 spin.
+                        {
+                            eventTempo.Add(new MapEvent(offset, EventType.ZOOM, 0, 1));
+                            count = 1;
+                        }
+                        else
+                        {
+                            count--;
+                        }
                     }
+                }
+                //If there's a quarter between two float parallel notes and timer didn't pass the check.
+                else if (time[1] - time[2] == 0.25 && time[3] == time[2] && time[1] == now && timer < offset)
+                {
+                    eventTempo.Add(new MapEvent(now, EventType.SPIN, 0, 1));
+                }
+
+                // Boost Event
+                if (now >= Options.ColorOffset + Options.ColorBoostSwap + boostIncrement && now > firstNote && Options.AllowBoostColor)
+                {
+                    int calc = (int)((int)(now - boostIncrement) / Options.ColorBoostSwap);
+
+                    for (int i = 0; i < calc; i++)
+                    {
+                        boostIncrement += Options.ColorBoostSwap;
+
+                        if (boost)
+                        {
+                            eventTempo.Add(new MapEvent(boostIncrement, EventType.BOOST, 0));
+                            boost = false;
+                        }
+                        else
+                        {
+                            eventTempo.Add(new MapEvent(boostIncrement, EventType.BOOST, 1));
+                            boost = true;
+                        }
+                    }
+                }
+
+                for (int i = 3; i > 0; i--) //Keep the timing of up to three notes before.
+                {
+                    time[i] = time[i - 1];
                 }
             }
 
             ResetTimer();
 
-            bool found = false;
-
             // Find all sliders
-            for (int i = 1; i < Notes.Count; i++)
+            for (int i = 1; i < Selection.Count; i++)
             {
                 // Between 1/8 and 0, same cut direction or dots
                 if (Notes[i].Time - Notes[i - 1].Time <= 0.125 && Notes[i].Time - Notes[i - 1].Time > 0 && (Notes[i].CutDirection == Notes[i - 1].CutDirection || Notes[i].CutDirection == 8 || Notes[i - 1].CutDirection == 8))
@@ -124,53 +173,10 @@ namespace Automapper.Methods
                 }
             }
 
-            foreach (BeatmapNote note in Notes) //Process specific light (Side/Neon) using time.
+            foreach (BeatmapNote note in Selection) //Process specific light using time.
             {
                 float now = note.Time;
                 time[0] = now;
-
-                //Here we process Spin and Zoom
-                if (now == firstNote && time[1] == 0.0D) //If we are processing the first note, add spin + zoom to it.
-                {
-                    eventTempo.Add(new MapEvent(now, EventType.SPIN, 0, 1));
-                    eventTempo.Add(new MapEvent(now, EventType.ZOOM, 0, 1));
-                }
-                else if (now >= ColorOffset + ColorSwap + offset && now > firstNote) //If we are reaching the next threshold of the timer
-                {
-                    //Add a spin at timer.
-                    eventTempo.Add(new MapEvent(offset, EventType.SPIN, 0, 1));
-                    if (count == 0) //Only add zoom every 2 spin.
-                    {
-                        eventTempo.Add(new MapEvent(offset, EventType.ZOOM, 0, 1));
-                        count = 1;
-                    }
-                    else
-                    {
-                        count--;
-                    }
-                }
-                //If there's a quarter between two float parallel notes and timer didn't pass the check.
-                else if (time[1] - time[2] == 0.25 && time[3] == time[2] && time[1] == now && timer < offset)
-                {
-                    eventTempo.Add(new MapEvent(now, EventType.SPIN, 0, 1));
-                }
-
-                // Boost Event
-                if (now >= ColorOffset + boostSwap + boostIncrement && now > firstNote && Options.AllowBoostColor)
-                {
-                    if (boost)
-                    {
-                        eventTempo.Add(new MapEvent(offset, EventType.BOOST, 0));
-                        boost = false;
-                    }
-                    else
-                    {
-                        eventTempo.Add(new MapEvent(offset, EventType.BOOST, 1));
-                        boost = true;
-                    }
-                }
-
-                TimerDuration();
 
                 if (!Options.NerfStrobes && doubleOn) //Off event
                 {
@@ -198,11 +204,11 @@ namespace Automapper.Methods
                 //If not same note, same beat and not slider, apply once.
                 if ((now == time[1] || (now - time[1] <= 0.02 && time[1] != time[2])) && (time[1] != 0.0D && now != last) && !sliderTiming.Exists(e => e.Time == now))
                 {
-                    eventTempo.Add(new MapEvent(now, EventType.BACK, color, 1)); //Back Top Laser
-                    eventTempo.Add(new MapEvent(now, EventType.RING, color, 1)); //Track Ring Neons
-                    eventTempo.Add(new MapEvent(now, EventType.SIDE, color, 1)); //Side Light
-                    eventTempo.Add(new MapEvent(now, EventType.LEFT, color, 1)); //Left Laser
-                    eventTempo.Add(new MapEvent(now, EventType.RIGHT, color, 1)); //Right Laser
+                    eventTempo.Add(new MapEvent(now, EventType.BACK, FindColor(First, time[0]), 1)); //Back Top Laser
+                    eventTempo.Add(new MapEvent(now, EventType.RING, FindColor(First, time[0]), 1)); //Track Ring Neons
+                    eventTempo.Add(new MapEvent(now, EventType.SIDE, FindColor(First, time[0]), 1)); //Side Light
+                    eventTempo.Add(new MapEvent(now, EventType.LEFT, FindColor(First, time[0]), 1)); //Left Laser
+                    eventTempo.Add(new MapEvent(now, EventType.RIGHT, FindColor(First, time[0]), 1)); //Right Laser
 
                     // Laser speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -222,8 +228,8 @@ namespace Automapper.Methods
                         currentSpeed = 1;
                     }
 
-                    eventTempo.Add(new MapEvent(now + 0.01f + ColorOffset, EventType.LEFT_ROT, currentSpeed, 1)); //Left Rotation
-                    eventTempo.Add(new MapEvent(now + 0.01f + ColorOffset, EventType.RIGHT_ROT, currentSpeed, 1)); //Right Rotation
+                    eventTempo.Add(new MapEvent(now, EventType.LEFT_ROT, currentSpeed, 1)); //Left Rotation
+                    eventTempo.Add(new MapEvent(now, EventType.RIGHT_ROT, currentSpeed, 1)); //Right Rotation
 
                     doubleOn = true;
                     last = now;
@@ -243,12 +249,14 @@ namespace Automapper.Methods
                 float lastTimeTop = 100;
                 float lastTimeNeon = 100;
                 float lastTimeSide = 100;
+                float lastTimeLeft = 100;
+                float lastTimeRight = 100;
 
                 foreach (var x in eventTempo)
                 {
                     if (x.Type == EventType.BACK)
                     {
-                        if (x.Time - lastTimeTop <= 1)
+                        if (x.Time - lastTimeTop <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
@@ -256,7 +264,7 @@ namespace Automapper.Methods
                     }
                     else if (x.Type == EventType.RING)
                     {
-                        if (x.Time - lastTimeNeon <= 1)
+                        if (x.Time - lastTimeNeon <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
@@ -264,22 +272,36 @@ namespace Automapper.Methods
                     }
                     else if (x.Type == EventType.SIDE)
                     {
-                        if (x.Time - lastTimeSide <= 1)
+                        if (x.Time - lastTimeSide <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
                         lastTimeSide = x.Time;
+                    }
+                    else if (x.Type == EventType.LEFT)
+                    {
+                        if (x.Time - lastTimeLeft <= 0.5)
+                        {
+                            x.Value = Utils.Swap(x.Value);
+                        }
+                        lastTimeLeft = x.Time;
+                    }
+                    else if (x.Type == EventType.RIGHT)
+                    {
+                        if (x.Time - lastTimeRight <= 0.5)
+                        {
+                            x.Value = Utils.Swap(x.Value);
+                        }
+                        lastTimeRight = x.Time;
                     }
                 }
             }
 
             ResetTimer();
 
-            foreach (BeatmapNote note in Notes) //Process all note using time.
+            foreach (BeatmapNote note in Selection) //Process all note using time.
             {
                 time[0] = note.Time;
-
-                TimerDuration();
 
                 if (wasSlider)
                 {
@@ -308,13 +330,13 @@ namespace Automapper.Methods
                 // Find the next double
                 if (time[0] >= nextDouble)
                 {
-                    for (int i = Notes.FindIndex(n => n == note); i < Notes.Count - 1; i++)
+                    for (int i = Selection.FindIndex(n => n == note); i < Selection.Count - 1; i++)
                     {
                         if (i != 0)
                         {
-                            if (Notes[i].Time == Notes[i - 1].Time)
+                            if (Selection[i].Time == Selection[i - 1].Time)
                             {
-                                nextDouble = Notes[i].Time;
+                                nextDouble = Selection[i].Time;
                                 break;
                             }
                         }
@@ -326,18 +348,18 @@ namespace Automapper.Methods
                 {
                     sliderNoteCount = 0;
 
-                    for (int i = Notes.FindIndex(n => n == note); i < Notes.Count - 1; i++)
+                    for (int i = Selection.FindIndex(n => n == note); i < Selection.Count - 1; i++)
                     {
-                        if (i != 0 && i < Notes.Count)
+                        if (i != 0 && i < Selection.Count)
                         {
                             // Between 1/8 and 0, same cut direction or dots
-                            if (Notes[i].Time - Notes[i - 1].Time <= 0.125 && Notes[i].Time - Notes[i - 1].Time > 0 && (Notes[i].CutDirection == Notes[i - 1].CutDirection || Notes[i].CutDirection == 8))
+                            if (Selection[i].Time - Selection[i - 1].Time <= 0.125 && Selection[i].Time - Selection[i - 1].Time > 0 && (Selection[i].CutDirection == Selection[i - 1].CutDirection || Selection[i].CutDirection == 8))
                             {
                                 // Search for the last note of the slider
                                 if (sliderNoteCount == 0)
                                 {
                                     // This is the first note of the slider
-                                    nextSlider = Notes[i - 1].Time;
+                                    nextSlider = Selection[i - 1].Time;
                                 }
                                 sliderNoteCount++;
                             }
@@ -359,10 +381,10 @@ namespace Automapper.Methods
                     }
 
                     // Place light
-                    eventTempo.Add(new MapEvent(time[0], sliderLight[sliderIndex], color - 2, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.125f, sliderLight[sliderIndex], color - 1, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.25f, sliderLight[sliderIndex], color - 2, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.375f, sliderLight[sliderIndex], color - 1, 1));
+                    eventTempo.Add(new MapEvent(time[0], sliderLight[sliderIndex], FindColor(First, time[0]) - 2, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.125f, sliderLight[sliderIndex], FindColor(First, time[0]) - 1, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.25f, sliderLight[sliderIndex], FindColor(First, time[0]) - 2, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.375f, sliderLight[sliderIndex], FindColor(First, time[0]) - 1, 1));
                     eventTempo.Add(new MapEvent(time[0] + 0.5f, sliderLight[sliderIndex], 0, 1));
 
                     sliderIndex--;
@@ -401,7 +423,7 @@ namespace Automapper.Methods
                     }
 
                     // Place the next light
-                    eventTempo.Add(new MapEvent(time[0], pattern[patternIndex], color, 1));
+                    eventTempo.Add(new MapEvent(time[0], pattern[patternIndex], FindColor(First, time[0]), 1));
 
                     // Speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -424,27 +446,27 @@ namespace Automapper.Methods
                     // Add laser rotation if necessary
                     if (pattern[patternIndex] == 2)
                     {
-                        eventTempo.Add(new MapEvent(time[0] + 0.01f, EventType.LEFT_ROT, currentSpeed, 1));
+                        eventTempo.Add(new MapEvent(time[0], EventType.LEFT_ROT, currentSpeed, 1));
                     }
                     else if (pattern[patternIndex] == 3)
                     {
-                        eventTempo.Add(new MapEvent(time[0] + 0.01f, EventType.RIGHT_ROT, currentSpeed, 1));
+                        eventTempo.Add(new MapEvent(time[0], EventType.RIGHT_ROT, currentSpeed, 1));
                     }
 
                     // Place off event
-                    if (Notes[Notes.Count - 1].Time != note.Time)
+                    if (Selection[Selection.Count - 1].Time != note.Time)
                     {
-                        if (Notes[Notes.FindIndex(n => n == note) + 1].Time == nextDouble)
+                        if (Selection[Selection.FindIndex(n => n == note) + 1].Time == nextDouble)
                         {
-                            if (Notes[Notes.FindIndex(n => n == note) + 1].Time - time[0] <= 2)
+                            if (Selection[Selection.FindIndex(n => n == note) + 1].Time - time[0] <= 2)
                             {
-                                float value = (Notes[Notes.FindIndex(n => n == note) + 1].Time - Notes[Notes.FindIndex(n => n == note)].Time) / 2;
-                                eventTempo.Add(new MapEvent(Notes[Notes.FindIndex(n => n == note)].Time + value, pattern[patternIndex], 0, 1));
+                                float value = (Selection[Selection.FindIndex(n => n == note) + 1].Time - Selection[Selection.FindIndex(n => n == note)].Time) / 2;
+                                eventTempo.Add(new MapEvent(Selection[Selection.FindIndex(n => n == note)].Time + value, pattern[patternIndex], 0, 1));
                             }
                         }
                         else
                         {
-                            eventTempo.Add(new MapEvent(Notes[Notes.FindIndex(n => n == note) + 1].Time, pattern[patternIndex], 0, 1));
+                            eventTempo.Add(new MapEvent(Selection[Selection.FindIndex(n => n == note) + 1].Time, pattern[patternIndex], 0, 1));
                         }
                     }
 
@@ -524,6 +546,23 @@ namespace Automapper.Methods
             }
 
             return events;
+        }
+
+        static public int FindColor(float first, float current)
+        {
+            int color = EventLightValue.RED_FADE;
+
+            for (int i = 0; i < ((current - first + Options.ColorOffset) / Options.ColorSwap); i++) //For each time that it need to swap.
+            {
+                color = Utils.Inverse(color); //Swap color
+            }
+
+            if(first == current)
+            {
+                color = EventLightValue.BLUE_FADE;
+            }
+
+            return color;
         }
     }
 }
