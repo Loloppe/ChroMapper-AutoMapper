@@ -8,7 +8,7 @@ namespace Automapper.Methods
 {
     internal static class Light
     {
-        internal static List<MapEvent> CreateLight(List<BeatmapNote> Notes, List<BeatmapNote> Selection, float First)
+        internal static List<MapEvent> CreateLight(List<BeatmapNote> Notes, List<BeatmapNote> Selection)
         {
             // Bunch of var to keep timing in check
             float last = new float();
@@ -204,11 +204,12 @@ namespace Automapper.Methods
                 //If not same note, same beat and not slider, apply once.
                 if ((now == time[1] || (now - time[1] <= 0.02 && time[1] != time[2])) && (time[1] != 0.0D && now != last) && !sliderTiming.Exists(e => e.Time == now))
                 {
-                    eventTempo.Add(new MapEvent(now, EventType.BACK, FindColor(First, time[0]), 1)); //Back Top Laser
-                    eventTempo.Add(new MapEvent(now, EventType.RING, FindColor(First, time[0]), 1)); //Track Ring Neons
-                    eventTempo.Add(new MapEvent(now, EventType.SIDE, FindColor(First, time[0]), 1)); //Side Light
-                    eventTempo.Add(new MapEvent(now, EventType.LEFT, FindColor(First, time[0]), 1)); //Left Laser
-                    eventTempo.Add(new MapEvent(now, EventType.RIGHT, FindColor(First, time[0]), 1)); //Right Laser
+                    int color = FindColor(Notes.First().Time, time[0]);
+                    eventTempo.Add(new MapEvent(now, EventType.BACK, color, 1)); //Back Top Laser
+                    eventTempo.Add(new MapEvent(now, EventType.RING, color, 1)); //Track Ring Neons
+                    eventTempo.Add(new MapEvent(now, EventType.SIDE, color, 1)); //Side Light
+                    eventTempo.Add(new MapEvent(now, EventType.LEFT, color, 1)); //Left Laser
+                    eventTempo.Add(new MapEvent(now, EventType.RIGHT, color, 1)); //Right Laser
 
                     // Laser speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -381,10 +382,11 @@ namespace Automapper.Methods
                     }
 
                     // Place light
-                    eventTempo.Add(new MapEvent(time[0], sliderLight[sliderIndex], FindColor(First, time[0]) - 2, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.125f, sliderLight[sliderIndex], FindColor(First, time[0]) - 1, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.25f, sliderLight[sliderIndex], FindColor(First, time[0]) - 2, 1));
-                    eventTempo.Add(new MapEvent(time[0] + 0.375f, sliderLight[sliderIndex], FindColor(First, time[0]) - 1, 1));
+                    int color = FindColor(Notes.First().Time, time[0]);
+                    eventTempo.Add(new MapEvent(time[0], sliderLight[sliderIndex], color - 2, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.125f, sliderLight[sliderIndex], color - 1, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.25f, sliderLight[sliderIndex], color - 2, 1));
+                    eventTempo.Add(new MapEvent(time[0] + 0.375f, sliderLight[sliderIndex], color - 1, 1));
                     eventTempo.Add(new MapEvent(time[0] + 0.5f, sliderLight[sliderIndex], 0, 1));
 
                     sliderIndex--;
@@ -423,7 +425,7 @@ namespace Automapper.Methods
                     }
 
                     // Place the next light
-                    eventTempo.Add(new MapEvent(time[0], pattern[patternIndex], FindColor(First, time[0]), 1));
+                    eventTempo.Add(new MapEvent(time[0], pattern[patternIndex], FindColor(Notes.First().Time, time[0]), 1));
 
                     // Speed based on rhythm
                     if (time[0] - time[1] < 0.25)

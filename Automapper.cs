@@ -104,7 +104,7 @@ namespace Automapper
                     }
 
                     // Get new events
-                    List<MapEvent> newEvents = Methods.Light.CreateLight(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList(), select, _notesContainer.LoadedObjects.Cast<BeatmapNote>().First().Time);
+                    List<MapEvent> newEvents = Methods.Light.CreateLight(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList(), select);
 
                     // Delete old events
                     foreach (var ev in oldEvents)
