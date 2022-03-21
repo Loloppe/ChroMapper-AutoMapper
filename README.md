@@ -11,6 +11,7 @@ Explanation: https://www.youtube.com/watch?v=tH3t3J9Aymw
 -   Lightshow Generator
 -   Map Generator from Notes
 -   Map Generator from Audio
+-   Generate note in a specific range
 -   Generate note as timing note only
 -   Specific note selection for each algorithm
 
