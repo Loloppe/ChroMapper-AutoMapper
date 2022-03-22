@@ -26,6 +26,8 @@
             private static double maxSpeed = (1d / 8d);
             private static double maxDoubleSpeed = (1d / 3d);
 
+            public static bool UpDownOnly { set; get; } = false;
+            public static bool BottomRowOnly { set; get; } = false;
             public static bool GenerateAsTiming { set; get; } = true;
             public static bool Limiter { set; get; } = true;
             public static float IndistinguishableRange { set => indistinguishableRange = value > 0.0f ? value : 0.003f; get => indistinguishableRange; }

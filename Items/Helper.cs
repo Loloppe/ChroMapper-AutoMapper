@@ -9,87 +9,81 @@ namespace Automapper.Items
     {
         static public (BeatmapNote, BeatmapNote) FixDoublePlacement(BeatmapNote red, BeatmapNote blue)
         {
-            // Both on same layer
-            if (red.LineLayer == blue.LineLayer && red.LineIndex != blue.LineIndex)
+            int count = 100;
+
+            do
             {
-                // Change the layer of one of the note
-                if (SwingType.Horizontal.Contains(red.CutDirection))
+                // Both on same layer
+                if (red.LineLayer == blue.LineLayer && red.LineIndex != blue.LineIndex)
                 {
-                    if (red.LineLayer == Layer.BOTTOM)
+                    // Change the layer of one of the note
+                    if (SwingType.Horizontal.Contains(red.CutDirection))
                     {
-                        if (red.LineIndex == Line.LEFT)
+                        if (red.LineLayer == Layer.BOTTOM)
                         {
-                            red.LineLayer++;
-                        }
-                        else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
-                        {
-                            red.LineLayer = Layer.TOP;
-                        }
-                        else
-                        {
-                            if (SwingType.Up.Contains(blue.CutDirection))
-                            {
-                                blue.LineLayer = Layer.TOP;
-                            }
-                            else
+                            if (red.LineIndex == Line.LEFT)
                             {
                                 red.LineLayer++;
                             }
-                        }
-                    }
-                    else if (red.LineLayer == Layer.TOP)
-                    {
-                        if (red.LineIndex == Line.LEFT)
-                        {
-                            red.LineLayer--;
-                        }
-                        else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
-                        {
-                            red.LineLayer = Layer.BOTTOM;
-                        }
-                        else
-                        {
-                            red.LineLayer--;
-                        }
-                    }
-                }
-                else if (SwingType.Horizontal.Contains(blue.CutDirection))
-                {
-                    if (blue.LineLayer == Layer.BOTTOM)
-                    {
-                        if (blue.LineIndex == Line.RIGHT)
-                        {
-                            blue.LineLayer++;
-                        }
-                        else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
-                        {
-                            blue.LineLayer = Layer.TOP;
-                        }
-                        else
-                        {
-                            if (SwingType.Up.Contains(red.CutDirection))
+                            else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
                             {
                                 red.LineLayer = Layer.TOP;
                             }
                             else
                             {
-                                blue.LineLayer++;
+                                if (SwingType.Up.Contains(blue.CutDirection))
+                                {
+                                    blue.LineLayer = Layer.TOP;
+                                }
+                                else
+                                {
+                                    red.LineLayer++;
+                                }
+                            }
+                        }
+                        else if (red.LineLayer == Layer.TOP)
+                        {
+                            if (red.LineIndex == Line.LEFT)
+                            {
+                                red.LineLayer--;
+                            }
+                            else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
+                            {
+                                red.LineLayer = Layer.BOTTOM;
+                            }
+                            else
+                            {
+                                red.LineLayer--;
                             }
                         }
                     }
-                    else if (blue.LineLayer == Layer.TOP)
+                    else if (SwingType.Horizontal.Contains(blue.CutDirection))
                     {
-                        if (blue.LineIndex == Line.RIGHT)
+                        if (blue.LineLayer == Layer.BOTTOM)
                         {
-                            blue.LineLayer--;
-                        }
-                        else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
-                        {
-                            blue.LineLayer = Layer.BOTTOM;
+                            if (blue.LineIndex == Line.RIGHT)
+                            {
+                                blue.LineLayer++;
+                            }
+                            else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
+                            {
+                                blue.LineLayer = Layer.TOP;
+                            }
+                            else
+                            {
+                                if (SwingType.Up.Contains(red.CutDirection))
+                                {
+                                    red.LineLayer = Layer.TOP;
+                                }
+                                else
+                                {
+                                    blue.LineLayer++;
+                                }
+                            }
                         }
                         else if (blue.LineLayer == Layer.TOP)
                         {
-                            if (blue.LineIndex == Line.LEFT)
+                            if (blue.LineIndex == Line.RIGHT)
                             {
                                 blue.LineLayer--;
                             }
@@ -97,180 +91,192 @@ namespace Automapper.Items
                             {
                                 blue.LineLayer = Layer.BOTTOM;
                             }
-                            else
+                            else if (blue.LineLayer == Layer.TOP)
                             {
-                                blue.LineLayer--;
+                                if (blue.LineIndex == Line.LEFT)
+                                {
+                                    blue.LineLayer--;
+                                }
+                                else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
+                                {
+                                    blue.LineLayer = Layer.BOTTOM;
+                                }
+                                else
+                                {
+                                    blue.LineLayer--;
+                                }
                             }
                         }
                     }
                 }
-            }
-            // Both on the same line
-            else if (red.LineIndex == blue.LineIndex && red.LineLayer != blue.LineLayer)
-            {
-                if (SwingType.Vertical.Contains(red.CutDirection))
+                // Both on the same line
+                else if (red.LineIndex == blue.LineIndex && red.LineLayer != blue.LineLayer)
                 {
-                    // Change the line of one of the notes
-                    if (red.LineIndex > 1)
+                    if (SwingType.Vertical.Contains(red.CutDirection))
                     {
-                        if (red.LineLayer != Layer.MIDDLE)
+                        // Change the line of one of the notes
+                        if (red.LineIndex > 1)
                         {
-                            if (red.LineIndex != Line.LEFT)
+                            if (red.LineLayer != Layer.MIDDLE)
                             {
-                                red.LineIndex--;
+                                if (red.LineIndex != Line.LEFT)
+                                {
+                                    red.LineIndex--;
+                                }
+                                else
+                                {
+                                    red.LineIndex++;
+                                }
                             }
-                            else
+                            else if (blue.LineLayer == 0)
                             {
-                                red.LineIndex++;
+                                red.LineLayer = 2;
+                                if (red.LineIndex != Line.LEFT)
+                                {
+                                    red.LineIndex--;
+                                }
+                                else
+                                {
+                                    red.LineIndex++;
+                                }
+                            }
+                            else if (blue.LineLayer == 2)
+                            {
+                                red.LineLayer = 0;
+                                if (red.LineIndex != Line.LEFT)
+                                {
+                                    red.LineIndex--;
+                                }
+                                else
+                                {
+                                    red.LineIndex++;
+                                }
                             }
                         }
-                        else if (blue.LineLayer == 0)
+                        else
                         {
-                            red.LineLayer = 2;
-                            if (red.LineIndex != Line.LEFT)
+                            if (blue.LineIndex != Line.RIGHT)
+                            {
+                                blue.LineIndex++;
+                            }
+                            else if (red.LineIndex != Line.LEFT)
                             {
                                 red.LineIndex--;
-                            }
-                            else
-                            {
-                                red.LineIndex++;
-                            }
-                        }
-                        else if (blue.LineLayer == 2)
-                        {
-                            red.LineLayer = 0;
-                            if (red.LineIndex != Line.LEFT)
-                            {
-                                red.LineIndex--;
-                            }
-                            else
-                            {
-                                red.LineIndex++;
                             }
                         }
                     }
-                    else
+                    else if (SwingType.Vertical.Contains(blue.CutDirection))
                     {
-                        if (blue.LineIndex != Line.RIGHT)
+                        if (blue.LineIndex < 2)
                         {
-                            blue.LineIndex++;
+                            if (blue.LineLayer != Layer.MIDDLE)
+                            {
+                                if (blue.LineIndex != Line.RIGHT)
+                                {
+                                    blue.LineIndex++;
+                                }
+                                else
+                                {
+                                    blue.LineIndex--;
+                                }
+                            }
+                            else if (red.LineLayer == 0)
+                            {
+                                blue.LineLayer = 2;
+                                if (blue.LineIndex != Line.RIGHT)
+                                {
+                                    blue.LineIndex++;
+                                }
+                                else
+                                {
+                                    blue.LineIndex--;
+                                }
+                            }
+                            else if (red.LineLayer == 2)
+                            {
+                                blue.LineLayer = 0;
+                                if (blue.LineIndex != Line.RIGHT)
+                                {
+                                    blue.LineIndex++;
+                                }
+                                else
+                                {
+                                    blue.LineIndex--;
+                                }
+                            }
                         }
-                        else if (red.LineIndex != Line.LEFT)
+                        else
                         {
-                            red.LineIndex--;
+                            if (red.LineIndex != Line.LEFT)
+                            {
+                                red.LineIndex--;
+                            }
+                            else if (blue.LineIndex != Line.RIGHT)
+                            {
+                                blue.LineIndex++;
+                            }
                         }
                     }
                 }
-                else if (SwingType.Vertical.Contains(blue.CutDirection))
+                // Diagonal
+                if (SwingType.Diagonal.Contains(red.CutDirection) || SwingType.Diagonal.Contains(blue.CutDirection))
                 {
-                    if (blue.LineIndex < 2)
+                    if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer - 1)
                     {
-                        if (blue.LineLayer != Layer.MIDDLE)
+                        if (blue.LineLayer != 2)
                         {
-                            if (blue.LineIndex != Line.RIGHT)
-                            {
-                                blue.LineIndex++;
-                            }
-                            else
-                            {
-                                blue.LineIndex--;
-                            }
+                            blue.LineLayer++;
                         }
-                        else if (red.LineLayer == 0)
+                        else
                         {
-                            blue.LineLayer = 2;
-                            if (blue.LineIndex != Line.RIGHT)
-                            {
-                                blue.LineIndex++;
-                            }
-                            else
-                            {
-                                blue.LineIndex--;
-                            }
-                        }
-                        else if (red.LineLayer == 2)
-                        {
-                            blue.LineLayer = 0;
-                            if (blue.LineIndex != Line.RIGHT)
-                            {
-                                blue.LineIndex++;
-                            }
-                            else
-                            {
-                                blue.LineIndex--;
-                            }
+                            red.LineLayer--;
                         }
                     }
-                    else
+                    else if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer + 1)
                     {
-                        if (red.LineIndex != Line.LEFT)
+                        if (blue.LineLayer != 0)
                         {
-                            red.LineIndex--;
+                            blue.LineLayer--;
                         }
-                        else if (blue.LineIndex != Line.RIGHT)
+                        else
                         {
-                            blue.LineIndex++;
+                            red.LineLayer++;
+                        }
+                    }
+                    else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer + 1)
+                    {
+                        if (blue.LineLayer != 2)
+                        {
+                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
+                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
+                            blue.LineLayer++;
+                        }
+                        else
+                        {
+                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
+                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
+                            red.LineLayer--;
+                        }
+                    }
+                    else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer - 1)
+                    {
+                        if (blue.LineLayer != 0)
+                        {
+                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
+                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
+                            blue.LineLayer--;
+                        }
+                        else
+                        {
+                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
+                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
+                            red.LineLayer++;
                         }
                     }
                 }
-            }
 
-            // Diagonal
-            if (SwingType.Diagonal.Contains(red.CutDirection) || SwingType.Diagonal.Contains(blue.CutDirection))
-            {
-                if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer - 1)
-                {
-                    if (blue.LineLayer != 2)
-                    {
-                        blue.LineLayer++;
-                    }
-                    else
-                    {
-                        red.LineLayer--;
-                    }
-                }
-                else if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer + 1)
-                {
-                    if (blue.LineLayer != 0)
-                    {
-                        blue.LineLayer--;
-                    }
-                    else
-                    {
-                        red.LineLayer++;
-                    }
-                }
-                else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer + 1)
-                {
-                    if (blue.LineLayer != 2)
-                    {
-                        (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                        (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                        blue.LineLayer++;
-                    }
-                    else
-                    {
-                        (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                        (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                        red.LineLayer--;
-                    }
-                }
-                else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer - 1)
-                {
-                    if (blue.LineLayer != 0)
-                    {
-                        (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                        (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                        blue.LineLayer--;
-                    }
-                    else
-                    {
-                        (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                        (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                        red.LineLayer++;
-                    }
-                }
-            }
+                count--;
+            } while ((red.LineLayer == blue.LineLayer && red.LineIndex == blue.LineIndex) && count > 0);
 
             return (red, blue);
         }
@@ -288,6 +294,7 @@ namespace Automapper.Items
             int line = -1;
             int layer = -1;
             int rand;
+            int count = 100;
 
             do
             {
@@ -304,14 +311,10 @@ namespace Automapper.Items
                     layer = PossibleBluePlacement.placement[direction][rand][1];
                 }
 
-                // Fix possible fused notes
-                if (lastNote.LineIndex == line && lastNote.LineLayer == layer)
-                {
-                    continue;
-                }
+                count--;
+            } while ((lastNote.LineIndex == line && lastNote.LineLayer == layer) && count > 0); // Fix possible fused notes
 
-                return (line, layer);
-            } while (true);
+            return (line, layer);
         }
 
         /// <summary>
@@ -330,6 +333,18 @@ namespace Automapper.Items
             int flow = 0;
             // Next direction
             int next;
+
+            if(Options.Mapper.UpDownOnly)
+            {
+                if(swing == 0)
+                {
+                    return 1;
+                }
+                else if (swing == 1)
+                {
+                    return 0;
+                }
+            }
 
             // Get the direction based on speed
             if (hand == 0)

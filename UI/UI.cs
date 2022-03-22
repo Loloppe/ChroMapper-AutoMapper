@@ -45,6 +45,14 @@ namespace Automapper.UserInterface
 
             // Options
             AddLabel(_automapperMenu.transform, "Light", "Light", new Vector2(-35, -15));
+            AddCheckbox(_automapperMenu.transform, "Bottom", "Bottom Row Only", new Vector2(-60, -190), Options.Mapper.BottomRowOnly, (check) =>
+            {
+                Options.Mapper.BottomRowOnly = check;
+            });
+            AddCheckbox(_automapperMenu.transform, "UpDown", "Up and Down Only", new Vector2(20, -190), Options.Mapper.UpDownOnly, (check) =>
+            {
+                Options.Mapper.UpDownOnly = check;
+            });
             AddCheckbox(_automapperMenu.transform, "Ignore Bombs", "Ignore Bombs", new Vector2(20, -55), Options.Light.IgnoreBomb, (check) =>
             {
                 Options.Light.IgnoreBomb = check;
@@ -69,8 +77,9 @@ namespace Automapper.UserInterface
 
             // Swap, Speed, Boost, BPM
             AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -15));
-            AddLabel(_automapperMenu.transform, "Audio", "Audio Range", new Vector2(-140, -190));
-            AddTextInput(_automapperMenu.transform, "Minimum", "Min", new Vector2(-90, -190), Options.Mapper.MinRange.ToString(), (value) =>
+            AddLabel(_automapperMenu.transform, "Audio", "Audio Range", new Vector2(-140, -210));
+            AddLabel(_automapperMenu.transform, "Map", "Map", new Vector2(-140, -170));
+            AddTextInput(_automapperMenu.transform, "Minimum", "Min", new Vector2(-90, -210), Options.Mapper.MinRange.ToString(), (value) =>
             {
                 float res;
                 if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))
@@ -78,7 +87,7 @@ namespace Automapper.UserInterface
                     Options.Mapper.MinRange = res;
                 }
             });
-            AddTextInput(_automapperMenu.transform, "Max", "Max", new Vector2(-15, -190), Options.Mapper.MaxRange.ToString(), (value) =>
+            AddTextInput(_automapperMenu.transform, "Max", "Max", new Vector2(-15, -210), Options.Mapper.MaxRange.ToString(), (value) =>
             {
                 float res;
                 if (float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out res))

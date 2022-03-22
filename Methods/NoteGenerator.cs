@@ -252,6 +252,12 @@ namespace Automapper.Methods
                             (notes[i - 1], notes[i]) = FixDoublePlacement(notes[i - 1], notes[i]);
                         }
                     }
+
+                    if(Options.Mapper.BottomRowOnly)
+                    {
+                        notes[i - 1].LineLayer = 0;
+                        notes[i].LineLayer = 0;
+                    }
                 }
             }
             else if(Options.Mapper.GenerateAsTiming)
