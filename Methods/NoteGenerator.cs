@@ -255,8 +255,27 @@ namespace Automapper.Methods
 
                     if(Options.Mapper.BottomRowOnly)
                     {
-                        notes[i - 1].LineLayer = 0;
+                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                        {
+                            notes[i - 1].LineLayer = 0;
+                        }
                         notes[i].LineLayer = 0;
+                    }
+                    if(Options.Mapper.RandomizeLine)
+                    {
+                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                        {
+                            notes[i - 1].LineIndex = Utils.RandNumber(0, 4);
+                        }
+                        notes[i].LineIndex = Utils.RandNumber(0, 4);
+                    }
+                    if(Options.Mapper.GenerateFused)
+                    {
+                        if(notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                        {
+                            notes[i].LineIndex = notes[i - 1].LineIndex;
+                            notes[i].LineLayer = notes[i - 1].LineLayer;
+                        }
                     }
                 }
             }

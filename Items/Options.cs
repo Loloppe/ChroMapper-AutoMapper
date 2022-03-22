@@ -26,6 +26,8 @@
             private static double maxSpeed = (1d / 8d);
             private static double maxDoubleSpeed = (1d / 3d);
 
+            public static bool GenerateFused { set; get; } = false;
+            public static bool RandomizeLine { set; get; } = false;
             public static bool UpDownOnly { set; get; } = false;
             public static bool BottomRowOnly { set; get; } = false;
             public static bool GenerateAsTiming { set; get; } = true;
