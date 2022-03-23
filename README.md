@@ -32,6 +32,12 @@ Light value:
 -   Offset = Add an offset from first note for the color switch (in beat).
 -   Boost = Boost will turn on/off every x (beat).
 
+Map modification value:
+-   Bottom Row Only = All the notes are generated bottom row.
+-   Up and Down Only = All the notes are either down or up cut direction (still flow).
+-   Randomize Line = Randomise the line index of each note.
+-   Fused Double Only = Make double notes the same line and layer.
+
 ### Credits
 
 [Lolighter](https://github.com/Loloppe/Lolighter) by [Loloppe](https://github.com/Loloppe)
