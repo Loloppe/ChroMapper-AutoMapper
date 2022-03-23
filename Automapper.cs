@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using Automapper.Items;
-using Automapper.UserInterface;
 using UnityEngine;
 
 namespace Automapper
@@ -36,7 +35,7 @@ namespace Automapper
     [Plugin("Automapper")]
     public class Automapper
     {
-        private UI _ui;
+        private UI.UI _ui;
         static public BeatSaberSongContainer _beatSaberSongContainer;
         private NotesContainer _notesContainer;
         private EventsContainer _eventsContainer;
@@ -46,7 +45,7 @@ namespace Automapper
         private void Init()
         {
             SceneManager.sceneLoaded += SceneLoaded;
-            _ui = new UI(this);
+            _ui = new UI.UI(this);
         }
 
         private void SceneLoaded(Scene arg0, LoadSceneMode arg1)

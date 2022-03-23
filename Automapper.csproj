@@ -740,6 +740,5 @@
     <None Include="NAudio\NAudio\NAudio.ruleset" />
     <None Include="NAudio\NVorbis\NVorbis.csproj" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

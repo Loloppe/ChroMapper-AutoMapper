@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Options = Automapper.Items.Options;
 
-namespace Automapper.UserInterface
+namespace Automapper.UI
 {
     public class UI
     {
@@ -29,6 +29,8 @@ namespace Automapper.UserInterface
             _extensionBtn.Tooltip = "Automapper";
             ExtensionButtons.AddButton(_extensionBtn);
         }
+
+        
 
         public void AddMenu(MapEditorUI mapEditorUI)
         {

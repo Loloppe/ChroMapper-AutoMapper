@@ -227,14 +227,14 @@ namespace Automapper.Items
                         {
                             blue.LineLayer++;
                         }
-                        else
+                        else if(red.LineLayer != Layer.BOTTOM)
                         {
                             red.LineLayer--;
                         }
                     }
                     else if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer + 1)
                     {
-                        if (blue.LineLayer != 0)
+                        if (blue.LineLayer != Layer.BOTTOM)
                         {
                             blue.LineLayer--;
                         }
@@ -249,13 +249,19 @@ namespace Automapper.Items
                         {
                             (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
                             (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            blue.LineLayer++;
+                            if(blue.LineLayer != Layer.TOP)
+                            {
+                                blue.LineLayer++;
+                            }
                         }
                         else
                         {
                             (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
                             (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            red.LineLayer--;
+                            if (red.LineLayer != Layer.BOTTOM)
+                            {
+                                red.LineLayer--;
+                            }
                         }
                     }
                     else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer - 1)
@@ -264,13 +270,19 @@ namespace Automapper.Items
                         {
                             (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
                             (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            blue.LineLayer--;
+                            if (blue.LineLayer != Layer.BOTTOM)
+                            {
+                                blue.LineLayer--;
+                            }
                         }
                         else
                         {
                             (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
                             (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            red.LineLayer++;
+                            if (red.LineLayer != Layer.TOP)
+                            {
+                                red.LineLayer++;
+                            }
                         }
                     }
                 }
