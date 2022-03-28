@@ -136,10 +136,10 @@ namespace Automapper
                     if (selection.All(x => x is BeatmapNote))
                     {
                         select = new List<BeatmapNote>(selection.Cast<BeatmapNote>());
-                        if (notes.Exists(o => o.Time > select.First().Time && o.Time < select.Last().Time && !select.Contains(o)))
+                        if (notes.Exists(o => o.Time >= select.First().Time && o.Time <= select.Last().Time && !select.Contains(o)))
                         {
                             // This is not a whole selection
-                            Debug.Log("Automapper: This is not a whole section selection. Notes might be missing.");
+                            Debug.LogWarning("Automapper: This is not a whole section selection. Make sure to take all notes in the range and double on same beat.");
                             select = null;
                         }
                     }
@@ -174,17 +174,21 @@ namespace Automapper
 
                     // We do nothing with patterns for now
                     List<List<BeatmapNote>> patterns = new List<List<BeatmapNote>>();
+
                     List<BeatmapNote> toDelete = new List<BeatmapNote>(select);
                     select = new List<BeatmapNote>();
 
                     if (redNotes.Any())
                     {
-                        (patterns, redNotes) = Helper.FindPattern(redNotes);
-
-                        // We keep the first note of each pattern
-                        foreach (List<BeatmapNote> pattern in patterns)
+                        if(redNotes.Count > 1)
                         {
-                            redNotes.Add(pattern[0]);
+                            (patterns, redNotes) = Helper.FindPattern(redNotes);
+
+                            // We keep the first note of each pattern
+                            foreach (List<BeatmapNote> pattern in patterns)
+                            {
+                                redNotes.Add(pattern[0]);
+                            }
                         }
 
                         select.AddRange(redNotes);
@@ -192,14 +196,18 @@ namespace Automapper
 
                     if (blueNotes.Any())
                     {
-                        // We do nothing with patterns for now
                         patterns = new List<List<BeatmapNote>>();
-                        (patterns, blueNotes) = Helper.FindPattern(blueNotes);
 
-                        // We keep the first note of each pattern
-                        foreach (List<BeatmapNote> pattern in patterns)
+                        if (blueNotes.Count > 1)
                         {
-                            blueNotes.Add(pattern[0]);
+                            // We do nothing with patterns for now
+                            (patterns, blueNotes) = Helper.FindPattern(blueNotes);
+
+                            // We keep the first note of each pattern
+                            foreach (List<BeatmapNote> pattern in patterns)
+                            {
+                                blueNotes.Add(pattern[0]);
+                            }
                         }
 
                         select.AddRange(blueNotes);
@@ -213,43 +221,54 @@ namespace Automapper
 
                     List<float> timings = new List<float>();
 
-                    if (select.Count > 0)
+                    if (select.Any())
                     {
                         select = select.OrderBy(o => o.Time).ToList();
+
                         foreach (BeatmapNote note in select)
                         {
                             timings.Add(note.Time);
                         }
 
-                        BeatmapNote before = null;
-                        BeatmapNote beforeBefore = null;
+                        BeatmapNote lastBlue = null;
+                        BeatmapNote lastRed = null;
 
-                        if (!select.Contains(notes.First()) && !select.Contains(notes[1]) && select.First().Time != notes.First().Time && select[1].Time != notes[1].Time && notes.Count > 1)
+                        if (!select.Contains(notes.First()) && !select.Contains(notes[1]))
                         {
-                            int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
-                            Debug.Log(index);
-                            before = notes[index - 2];
-                            beforeBefore = notes[index - 1];
-                        }
-                        else if (!select.Contains(notes.First()) && select.First().Time != notes[0].Time && notes.Count > 1)
-                        {
-                            int index = notes.FindIndex(o => o.Time == select.First().Time && o.Type == select.First().Type);
-                            Debug.Log(index);
-                            before = notes[index - 1];
-                            beforeBefore = new BeatmapNote();
-                            beforeBefore.Type = notes[index - 1].Type;
-                            if (beforeBefore.Type == 0)
+                            if(select.First().Type == 0)
                             {
-                                beforeBefore.Type = 1;
+                                lastRed = notes.FindLast(o => o.Time < select.First().Time && o.Type == select.First().Type);
+                                lastBlue = notes.FindLast(o => o.Time < select.First().Time && o.Type != select.First().Type);
                             }
                             else
                             {
-                                beforeBefore.Type = 0;
+                                lastBlue = notes.FindLast(o => o.Time < select.First().Time && o.Type == select.First().Type);
+                                lastRed = notes.FindLast(o => o.Time < select.First().Time && o.Type != select.First().Type);
+                            }
+                        }
+                        else if (!select.Contains(notes.First()) && select.First().Time != notes[0].Time && notes.Count > 1)
+                        {
+                            int index = notes.FindIndex(o => o == select.First());
+                            if (notes[index - 1].Type == 0)
+                            {
+                                lastRed = notes[index - 1];
+                                lastBlue = new BeatmapNote
+                                {
+                                    Type = 1
+                                };
+                            }
+                            else
+                            {
+                                lastBlue = notes[index - 1];
+                                lastRed = new BeatmapNote
+                                {
+                                    Type = 0
+                                };
                             }
                         }
 
                         // Get new notes
-                        List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, before, beforeBefore);
+                        List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
 
                         List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using static Automapper.Items.Enumerator;
 using static Automapper.Items.Utils;
 
@@ -9,286 +10,1765 @@ namespace Automapper.Items
     {
         static public (BeatmapNote, BeatmapNote) FixDoublePlacement(BeatmapNote red, BeatmapNote blue)
         {
-            int count = 100;
-
-            do
+            int choice;
+            int max;
+            switch(red.CutDirection)
             {
-                // Both on same layer
-                if (red.LineLayer == blue.LineLayer && red.LineIndex != blue.LineIndex)
-                {
-                    // Change the layer of one of the note
-                    if (SwingType.Horizontal.Contains(red.CutDirection))
+                case CutDirection.UP:
+                    switch(blue.CutDirection)
                     {
-                        if (red.LineLayer == Layer.BOTTOM)
-                        {
-                            if (red.LineIndex == Line.LEFT)
+                        case CutDirection.UP:
+                            max = 13;
+                            choice = RandNumber(0, max);
+                            switch(choice)
                             {
-                                red.LineLayer++;
+                                case 0:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 7:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 8:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 9:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 10:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 11:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 12:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                            else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 9;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer = Layer.TOP;
+                                case 0:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 7:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 8:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                            else
+                            break;
+                        case CutDirection.LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                if (SwingType.Up.Contains(blue.CutDirection))
-                                {
-                                    blue.LineLayer = Layer.TOP;
-                                }
-                                else
-                                {
-                                    red.LineLayer++;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                        }
-                        else if (red.LineLayer == Layer.TOP)
-                        {
-                            if (red.LineIndex == Line.LEFT)
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 8;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer--;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 7:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                            else if (red.LineIndex == Line.MIDDLE_LEFT || red.LineIndex == Line.MIDDLE_RIGHT)
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer = Layer.BOTTOM;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 7;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer--;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                    else if (SwingType.Horizontal.Contains(blue.CutDirection))
+                    break;
+                case CutDirection.DOWN:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineLayer == Layer.BOTTOM)
-                        {
-                            if (blue.LineIndex == Line.RIGHT)
+                        case CutDirection.UP:
+                            max = 9;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer++;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 7:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 8:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                            else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer = Layer.TOP;
+                                case 0:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                            else
+                            break;
+                        case CutDirection.LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch(choice)
                             {
-                                if (SwingType.Up.Contains(red.CutDirection))
-                                {
-                                    red.LineLayer = Layer.TOP;
-                                }
-                                else
-                                {
-                                    blue.LineLayer++;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
-                        else if (blue.LineLayer == Layer.TOP)
-                        {
-                            if (blue.LineIndex == Line.RIGHT)
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer--;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer = Layer.BOTTOM;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (blue.LineLayer == Layer.TOP)
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                if (blue.LineIndex == Line.LEFT)
-                                {
-                                    blue.LineLayer--;
-                                }
-                                else if (blue.LineIndex == Line.MIDDLE_LEFT || blue.LineIndex == Line.MIDDLE_RIGHT)
-                                {
-                                    blue.LineLayer = Layer.BOTTOM;
-                                }
-                                else
-                                {
-                                    blue.LineLayer--;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 1;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                }
-                // Both on the same line
-                else if (red.LineIndex == blue.LineIndex && red.LineLayer != blue.LineLayer)
-                {
-                    if (SwingType.Vertical.Contains(red.CutDirection))
+                    break;
+                case CutDirection.LEFT:
+                    switch (blue.CutDirection)
                     {
-                        // Change the line of one of the notes
-                        if (red.LineIndex > 1)
-                        {
-                            if (red.LineLayer != Layer.MIDDLE)
+                        case CutDirection.UP:
+                            max = 7;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                if (red.LineIndex != Line.LEFT)
-                                {
-                                    red.LineIndex--;
-                                }
-                                else
-                                {
-                                    red.LineIndex++;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (blue.LineLayer == 0)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer = 2;
-                                if (red.LineIndex != Line.LEFT)
-                                {
-                                    red.LineIndex--;
-                                }
-                                else
-                                {
-                                    red.LineIndex++;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                            else if (blue.LineLayer == 2)
+                            break;
+                        case CutDirection.LEFT:
+                            max = 5;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer = 0;
-                                if (red.LineIndex != Line.LEFT)
-                                {
-                                    red.LineIndex--;
-                                }
-                                else
-                                {
-                                    red.LineIndex++;
-                                }
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
-                        else
-                        {
-                            if (blue.LineIndex != Line.RIGHT)
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 9;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineIndex++;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 7:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 8:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (red.LineIndex != Line.LEFT)
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineIndex--;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                    else if (SwingType.Vertical.Contains(blue.CutDirection))
+                    break;
+                case CutDirection.RIGHT:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineIndex < 2)
-                        {
-                            if (blue.LineLayer != Layer.MIDDLE)
+                        case CutDirection.UP:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                if (blue.LineIndex != Line.RIGHT)
-                                {
-                                    blue.LineIndex++;
-                                }
-                                else
-                                {
-                                    blue.LineIndex--;
-                                }
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (red.LineLayer == 0)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer = 2;
-                                if (blue.LineIndex != Line.RIGHT)
-                                {
-                                    blue.LineIndex++;
-                                }
-                                else
-                                {
-                                    blue.LineIndex--;
-                                }
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                            else if (red.LineLayer == 2)
+                            break;
+                        case CutDirection.LEFT:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer = 0;
-                                if (blue.LineIndex != Line.RIGHT)
-                                {
-                                    blue.LineIndex++;
-                                }
-                                else
-                                {
-                                    blue.LineIndex--;
-                                }
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
-                        else
-                        {
-                            if (red.LineIndex != Line.LEFT)
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineIndex--;
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                            else if (blue.LineIndex != Line.RIGHT)
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineIndex++;
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                }
-                // Diagonal
-                if (SwingType.Diagonal.Contains(red.CutDirection) || SwingType.Diagonal.Contains(blue.CutDirection))
-                {
-                    if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer - 1)
+                    break;
+                case CutDirection.UP_LEFT:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineLayer != 2)
-                        {
-                            blue.LineLayer++;
-                        }
-                        else if(red.LineLayer != Layer.BOTTOM)
-                        {
-                            red.LineLayer--;
-                        }
+                        case CutDirection.UP:
+                            max = 6;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 4:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 5:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 6:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                    else if (red.LineIndex == blue.LineIndex - 1 && red.LineLayer == blue.LineLayer + 1)
+                    break;
+                case CutDirection.UP_RIGHT:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineLayer != Layer.BOTTOM)
-                        {
-                            blue.LineLayer--;
-                        }
-                        else
-                        {
-                            red.LineLayer++;
-                        }
+                        case CutDirection.UP:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 2;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                    else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer + 1)
+                    break;
+                case CutDirection.DOWN_LEFT:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineLayer != 2)
-                        {
-                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            if(blue.LineLayer != Layer.TOP)
+                        case CutDirection.UP:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer++;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
                             }
-                        }
-                        else
-                        {
-                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            if (red.LineLayer != Layer.BOTTOM)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer--;
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 2;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 0;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
                     }
-                    else if (red.LineIndex == blue.LineIndex + 1 && red.LineLayer == blue.LineLayer - 1)
+                    break;
+                case CutDirection.DOWN_RIGHT:
+                    switch (blue.CutDirection)
                     {
-                        if (blue.LineLayer != 0)
-                        {
-                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            if (blue.LineLayer != Layer.BOTTOM)
+                        case CutDirection.UP:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                blue.LineLayer--;
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
                             }
-                        }
-                        else
-                        {
-                            (red.LineIndex, blue.LineIndex) = (blue.LineIndex, red.LineIndex);
-                            (red.LineLayer, blue.LineLayer) = (blue.LineLayer, red.LineLayer);
-                            if (red.LineLayer != Layer.TOP)
+                            break;
+                        case CutDirection.DOWN:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
                             {
-                                red.LineLayer++;
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 0;
+                                    break;
                             }
-                        }
+                            break;
+                        case CutDirection.LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.RIGHT:
+                            max = 3;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_LEFT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.UP_RIGHT:
+                            max = 2;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 2;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_LEFT:
+                            max = 4;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 1:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                                case 2:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 0;
+                                    blue.LineLayer = 1;
+                                    break;
+                                case 3:
+                                    red.LineIndex = 3;
+                                    red.LineLayer = 1;
+                                    blue.LineIndex = 1;
+                                    blue.LineLayer = 0;
+                                    break;
+                            }
+                            break;
+                        case CutDirection.DOWN_RIGHT:
+                            max = 1;
+                            choice = RandNumber(0, max);
+                            switch (choice)
+                            {
+                                case 0:
+                                    red.LineIndex = 2;
+                                    red.LineLayer = 0;
+                                    blue.LineIndex = 3;
+                                    blue.LineLayer = 1;
+                                    break;
+                            }
+                            break;
                     }
-                }
-
-                count--;
-            } while ((red.LineLayer == blue.LineLayer && red.LineIndex == blue.LineIndex) && count > 0);
+                    break;
+            }
 
             return (red, blue);
         }
@@ -300,31 +1780,25 @@ namespace Automapper.Items
         /// <param name="lastLayer">Last note layer</param>
         /// <param name="type">Note color</param>
         /// <returns>Line, Layer</returns>
-        static public (int, int) PlacementCheck(int direction, int type, BeatmapNote lastNote)
+        static public (int, int) PlacementCheck(int direction, int type)
         {
             // Next possible line and layer
             int line = -1;
             int layer = -1;
             int rand;
-            int count = 100;
 
-            do
+            if (type == ColorType.RED)
             {
-                if (type == ColorType.RED)
-                {
-                    rand = RandNumber(0, PossibleRedPlacement.placement[direction].Count());
-                    line = PossibleRedPlacement.placement[direction][rand][0];
-                    layer = PossibleRedPlacement.placement[direction][rand][1];
-                }
-                else if (type == ColorType.BLUE)
-                {
-                    rand = RandNumber(0, PossibleBluePlacement.placement[direction].Count());
-                    line = PossibleBluePlacement.placement[direction][rand][0];
-                    layer = PossibleBluePlacement.placement[direction][rand][1];
-                }
-
-                count--;
-            } while ((lastNote.LineIndex == line && lastNote.LineLayer == layer) && count > 0); // Fix possible fused notes
+                rand = RandNumber(0, PossibleRedPlacement.placement[direction].Count());
+                line = PossibleRedPlacement.placement[direction][rand][0];
+                layer = PossibleRedPlacement.placement[direction][rand][1];
+            }
+            else if (type == ColorType.BLUE)
+            {
+                rand = RandNumber(0, PossibleBluePlacement.placement[direction].Count());
+                line = PossibleBluePlacement.placement[direction][rand][0];
+                layer = PossibleBluePlacement.placement[direction][rand][1];
+            }
 
             return (line, layer);
         }

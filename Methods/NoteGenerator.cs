@@ -15,7 +15,7 @@ namespace Automapper.Methods
         /// <param name="bpm">Main BPM of the song</param>
         /// <param name="limiter">Allow backhanded when off</param>
         /// <returns>Notes and Chains (for now)</returns>
-        static public List<BeatmapNote> AutoMapper(List<float> timings, float bpm, int hand, BeatmapNote before, BeatmapNote beforeBefore)
+        static public List<BeatmapNote> AutoMapper(List<float> timings, float bpm, int hand, BeatmapNote lastRed, BeatmapNote lastBlue)
         {
             // Our main list where we will store the generated Notes and Chains.
             List<BeatmapNote> notes = new List<BeatmapNote>();
@@ -48,95 +48,47 @@ namespace Automapper.Methods
                 int line = 0;
                 int layer = 0;
 
-                if (beforeBefore != null)
+                if (lastRed != null)
                 {
-                    if (beforeBefore.Type == 1)
+                    if (SwingType.Down.Contains(lastRed.CutDirection))
                     {
-                        if (SwingType.Down.Contains(beforeBefore.CutDirection))
-                        {
-                            leftSwing = 1;
-                        }
-                        else if (SwingType.Up.Contains(beforeBefore.CutDirection))
-                        {
-                            leftSwing = 0;
-                        }
-                        else if (SwingType.Left.Contains(beforeBefore.CutDirection))
-                        {
-                            leftSwing = 0;
-                        }
-                        else if (SwingType.Right.Contains(beforeBefore.CutDirection))
-                        {
-                            leftSwing = 1;
-                        }
-                        lastRight = beforeBefore.Time;
-                        rightDirection = beforeBefore.CutDirection;
+                        leftSwing = 1;
                     }
-                    else if (beforeBefore.Type == 0)
+                    else if (SwingType.Up.Contains(lastRed.CutDirection))
                     {
-                        if (SwingType.Down.Contains(beforeBefore.CutDirection))
-                        {
-                            rightSwing = 1;
-                        }
-                        else if (SwingType.Up.Contains(beforeBefore.CutDirection))
-                        {
-                            rightSwing = 0;
-                        }
-                        else if (SwingType.Left.Contains(beforeBefore.CutDirection))
-                        {
-                            rightSwing = 1;
-                        }
-                        else if (SwingType.Right.Contains(beforeBefore.CutDirection))
-                        {
-                            rightSwing = 0;
-                        }
-                        lastLeft = before.Time;
-                        leftDirection = beforeBefore.CutDirection;
+                        leftSwing = 0;
                     }
+                    else if (SwingType.Left.Contains(lastRed.CutDirection))
+                    {
+                        leftSwing = 0;
+                    }
+                    else if (SwingType.Right.Contains(lastRed.CutDirection))
+                    {
+                        leftSwing = 1;
+                    }
+                    lastLeft = lastRed.Time;
+                    leftDirection = lastRed.CutDirection;
                 }
-                if (before != null)
+                if (lastBlue != null)
                 {
-                    if (before.Type == 0)
+                    if (SwingType.Down.Contains(lastBlue.CutDirection))
                     {
-                        if (SwingType.Down.Contains(before.CutDirection))
-                        {
-                            leftSwing = 1;
-                        }
-                        else if (SwingType.Up.Contains(before.CutDirection))
-                        {
-                            leftSwing = 0;
-                        }
-                        else if (SwingType.Left.Contains(before.CutDirection))
-                        {
-                            leftSwing = 0;
-                        }
-                        else if (SwingType.Right.Contains(before.CutDirection))
-                        {
-                            leftSwing = 1;
-                        }
-                        lastLeft = before.Time;
-                        leftDirection = before.CutDirection;
+                        rightSwing = 1;
                     }
-                    else if (before.Type == 1)
+                    else if (SwingType.Up.Contains(lastBlue.CutDirection))
                     {
-                        if (SwingType.Down.Contains(before.CutDirection))
-                        {
-                            rightSwing = 1;
-                        }
-                        else if (SwingType.Up.Contains(before.CutDirection))
-                        {
-                            rightSwing = 0;
-                        }
-                        else if (SwingType.Left.Contains(before.CutDirection))
-                        {
-                            rightSwing = 1;
-                        }
-                        else if (SwingType.Right.Contains(before.CutDirection))
-                        {
-                            rightSwing = 0;
-                        }
-                        lastRight = before.Time;
-                        rightDirection = before.CutDirection;
+                        rightSwing = 0;
                     }
+                    else if (SwingType.Left.Contains(lastBlue.CutDirection))
+                    {
+                        rightSwing = 1;
+                    }
+                    else if (SwingType.Right.Contains(lastBlue.CutDirection))
+                    {
+                        rightSwing = 0;
+                    }
+                    lastRight = lastBlue.Time;
+                    rightDirection = lastBlue.CutDirection;
                 }
 
                 // Select all directions
@@ -144,7 +96,7 @@ namespace Automapper.Methods
                 {
                     float timing = timings[i];
 
-                    if (notes.Count == 0 && beforeBefore == null)
+                    if (notes.Count == 0 && lastBlue == null)
                     {
                         BeatmapNote n = new BeatmapNote(timing, 2, 0, 1, 1);
                         notes.Add(n);
@@ -152,7 +104,7 @@ namespace Automapper.Methods
                         rightSwing = 1;
                         continue;
                     }
-                    else if (notes.Count == 1 && before == null)
+                    else if (notes.Count == 1 && lastRed == null)
                     {
                         BeatmapNote n = new BeatmapNote(timing, 1, 0, 0, 1);
                         notes.Add(n);
@@ -227,29 +179,32 @@ namespace Automapper.Methods
                 }
 
                 // Select all lines and layers (should probably be done together)
-                for (int i = 1; i < notes.Count; i++)
+                for (int i = 0; i < notes.Count; i++)
                 {
                     if (notes[i].Type == 0)
                     {
-                        (line, layer) = PlacementCheck(notes[i].CutDirection, 0, notes[i - 1]);
+                        (line, layer) = PlacementCheck(notes[i].CutDirection, 0);
                     }
                     else if (notes[i].Type == 1)
                     {
-                        (line, layer) = PlacementCheck(notes[i].CutDirection, 1, notes[i - 1]);
+                        (line, layer) = PlacementCheck(notes[i].CutDirection, 1);
                     }
 
                     notes[i].LineIndex = line;
                     notes[i].LineLayer = layer;
 
-                    if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                    if(i > 0)
                     {
-                        if (notes[i].Type == 0)
+                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                         {
-                            (notes[i], notes[i - 1]) = FixDoublePlacement(notes[i], notes[i - 1]);
-                        }
-                        else if (notes[i].Type == 1)
-                        {
-                            (notes[i - 1], notes[i]) = FixDoublePlacement(notes[i - 1], notes[i]);
+                            if (notes[i].Type == 0)
+                            {
+                                (notes[i], notes[i - 1]) = FixDoublePlacement(notes[i], notes[i - 1]);
+                            }
+                            else if (notes[i].Type == 1)
+                            {
+                                (notes[i - 1], notes[i]) = FixDoublePlacement(notes[i - 1], notes[i]);
+                            }
                         }
                     }
 
@@ -273,8 +228,16 @@ namespace Automapper.Methods
                     {
                         if(notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                         {
-                            notes[i].LineIndex = notes[i - 1].LineIndex;
-                            notes[i].LineLayer = notes[i - 1].LineLayer;
+                            if(Utils.RandNumber(0, 2) == 0)
+                            {
+                                notes[i].LineIndex = notes[i - 1].LineIndex;
+                                notes[i].LineLayer = notes[i - 1].LineLayer;
+                            }
+                            else
+                            {
+                                notes[i - 1].LineIndex = notes[i].LineIndex;
+                                notes[i - 1].LineLayer = notes[i].LineLayer;
+                            }
                         }
                     }
                 }
