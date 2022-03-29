@@ -206,37 +206,43 @@ namespace Automapper.Methods
                                 (notes[i - 1], notes[i]) = FixDoublePlacement(notes[i - 1], notes[i]);
                             }
                         }
-                    }
 
-                    if(Options.Mapper.BottomRowOnly)
-                    {
-                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                        if (Options.Mapper.BottomRowOnly)
                         {
-                            notes[i - 1].LineLayer = 0;
-                        }
-                        notes[i].LineLayer = 0;
-                    }
-                    if(Options.Mapper.RandomizeLine)
-                    {
-                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
-                        {
-                            notes[i - 1].LineIndex = Utils.RandNumber(0, 4);
-                        }
-                        notes[i].LineIndex = Utils.RandNumber(0, 4);
-                    }
-                    if(Options.Mapper.GenerateFused)
-                    {
-                        if(notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
-                        {
-                            if(Utils.RandNumber(0, 2) == 0)
+                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                             {
-                                notes[i].LineIndex = notes[i - 1].LineIndex;
-                                notes[i].LineLayer = notes[i - 1].LineLayer;
+                                notes[i - 1].LineLayer = 0;
                             }
-                            else
+                            notes[i].LineLayer = 0;
+                        }
+                        if (Options.Mapper.RandomizeLine)
+                        {
+                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                             {
-                                notes[i - 1].LineIndex = notes[i].LineIndex;
-                                notes[i - 1].LineLayer = notes[i].LineLayer;
+                                if (notes[i - 1].LineLayer != 1)
+                                {
+                                    notes[i - 1].LineIndex = Utils.RandNumber(0, 4);
+                                }
+                            }
+                            if (notes[i].LineLayer != 1)
+                            {
+                                notes[i].LineIndex = Utils.RandNumber(0, 4);
+                            }
+                        }
+                        if (Options.Mapper.GenerateFused)
+                        {
+                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                            {
+                                if (Utils.RandNumber(0, 2) == 0)
+                                {
+                                    notes[i].LineIndex = notes[i - 1].LineIndex;
+                                    notes[i].LineLayer = notes[i - 1].LineLayer;
+                                }
+                                else
+                                {
+                                    notes[i - 1].LineIndex = notes[i].LineIndex;
+                                    notes[i - 1].LineLayer = notes[i].LineLayer;
+                                }
                             }
                         }
                     }
