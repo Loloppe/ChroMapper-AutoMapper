@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using static Automapper.Items.Enumerator;
 using static Automapper.Items.Utils;
 
@@ -1096,7 +1095,7 @@ namespace Automapper.Items
                     switch (blue.CutDirection)
                     {
                         case CutDirection.UP:
-                            max = 6;
+                            max = 7;
                             choice = RandNumber(0, max);
                             switch (choice)
                             {
