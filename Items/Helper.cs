@@ -1,4 +1,5 @@
 ﻿using Beatmap.Base;
+using Beatmap.V2;
 using System.Collections.Generic;
 using System.Linq;
 using static Automapper.Items.Enumerator;
@@ -2104,7 +2105,7 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BaseNote n = new V3ColorNote
+                        BaseNote n = new V2Note
                         {
                             Time = notes[i].Time,
                             PosX = notes[i].PosX,
@@ -2129,7 +2130,7 @@ namespace Automapper.Items
                         pattern = new List<BaseNote>();
                         found = true;
                     }
-                    BaseNote n = new V3ColorNote
+                    BaseNote n = new V2Note
                     {
                         Time = notes[i].Time,
                         PosX = notes[i].PosX,
@@ -2145,7 +2146,7 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BaseNote n = new V3ColorNote
+                        BaseNote n = new V2Note
                         {
                             Time = notes[i].Time,
                             PosX = notes[i].PosX,
