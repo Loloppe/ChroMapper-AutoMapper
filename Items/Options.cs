@@ -11,7 +11,7 @@
             public static float ColorOffset { set => colorOffset = value > -100.0f ? value : 0.0f; get => colorOffset; }
             public static float ColorBoostSwap { set => colorBoostSwap = value > 0.0f ? value : 8.0f; get => colorBoostSwap; }
             public static float ColorSwap { set => colorSwap = value > 0.0f ? value : 4.0f; get => colorSwap; }
-            public static bool AllowBoostColor { set; get; } = true;
+            public static bool UseBoostColor { set; get; } = false;
             public static bool NerfStrobes { set; get; } = false;
             public static bool IgnoreBomb { set; get; } = true;
         }

@@ -1,4 +1,6 @@
 ﻿using Automapper.Items;
+using Beatmap.Base;
+using Beatmap.V2;
 using System.Collections.Generic;
 using static Automapper.Items.Enumerator;
 using static Automapper.Items.Helper;
@@ -15,10 +17,10 @@ namespace Automapper.Methods
         /// <param name="bpm">Main BPM of the song</param>
         /// <param name="limiter">Allow backhanded when off</param>
         /// <returns>Notes and Chains (for now)</returns>
-        static public List<BeatmapNote> AutoMapper(List<float> timings, float bpm, int hand, BeatmapNote lastRed, BeatmapNote lastBlue)
+        static public List<BaseNote> AutoMapper(List<float> timings, float bpm, int hand, BaseNote lastRed, BaseNote lastBlue)
         {
             // Our main list where we will store the generated Notes and Chains.
-            List<BeatmapNote> notes = new List<BeatmapNote>();
+            List<BaseNote> notes = new List<BaseNote>();
 
             if(!Options.Mapper.GenerateAsTiming)
             {
@@ -98,7 +100,7 @@ namespace Automapper.Methods
 
                     if (notes.Count == 0 && lastBlue == null)
                     {
-                        BeatmapNote n = new BeatmapNote(timing, 2, 0, 1, 1);
+                        BaseNote n = new V2Note(timing, 2, 0, 1, 1);
                         notes.Add(n);
                         lastRight = timing;
                         rightSwing = 1;
@@ -106,7 +108,7 @@ namespace Automapper.Methods
                     }
                     else if (notes.Count == 1 && lastRed == null)
                     {
-                        BeatmapNote n = new BeatmapNote(timing, 1, 0, 0, 1);
+                        BaseNote n = new V2Note(timing, 1, 0, 0, 1);
                         notes.Add(n);
                         lastLeft = timing;
                         leftSwing = 1;
@@ -166,13 +168,13 @@ namespace Automapper.Methods
                     // Create the note and add it to the list
                     if (hand == 1)
                     {
-                        BeatmapNote note = new BeatmapNote(timing, 2, 0, hand, direction);
+                        BaseNote note = new V2Note(timing, 2, 0, hand, direction);
                         notes.Add(note);
                         hand = 0; // Switch hand for the next note
                     }
                     else
                     {
-                        BeatmapNote note = new BeatmapNote(timing, 1, 0, hand, direction);
+                        BaseNote note = new V2Note(timing, 1, 0, hand, direction);
                         notes.Add(note);
                         hand = 1; // Switch hand for the next note
                     }
@@ -190,8 +192,8 @@ namespace Automapper.Methods
                         (line, layer) = PlacementCheck(notes[i].CutDirection, 1);
                     }
 
-                    notes[i].LineIndex = line;
-                    notes[i].LineLayer = layer;
+                    notes[i].PosX = line;
+                    notes[i].PosY = layer;
 
                     if(i > 0)
                     {
@@ -211,22 +213,22 @@ namespace Automapper.Methods
                         {
                             if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                             {
-                                notes[i - 1].LineLayer = 0;
+                                notes[i - 1].PosY = 0;
                             }
-                            notes[i].LineLayer = 0;
+                            notes[i].PosY = 0;
                         }
                         if (Options.Mapper.RandomizeLine)
                         {
                             if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
                             {
-                                if (notes[i - 1].LineLayer != 1)
+                                if (notes[i - 1].PosY != 1)
                                 {
-                                    notes[i - 1].LineIndex = Utils.RandNumber(0, 4);
+                                    notes[i - 1].PosX = Utils.RandNumber(0, 4);
                                 }
                             }
-                            if (notes[i].LineLayer != 1)
+                            if (notes[i].PosY != 1)
                             {
-                                notes[i].LineIndex = Utils.RandNumber(0, 4);
+                                notes[i].PosX = Utils.RandNumber(0, 4);
                             }
                         }
                         if (Options.Mapper.GenerateFused)
@@ -235,13 +237,13 @@ namespace Automapper.Methods
                             {
                                 if (Utils.RandNumber(0, 2) == 0)
                                 {
-                                    notes[i].LineIndex = notes[i - 1].LineIndex;
-                                    notes[i].LineLayer = notes[i - 1].LineLayer;
+                                    notes[i].PosX = notes[i - 1].PosX;
+                                    notes[i].PosY = notes[i - 1].PosY;
                                 }
                                 else
                                 {
-                                    notes[i - 1].LineIndex = notes[i].LineIndex;
-                                    notes[i - 1].LineLayer = notes[i].LineLayer;
+                                    notes[i - 1].PosX = notes[i].PosX;
+                                    notes[i - 1].PosY = notes[i].PosY;
                                 }
                             }
                         }
@@ -252,15 +254,15 @@ namespace Automapper.Methods
             {
                 foreach(float t in timings)
                 {
-                    BeatmapNote beatmapNote;
+                    BaseNote beatmapNote;
 
                     if (notes.Exists(o => o.Time == t))
                     {
-                        beatmapNote = new BeatmapNote(t, 1, 0, 1, 8);
+                        beatmapNote = new V2Note(t, 1, 0, 1, 8);
                     }
                     else
                     {
-                        beatmapNote = new BeatmapNote(t, 0, 0, 0, 8);
+                        beatmapNote = new V2Note(t, 0, 0, 0, 8);
                     }
 
                     notes.Add(beatmapNote);

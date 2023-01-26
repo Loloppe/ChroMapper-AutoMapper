@@ -2,7 +2,6 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 // https://github.com/Teh-Lemon/Onset-Detection
 namespace Automapper.Onset

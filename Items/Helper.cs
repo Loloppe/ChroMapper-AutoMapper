@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Beatmap.Base;
+using System.Collections.Generic;
 using System.Linq;
 using static Automapper.Items.Enumerator;
 using static Automapper.Items.Utils;
@@ -7,7 +8,7 @@ namespace Automapper.Items
 {
     internal class Helper
     {
-        static public (BeatmapNote, BeatmapNote) FixDoublePlacement(BeatmapNote red, BeatmapNote blue)
+        static public (BaseNote, BaseNote) FixDoublePlacement(BaseNote red, BaseNote blue)
         {
             int choice;
             int max;
@@ -22,82 +23,82 @@ namespace Automapper.Items
                             switch(choice)
                             {
                                 case 0:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 4:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 5:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 6:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 7:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 8:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 9:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 10:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 11:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 12:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -107,58 +108,58 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 4:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 5:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 6:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 7:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 8:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -168,16 +169,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -187,52 +188,52 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 6:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 7:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -242,16 +243,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -261,46 +262,46 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 5:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 6:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -310,16 +311,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -329,22 +330,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -359,58 +360,58 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 4:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 5:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 6:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 7:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 8:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -420,40 +421,40 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 4:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 5:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -463,16 +464,16 @@ namespace Automapper.Items
                             switch(choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -482,40 +483,40 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 4:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 5:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -525,10 +526,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -538,28 +539,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -569,10 +570,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -582,16 +583,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 1;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 1;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -606,46 +607,46 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 6:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -655,40 +656,40 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -698,34 +699,34 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -735,58 +736,58 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 6:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 7:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 8:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -796,16 +797,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -815,40 +816,40 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -858,16 +859,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -877,16 +878,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -901,28 +902,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -932,16 +933,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -951,40 +952,40 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 0;
+                                    blue.PosY = 2;
                                     break;
                                 case 4:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 5:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -994,28 +995,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1025,16 +1026,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1044,16 +1045,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1063,16 +1064,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1082,10 +1083,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1100,46 +1101,46 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 4:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 5:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 6:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1149,28 +1150,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1180,10 +1181,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1193,22 +1194,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1218,16 +1219,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1237,28 +1238,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 3:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1268,16 +1269,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1287,16 +1288,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1311,16 +1312,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1330,10 +1331,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1343,16 +1344,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1362,22 +1363,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1387,16 +1388,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1406,16 +1407,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1425,16 +1426,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1444,16 +1445,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 2;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 2;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1468,22 +1469,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1493,16 +1494,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 2;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 2;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1512,16 +1513,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1531,22 +1532,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 2:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1556,16 +1557,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1575,16 +1576,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1594,10 +1595,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1607,10 +1608,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 0;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 0;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1625,16 +1626,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1644,10 +1645,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1657,10 +1658,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -1670,22 +1671,22 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                                 case 1:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 2:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1695,10 +1696,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1708,16 +1709,16 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 2;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 2;
                                     break;
                             }
                             break;
@@ -1727,28 +1728,28 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 0;
                                     break;
                                 case 1:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 0;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                                 case 2:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 0;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 0;
+                                    blue.PosY = 1;
                                     break;
                                 case 3:
-                                    red.LineIndex = 3;
-                                    red.LineLayer = 1;
-                                    blue.LineIndex = 1;
-                                    blue.LineLayer = 0;
+                                    red.PosX = 3;
+                                    red.PosY = 1;
+                                    blue.PosX = 1;
+                                    blue.PosY = 0;
                                     break;
                             }
                             break;
@@ -1758,10 +1759,10 @@ namespace Automapper.Items
                             switch (choice)
                             {
                                 case 0:
-                                    red.LineIndex = 2;
-                                    red.LineLayer = 0;
-                                    blue.LineIndex = 3;
-                                    blue.LineLayer = 1;
+                                    red.PosX = 2;
+                                    red.PosY = 0;
+                                    blue.PosX = 3;
+                                    blue.PosY = 1;
                                     break;
                             }
                             break;
@@ -2085,13 +2086,13 @@ namespace Automapper.Items
         /// </summary>
         /// <param name="notes">List of ColorNote</param>
         /// <returns>List of list of ColorNote (Pattern) and modified List of ColorNote</returns>
-        static public (List<List<BeatmapNote>>, List<BeatmapNote>) FindPattern(List<BeatmapNote> notes)
+        static public (List<List<BaseNote>>, List<BaseNote>) FindPattern(List<BaseNote> notes)
         {
             // List of list to keep thing like sliders/stack/window/tower etc
-            List<List<BeatmapNote>> patterns = new List<List<BeatmapNote>>();
+            List<List<BaseNote>> patterns = new List<List<BaseNote>>();
 
             // Stock pattern notes
-            List<BeatmapNote> pattern = new List<BeatmapNote>();
+            List<BaseNote> pattern = new List<BaseNote>();
 
             // To know if a pattern was found
             bool found = false;
@@ -2103,36 +2104,39 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BeatmapNote n = new BeatmapNote();
-                        n.Time = notes[i].Time;
-                        n.LineIndex = notes[i].LineIndex;
-                        n.LineLayer = notes[i].LineLayer;
-                        n.Type = notes[i].Type;
-                        n.CutDirection = notes[i].CutDirection;
+                        BaseNote n = new V3ColorNote
+                        {
+                            Time = notes[i].Time,
+                            PosX = notes[i].PosX,
+                            PosY = notes[i].PosY,
+                            Type = notes[i].Type,
+                            CutDirection = notes[i].CutDirection
+                        };
                         pattern.Add(n);
                         notes.RemoveAt(i);
-                        patterns.Add(new List<BeatmapNote>(pattern));
-                        found = false;
+                        patterns.Add(new List<BaseNote>(pattern));
                     }
                     break;
                 }
 
-                BeatmapNote now = notes[i];
-                BeatmapNote next = notes[i + 1];
+                BaseNote now = notes[i];
+                BaseNote next = notes[i + 1];
 
                 if (next.Time - now.Time >= 0 && next.Time - now.Time < 0.1)
                 {
                     if (!found)
                     {
-                        pattern = new List<BeatmapNote>();
+                        pattern = new List<BaseNote>();
                         found = true;
                     }
-                    BeatmapNote n = new BeatmapNote();
-                    n.Time = notes[i].Time;
-                    n.LineIndex = notes[i].LineIndex;
-                    n.LineLayer = notes[i].LineLayer;
-                    n.Type = notes[i].Type;
-                    n.CutDirection = notes[i].CutDirection;
+                    BaseNote n = new V3ColorNote
+                    {
+                        Time = notes[i].Time,
+                        PosX = notes[i].PosX,
+                        PosY = notes[i].PosY,
+                        Type = notes[i].Type,
+                        CutDirection = notes[i].CutDirection
+                    };
                     pattern.Add(n);
                     notes.RemoveAt(i);
                     i--;
@@ -2141,16 +2145,18 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BeatmapNote n = new BeatmapNote();
-                        n.Time = notes[i].Time;
-                        n.LineIndex = notes[i].LineIndex;
-                        n.LineLayer = notes[i].LineLayer;
-                        n.Type = notes[i].Type;
-                        n.CutDirection = notes[i].CutDirection;
+                        BaseNote n = new V3ColorNote
+                        {
+                            Time = notes[i].Time,
+                            PosX = notes[i].PosX,
+                            PosY = notes[i].PosY,
+                            Type = notes[i].Type,
+                            CutDirection = notes[i].CutDirection
+                        };
                         pattern.Add(n);
                         notes.RemoveAt(i);
                         i--;
-                        patterns.Add(new List<BeatmapNote>(pattern));
+                        patterns.Add(new List<BaseNote>(pattern));
                     }
 
                     found = false;

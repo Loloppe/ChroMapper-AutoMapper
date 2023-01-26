@@ -71,9 +71,9 @@ namespace Automapper.UI
             {
                 Options.Light.NerfStrobes = check;
             });
-            AddCheckbox(_automapperMenu.transform, "Use Boost Events", "Use Boost Events", new Vector2(20, -125), Options.Light.AllowBoostColor, (check) =>
+            AddCheckbox(_automapperMenu.transform, "Use Boost Events", "Use Boost Events", new Vector2(20, -125), Options.Light.UseBoostColor, (check) =>
             {
-                Options.Light.AllowBoostColor = check;
+                Options.Light.UseBoostColor = check;
             });
 
             AddCheckbox(_automapperMenu.transform, "Wrist Limiter", "Wrist Limiter", new Vector2(20, -160), Options.Mapper.Limiter, (check) =>

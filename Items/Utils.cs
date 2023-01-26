@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Beatmap.Base;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using static Automapper.Items.Enumerator;
@@ -17,7 +18,7 @@ namespace Automapper.Items
             public static List<int> ENVIRONMENT_EVENT_TYPE = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17 };
             public static List<int> ALL_EVENT_TYPE = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 100 };
 
-            public static bool IsEnvironmentEvent(MapEvent ev)
+            public static bool IsEnvironmentEvent(BaseEvent ev)
             {
                 return ENVIRONMENT_EVENT_TYPE.Contains(ev.Type);
             }
@@ -86,9 +87,7 @@ namespace Automapper.Items
                 while (!(box[0] < n * (Byte.MaxValue / n)));
                 int k = (box[0] % n);
                 n--;
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                (list[n], list[k]) = (list[k], list[n]);
             }
         }
     }

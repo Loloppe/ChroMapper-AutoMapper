@@ -29,6 +29,8 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using Automapper.Items;
 using UnityEngine;
+using Beatmap.Base;
+using Beatmap.V2;
 
 namespace Automapper
 {
@@ -37,9 +39,9 @@ namespace Automapper
     {
         private UI.UI _ui;
         static public BeatSaberSongContainer _beatSaberSongContainer;
-        private NotesContainer _notesContainer;
-        private EventsContainer _eventsContainer;
-        private ObstaclesContainer _obstaclesContainer;
+        private NoteGridContainer _noteGridContainer;
+        private ObstacleGridContainer _obstacleGridContainer;
+        private EventGridContainer _eventGridContainer;
 
         [Init]
         private void Init()
@@ -52,9 +54,9 @@ namespace Automapper
         {
             if (arg0.buildIndex == 3)
             {
-                _notesContainer = Object.FindObjectOfType<NotesContainer>();
-                _eventsContainer = Object.FindObjectOfType<EventsContainer>();
-                _obstaclesContainer = Object.FindObjectOfType<ObstaclesContainer>();
+                _noteGridContainer = Object.FindObjectOfType<NoteGridContainer>();
+                _eventGridContainer = Object.FindObjectOfType<EventGridContainer>();
+                _obstacleGridContainer = Object.FindObjectOfType<ObstacleGridContainer>();
                 _beatSaberSongContainer = Object.FindObjectOfType<BeatSaberSongContainer>();
 
                  MapEditorUI mapEditorUI = Object.FindObjectOfType<MapEditorUI>();
@@ -64,19 +66,19 @@ namespace Automapper
 
         public void Light()
         {
-            if(_notesContainer.LoadedObjects.Count != 0)
+            if(_noteGridContainer.LoadedObjects.Any())
             {
-                List<BeatmapNote> notes = _notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList();
+                List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
                 notes = notes.OrderBy(o => o.Time).ToList();
 
-                List<BeatmapNote> select = null;
+                List<BaseNote> select = null;
 
                 var selection = SelectionController.SelectedObjects;
                 if (selection.Count > 0)
                 {
-                    if (selection.All(x => x is BeatmapNote))
+                    if (selection.All(x => x is BaseNote))
                     {
-                        select = new List<BeatmapNote>(selection.Cast<BeatmapNote>());
+                        select = new List<BaseNote>(selection.Cast<BaseNote>());
                         if (notes.Exists(o => o.Time > select.First().Time && o.Time < select.Last().Time && !select.Contains(o)))
                         {
                             // This is not a whole selection
@@ -94,48 +96,48 @@ namespace Automapper
                 {
                     select = select.OrderBy(o => o.Time).ToList();
 
-                    List<MapEvent> oldEvents = _eventsContainer.LoadedObjects.Cast<MapEvent>().Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
+                    List<BaseEvent> oldEvents = _eventGridContainer.LoadedObjects.Cast<BaseEvent>().Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
                     ev.Time >= select.First().Time && ev.Time <= select.Last().Time).ToList();
 
                     if (Options.Light.IgnoreBomb)
                     {
-                        select = new List<BeatmapNote>(select.Where(x => x.Type != Enumerator.NoteType.BOMB));
+                        select = new List<BaseNote>(select.Where(x => x.Type != Enumerator.NoteType.BOMB));
                     }
 
                     // Get new events
-                    List<MapEvent> newEvents = Methods.Light.CreateLight(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList(), select);
+                    List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList(), select);
 
                     // Delete old events
                     foreach (var ev in oldEvents)
                     {
-                        _eventsContainer.DeleteObject(ev, false);
+                        _eventGridContainer.DeleteObject(ev, false);
                     }
 
                     // Add new events
                     foreach (var ev in newEvents)
                     {
-                        _eventsContainer.SpawnObject(ev, false, false);
+                        _eventGridContainer.SpawnObject(ev, false, false);
                     }
 
-                    BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Event).RefreshPool(true);
+                    _eventGridContainer.RefreshPool(true);
                 }
             }
         }
 
         public void Converter()
         {
-            if (_notesContainer.LoadedObjects.Count != 0)
+            if (_noteGridContainer.LoadedObjects.Any())
             {
-                List<BeatmapNote> notes = new List<BeatmapNote>(_notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList());
+                List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
                 notes = notes.OrderBy(o => o.Time).ToList();
-                List<BeatmapNote> select = null;
+                List<BaseNote> select = null;
 
                 var selection = SelectionController.SelectedObjects;
                 if (selection.Count > 0)
                 {
-                    if (selection.All(x => x is BeatmapNote))
+                    if (selection.All(x => x is BaseNote))
                     {
-                        select = new List<BeatmapNote>(selection.Cast<BeatmapNote>());
+                        select = new List<BaseNote>(selection.Cast<BaseNote>());
                         if (notes.Exists(o => o.Time >= select.First().Time && o.Time <= select.Last().Time && !select.Contains(o)))
                         {
                             // This is not a whole selection
@@ -158,25 +160,25 @@ namespace Automapper
                         select.OrderBy(o => o.Time);
                     }
 
-                    List<BeatmapNote> redNotes = new List<BeatmapNote>();
-                    List<BeatmapNote> blueNotes = new List<BeatmapNote>();
+                    List<BaseNote> redNotes = new List<BaseNote>();
+                    List<BaseNote> blueNotes = new List<BaseNote>();
 
                     // Separate note per type
                     if (select.Exists(o => o.Type == 0))
                     {
-                        redNotes = new List<BeatmapNote>(select.Where(w => w.Type == 0).ToList());
+                        redNotes = new List<BaseNote>(select.Where(w => w.Type == 0).ToList());
                     }
 
                     if (select.Exists(o => o.Type == 1))
                     {
-                        blueNotes = new List<BeatmapNote>(select.Where(w => w.Type == 1).ToList());
+                        blueNotes = new List<BaseNote>(select.Where(w => w.Type == 1).ToList());
                     }
 
                     // We do nothing with patterns for now
-                    List<List<BeatmapNote>> patterns = new List<List<BeatmapNote>>();
+                    List<List<BaseNote>> patterns = new List<List<BaseNote>>();
 
-                    List<BeatmapNote> toDelete = new List<BeatmapNote>(select);
-                    select = new List<BeatmapNote>();
+                    List<BaseNote> toDelete = new List<BaseNote>(select);
+                    select = new List<BaseNote>();
 
                     if (redNotes.Any())
                     {
@@ -185,7 +187,7 @@ namespace Automapper
                             (patterns, redNotes) = Helper.FindPattern(redNotes);
 
                             // We keep the first note of each pattern
-                            foreach (List<BeatmapNote> pattern in patterns)
+                            foreach (List<BaseNote> pattern in patterns)
                             {
                                 redNotes.Add(pattern[0]);
                             }
@@ -196,7 +198,7 @@ namespace Automapper
 
                     if (blueNotes.Any())
                     {
-                        patterns = new List<List<BeatmapNote>>();
+                        patterns = new List<List<BaseNote>>();
 
                         if (blueNotes.Count > 1)
                         {
@@ -204,7 +206,7 @@ namespace Automapper
                             (patterns, blueNotes) = Helper.FindPattern(blueNotes);
 
                             // We keep the first note of each pattern
-                            foreach (List<BeatmapNote> pattern in patterns)
+                            foreach (List<BaseNote> pattern in patterns)
                             {
                                 blueNotes.Add(pattern[0]);
                             }
@@ -216,7 +218,7 @@ namespace Automapper
                     // Delete old notes
                     foreach (var n in toDelete)
                     {
-                        _notesContainer.DeleteObject(n, false);
+                        _noteGridContainer.DeleteObject(n, false);
                     }
 
                     List<float> timings = new List<float>();
@@ -225,13 +227,13 @@ namespace Automapper
                     {
                         select = select.OrderBy(o => o.Time).ToList();
 
-                        foreach (BeatmapNote note in select)
+                        foreach (BaseNote note in select)
                         {
                             timings.Add(note.Time);
                         }
 
-                        BeatmapNote lastBlue = null;
-                        BeatmapNote lastRed = null;
+                        BaseNote lastBlue = null;
+                        BaseNote lastRed = null;
 
                         if (!select.Contains(notes.First()) && !select.Contains(notes[1]))
                         {
@@ -252,7 +254,7 @@ namespace Automapper
                             if (notes[index - 1].Type == 0)
                             {
                                 lastRed = notes[index - 1];
-                                lastBlue = new BeatmapNote
+                                lastBlue = new V2Note
                                 {
                                     Type = 1
                                 };
@@ -260,7 +262,7 @@ namespace Automapper
                             else
                             {
                                 lastBlue = notes[index - 1];
-                                lastRed = new BeatmapNote
+                                lastRed = new V2Note
                                 {
                                     Type = 0
                                 };
@@ -268,44 +270,44 @@ namespace Automapper
                         }
 
                         // Get new notes
-                        List<BeatmapNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
+                        List<BaseNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
 
-                        List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
+                        List<BaseObstacle> obstacles = _obstacleGridContainer.LoadedObjects.Cast<BaseObstacle>().ToList();
 
                         // Delete old obstacles
                         foreach (var o in obstacles)
                         {
-                            _obstaclesContainer.DeleteObject(o, false);
+                            _obstacleGridContainer.DeleteObject(o, false);
                         }
 
                         // Add new notes
                         foreach (var n in no)
                         {
-                            _notesContainer.SpawnObject(n, false, false);
+                            _noteGridContainer.SpawnObject(n, false, false);
                             selection.Add(n);
                         }
                     }
 
-                    BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);
-                    BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Note).RefreshPool(true);
+                    _obstacleGridContainer.RefreshPool(true);
+                    _noteGridContainer.RefreshPool(true);
                 }
             }
         }
 
         public void Audio()
         {
-            List<BeatmapNote> no;
+            List<BaseNote> no;
             no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
 
-            List<BeatmapNote> notes = _notesContainer.LoadedObjects.Cast<BeatmapNote>().ToList();
-            List<BeatmapObstacle> obstacles = _obstaclesContainer.LoadedObjects.Cast<BeatmapObstacle>().ToList();
+            List <BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
+            List<BaseObstacle> obstacles = _obstacleGridContainer.LoadedObjects.Cast<BaseObstacle>().ToList();
 
             // Delete old obstacles
             foreach (var o in obstacles)
             {
                 if (o.Time >= Options.Mapper.MinRange && o.Time <= Options.Mapper.MaxRange)
                 {
-                    _obstaclesContainer.DeleteObject(o, false);
+                    _obstacleGridContainer.DeleteObject(o, false);
                 }
             }
 
@@ -314,7 +316,7 @@ namespace Automapper
             {
                 if(n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
                 {
-                    _notesContainer.DeleteObject(n, false);
+                    _noteGridContainer.DeleteObject(n, false);
                 }
             }
 
@@ -323,12 +325,12 @@ namespace Automapper
             {
                 if (n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
                 {
-                    _notesContainer.SpawnObject(n, false, false);
+                    _noteGridContainer.SpawnObject(n, false, false);
                 }
             }
 
-            BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Obstacle).RefreshPool(true);
-            BeatmapObjectContainerCollection.GetCollectionForType(BeatmapObject.ObjectType.Note).RefreshPool(true);
+            _obstacleGridContainer.RefreshPool(true);
+            _noteGridContainer.RefreshPool(true);
         }
 
         [Exit]

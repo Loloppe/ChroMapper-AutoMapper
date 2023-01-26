@@ -1,5 +1,6 @@
 ﻿using Automapper.Items;
 using Automapper.Onset;
+using Beatmap.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,13 +13,13 @@ namespace Automapper.Methods
     {
         static public AudioAnalysis audioAnalysis = new AudioAnalysis();
 
-        static public List<BeatmapNote> GetMap(string audioPath, float bpm)
+        static public List<BaseNote> GetMap(string audioPath, float bpm)
         {
             // New list of notes and chain, will be filled via PatternCreator.cs
-            List<BeatmapNote> notes = new List<BeatmapNote>();
+            List<BaseNote> notes = new List<BaseNote>();
             List<float> timings = new List<float>();
 
-            double offset = 0;
+            double offset;
             if (Path.GetExtension(audioPath) == ".mp3")
             {
                 offset = 0.125;
