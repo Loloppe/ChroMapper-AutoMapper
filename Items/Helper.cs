@@ -2107,7 +2107,7 @@ namespace Automapper.Items
                     {
                         BaseNote n = new V2Note
                         {
-                            Time = notes[i].Time,
+                            JsonTime = notes[i].JsonTime,
                             PosX = notes[i].PosX,
                             PosY = notes[i].PosY,
                             Type = notes[i].Type,
@@ -2123,7 +2123,7 @@ namespace Automapper.Items
                 BaseNote now = notes[i];
                 BaseNote next = notes[i + 1];
 
-                if (next.Time - now.Time >= 0 && next.Time - now.Time < 0.1)
+                if (next.JsonTime - now.JsonTime >= 0 && next.JsonTime - now.JsonTime < 0.1)
                 {
                     if (!found)
                     {
@@ -2132,7 +2132,7 @@ namespace Automapper.Items
                     }
                     BaseNote n = new V2Note
                     {
-                        Time = notes[i].Time,
+                        JsonTime = notes[i].JsonTime,
                         PosX = notes[i].PosX,
                         PosY = notes[i].PosY,
                         Type = notes[i].Type,
@@ -2148,7 +2148,7 @@ namespace Automapper.Items
                     {
                         BaseNote n = new V2Note
                         {
-                            Time = notes[i].Time,
+                            JsonTime = notes[i].JsonTime,
                             PosX = notes[i].PosX,
                             PosY = notes[i].PosY,
                             Type = notes[i].Type,

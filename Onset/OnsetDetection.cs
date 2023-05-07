@@ -166,7 +166,7 @@ namespace Automapper.Onset
             while (!finished);
 
             // Find peaks
-            onsetDetection.FindOnsets(sensitivity, 1, indistinguishableRange);
+            onsetDetection.FindOnsets(sensitivity, 0.5f, indistinguishableRange);
         }
 
         public void NormalizeOnsets(int type)

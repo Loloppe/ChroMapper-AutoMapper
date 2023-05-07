@@ -16,7 +16,7 @@ namespace Automapper.Methods
             float last = new float();
             float[] time = new float[4];
             int[] light = new int[3];
-            float offset = Notes[0].Time;
+            float offset = Notes[0].JsonTime;
             float firstNote = 0;
             float timer = 0;
 
@@ -64,12 +64,12 @@ namespace Automapper.Methods
             List<BaseNote> sliderTiming = new List<BaseNote>();
 
             // Order note, necessary if we're converting V3 bomb from notes
-            Notes = Notes.OrderBy(o => o.Time).ToList();
-            Selection = Selection.OrderBy(o => o.Time).ToList();
+            Notes = Notes.OrderBy(o => o.JsonTime).ToList();
+            Selection = Selection.OrderBy(o => o.JsonTime).ToList();
 
             void ResetTimer() //Pretty much reset everything necessary.
             {
-                firstNote = Notes[0].Time;
+                firstNote = Notes[0].JsonTime;
                 offset = firstNote;
                 boostIncrement = firstNote;
                 count = 1;
@@ -89,7 +89,7 @@ namespace Automapper.Methods
             // Place all spin/zoom/boost
             foreach(BaseNote note in Notes)
             {
-                float now = note.Time;
+                float now = note.JsonTime;
                 time[0] = now;
 
                 //Here we process Spin and Zoom
@@ -164,7 +164,7 @@ namespace Automapper.Methods
             for (int i = 1; i < Selection.Count; i++)
             {
                 // Between 1/8 and 0, same cut direction or dots
-                if (Notes[i].Time - Notes[i - 1].Time <= 0.125 && Notes[i].Time - Notes[i - 1].Time > 0 && (Notes[i].CutDirection == Notes[i - 1].CutDirection || Notes[i].CutDirection == 8 || Notes[i - 1].CutDirection == 8))
+                if (Notes[i].JsonTime - Notes[i - 1].JsonTime <= 0.125 && Notes[i].JsonTime - Notes[i - 1].JsonTime > 0 && (Notes[i].CutDirection == Notes[i - 1].CutDirection || Notes[i].CutDirection == 8 || Notes[i - 1].CutDirection == 8))
                 {
                     sliderTiming.Add(Notes[i - 1]);
                     found = true;
@@ -178,7 +178,7 @@ namespace Automapper.Methods
 
             foreach (BaseNote note in Selection) //Process specific light using time.
             {
-                float now = note.Time;
+                float now = note.JsonTime;
                 time[0] = now;
 
                 if (!Options.NerfStrobes && doubleOn && now != last) //Off event
@@ -205,9 +205,9 @@ namespace Automapper.Methods
                 }
 
                 //If not same note, same beat and not slider, apply once.
-                if ((now == time[1] || (now - time[1] <= 0.02 && time[1] != time[2])) && (time[1] != 0.0D && now != last) && !sliderTiming.Exists(e => e.Time == now))
+                if ((now == time[1] || (now - time[1] <= 0.02 && time[1] != time[2])) && (time[1] != 0.0D && now != last) && !sliderTiming.Exists(e => e.JsonTime == now))
                 {
-                    int color = FindColor(Notes.First().Time, time[0]);
+                    int color = FindColor(Notes.First().JsonTime, time[0]);
                     eventTempo.Add(new V2Event(now, EventType.BACK, color)); //Back Top Laser
                     eventTempo.Add(new V2Event(now, EventType.RING, color)); //Track Ring Neons
                     eventTempo.Add(new V2Event(now, EventType.SIDE, color)); //Side Light
@@ -260,43 +260,43 @@ namespace Automapper.Methods
                 {
                     if (x.Type == EventType.BACK)
                     {
-                        if (x.Time - lastTimeTop <= 0.5)
+                        if (x.JsonTime - lastTimeTop <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
-                        lastTimeTop = x.Time;
+                        lastTimeTop = x.JsonTime;
                     }
                     else if (x.Type == EventType.RING)
                     {
-                        if (x.Time - lastTimeNeon <= 0.5)
+                        if (x.JsonTime - lastTimeNeon <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
-                        lastTimeNeon = x.Time;
+                        lastTimeNeon = x.JsonTime;
                     }
                     else if (x.Type == EventType.SIDE)
                     {
-                        if (x.Time - lastTimeSide <= 0.5)
+                        if (x.JsonTime - lastTimeSide <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
-                        lastTimeSide = x.Time;
+                        lastTimeSide = x.JsonTime;
                     }
                     else if (x.Type == EventType.LEFT)
                     {
-                        if (x.Time - lastTimeLeft <= 0.5)
+                        if (x.JsonTime - lastTimeLeft <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
-                        lastTimeLeft = x.Time;
+                        lastTimeLeft = x.JsonTime;
                     }
                     else if (x.Type == EventType.RIGHT)
                     {
-                        if (x.Time - lastTimeRight <= 0.5)
+                        if (x.JsonTime - lastTimeRight <= 0.5)
                         {
                             x.Value = Utils.Swap(x.Value);
                         }
-                        lastTimeRight = x.Time;
+                        lastTimeRight = x.JsonTime;
                     }
                 }
             }
@@ -305,7 +305,7 @@ namespace Automapper.Methods
 
             foreach (BaseNote note in Selection) //Process all note using time.
             {
-                time[0] = note.Time;
+                time[0] = note.JsonTime;
 
                 if (wasSlider)
                 {
@@ -338,9 +338,9 @@ namespace Automapper.Methods
                     {
                         if (i != 0)
                         {
-                            if (Selection[i].Time == Selection[i - 1].Time)
+                            if (Selection[i].JsonTime == Selection[i - 1].JsonTime)
                             {
-                                nextDouble = Selection[i].Time;
+                                nextDouble = Selection[i].JsonTime;
                                 break;
                             }
                         }
@@ -357,13 +357,13 @@ namespace Automapper.Methods
                         if (i != 0 && i < Selection.Count)
                         {
                             // Between 1/8 and 0, same cut direction or dots
-                            if (Selection[i].Time - Selection[i - 1].Time <= 0.125 && Selection[i].Time - Selection[i - 1].Time > 0 && (Selection[i].CutDirection == Selection[i - 1].CutDirection || Selection[i].CutDirection == 8))
+                            if (Selection[i].JsonTime - Selection[i - 1].JsonTime <= 0.125 && Selection[i].JsonTime - Selection[i - 1].JsonTime > 0 && (Selection[i].CutDirection == Selection[i - 1].CutDirection || Selection[i].CutDirection == 8))
                             {
                                 // Search for the last note of the slider
                                 if (sliderNoteCount == 0)
                                 {
                                     // This is the first note of the slider
-                                    nextSlider = Selection[i - 1].Time;
+                                    nextSlider = Selection[i - 1].JsonTime;
                                 }
                                 sliderNoteCount++;
                             }
@@ -376,7 +376,7 @@ namespace Automapper.Methods
                 }
 
                 // It's the next slider or chain
-                if (nextSlider == note.Time)
+                if (nextSlider == note.JsonTime)
                 {
                     // Take a light between neon, side or backlight and strobes it via On/Flash
                     if (sliderIndex == -1)
@@ -385,7 +385,7 @@ namespace Automapper.Methods
                     }
 
                     // Place light
-                    int color = FindColor(Notes.First().Time, time[0]);
+                    int color = FindColor(Notes.First().JsonTime, time[0]);
                     eventTempo.Add(new V2Event(time[0], sliderLight[sliderIndex], color - 2));
                     eventTempo.Add(new V2Event(time[0] + 0.125f, sliderLight[sliderIndex], color - 1));
                     eventTempo.Add(new V2Event(time[0] + 0.25f, sliderLight[sliderIndex], color - 2));
@@ -428,7 +428,7 @@ namespace Automapper.Methods
                     }
 
                     // Place the next light
-                    eventTempo.Add(new V2Event(time[0], pattern[patternIndex], FindColor(Notes.First().Time, time[0])));
+                    eventTempo.Add(new V2Event(time[0], pattern[patternIndex], FindColor(Notes.First().JsonTime, time[0])));
 
                     // Speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -459,19 +459,19 @@ namespace Automapper.Methods
                     }
 
                     // Place off event
-                    if (Selection[Selection.Count - 1].Time != note.Time)
+                    if (Selection[Selection.Count - 1].JsonTime != note.JsonTime)
                     {
-                        if (Selection[Selection.FindIndex(n => n == note) + 1].Time == nextDouble)
+                        if (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime == nextDouble)
                         {
-                            if (Selection[Selection.FindIndex(n => n == note) + 1].Time - time[0] <= 2)
+                            if (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime - time[0] <= 2)
                             {
-                                float value = (Selection[Selection.FindIndex(n => n == note) + 1].Time - Selection[Selection.FindIndex(n => n == note)].Time) / 2;
-                                eventTempo.Add(new V2Event(Selection[Selection.FindIndex(n => n == note)].Time + value, pattern[patternIndex], 0));
+                                float value = (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime - Selection[Selection.FindIndex(n => n == note)].JsonTime) / 2;
+                                eventTempo.Add(new V2Event(Selection[Selection.FindIndex(n => n == note)].JsonTime + value, pattern[patternIndex], 0));
                             }
                         }
                         else
                         {
-                            eventTempo.Add(new V2Event(Selection[Selection.FindIndex(n => n == note) + 1].Time, pattern[patternIndex], 0));
+                            eventTempo.Add(new V2Event(Selection[Selection.FindIndex(n => n == note) + 1].JsonTime, pattern[patternIndex], 0));
                         }
                     }
 
@@ -495,13 +495,13 @@ namespace Automapper.Methods
                 }
             }
 
-            eventTempo = eventTempo.OrderBy(o => o.Time).ToList();
+            eventTempo = eventTempo.OrderBy(o => o.JsonTime).ToList();
 
             // Remove fused or move off event between
             eventTempo = RemoveFused(eventTempo);
 
             // Sort lights
-            eventTempo = eventTempo.OrderBy(o => o.Time).ToList();
+            eventTempo = eventTempo.OrderBy(o => o.JsonTime).ToList();
 
             return eventTempo;
         }
@@ -515,34 +515,34 @@ namespace Automapper.Methods
             {
                 BaseEvent e = events[i];
 
-                BaseEvent MapEvent = events.Find(o => o.Type == e.Type && (o.Time - e.Time >= -0.02 && o.Time - e.Time <= 0.02) && o != e);
+                BaseEvent MapEvent = events.Find(o => o.Type == e.Type && (o.JsonTime - e.JsonTime >= -0.02 && o.JsonTime - e.JsonTime <= 0.02) && o != e);
                 if (MapEvent != null)
                 {
-                    BaseEvent MapEvent2 = events.Find(o => o.Type == MapEvent.Type && (o.Time - MapEvent.Time >= -0.02 && o.Time - MapEvent.Time <= 0.02) && o != MapEvent);
+                    BaseEvent MapEvent2 = events.Find(o => o.Type == MapEvent.Type && (o.JsonTime - MapEvent.JsonTime >= -0.02 && o.JsonTime - MapEvent.JsonTime <= 0.02) && o != MapEvent);
 
                     if (MapEvent2 != null)
                     {
-                        BaseEvent temp = events.FindLast(o => o.Time < e.Time && e.Time > closest && o.Value != 0);
+                        BaseEvent temp = events.FindLast(o => o.JsonTime < e.JsonTime && e.JsonTime > closest && o.Value != 0);
 
                         if (temp != null)
                         {
-                            closest = temp.Time;
+                            closest = temp.JsonTime;
 
                             if (MapEvent2.Value == EventLightValue.OFF)
                             {
                                 // Move off event between fused note and last note
-                                events[(events.FindIndex(o => o.Time == MapEvent2.Time && o.Value == MapEvent2.Value && o.Type == MapEvent2.Type))].Time = (float)(MapEvent2.Time - ((MapEvent2.Time - closest) / 2));
+                                events[(events.FindIndex(o => o.JsonTime == MapEvent2.JsonTime && o.Value == MapEvent2.Value && o.Type == MapEvent2.Type))].JsonTime = (float)(MapEvent2.JsonTime - ((MapEvent2.JsonTime - closest) / 2));
                             }
                             else
                             {
                                 // Move off event between fused note and last note
                                 if (MapEvent.Value == EventLightValue.OFF || MapEvent.Value == EventLightValue.BLUE_TRANSITION || MapEvent.Value == EventLightValue.RED_TRANSITION)
                                 {
-                                    events[(events.FindIndex(o => o.Time == MapEvent.Time && o.Value == MapEvent.Value && o.Type == MapEvent.Type))].Time = (float)(MapEvent.Time - ((MapEvent.Time - closest) / 2));
+                                    events[(events.FindIndex(o => o.JsonTime == MapEvent.JsonTime && o.Value == MapEvent.Value && o.Type == MapEvent.Type))].JsonTime = (float)(MapEvent.JsonTime - ((MapEvent.JsonTime - closest) / 2));
                                 }
                                 else // Delete event
                                 {
-                                    events.RemoveAt(events.FindIndex(o => o.Time == MapEvent.Time && o.Value == MapEvent.Value && o.Type == MapEvent.Type));
+                                    events.RemoveAt(events.FindIndex(o => o.JsonTime == MapEvent.JsonTime && o.Value == MapEvent.Value && o.Type == MapEvent.Type));
                                 }
                             }
                         }

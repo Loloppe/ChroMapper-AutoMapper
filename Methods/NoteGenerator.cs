@@ -68,7 +68,7 @@ namespace Automapper.Methods
                     {
                         leftSwing = 1;
                     }
-                    lastLeft = lastRed.Time;
+                    lastLeft = lastRed.JsonTime;
                     leftDirection = lastRed.CutDirection;
                 }
                 if (lastBlue != null)
@@ -89,7 +89,7 @@ namespace Automapper.Methods
                     {
                         rightSwing = 0;
                     }
-                    lastRight = lastBlue.Time;
+                    lastRight = lastBlue.JsonTime;
                     rightDirection = lastBlue.CutDirection;
                 }
 
@@ -197,7 +197,7 @@ namespace Automapper.Methods
 
                     if(i > 0)
                     {
-                        if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                        if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
                         {
                             if (notes[i].Type == 0)
                             {
@@ -211,7 +211,7 @@ namespace Automapper.Methods
 
                         if (Options.Mapper.BottomRowOnly)
                         {
-                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                            if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
                             {
                                 notes[i - 1].PosY = 0;
                             }
@@ -219,7 +219,7 @@ namespace Automapper.Methods
                         }
                         if (Options.Mapper.RandomizeLine)
                         {
-                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                            if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
                             {
                                 if (notes[i - 1].PosY != 1)
                                 {
@@ -233,7 +233,7 @@ namespace Automapper.Methods
                         }
                         if (Options.Mapper.GenerateFused)
                         {
-                            if (notes[i].Time - notes[i - 1].Time >= -0.02 && notes[i].Time - notes[i - 1].Time <= 0.02)
+                            if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
                             {
                                 if (Utils.RandNumber(0, 2) == 0)
                                 {
@@ -256,7 +256,7 @@ namespace Automapper.Methods
                 {
                     BaseNote beatmapNote;
 
-                    if (notes.Exists(o => o.Time == t))
+                    if (notes.Exists(o => o.JsonTime == t))
                     {
                         beatmapNote = new V2Note(t, 1, 0, 1, 8);
                     }

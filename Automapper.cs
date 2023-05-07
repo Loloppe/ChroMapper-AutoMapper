@@ -69,7 +69,7 @@ namespace Automapper
             if(_noteGridContainer.LoadedObjects.Any())
             {
                 List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
-                notes = notes.OrderBy(o => o.Time).ToList();
+                notes = notes.OrderBy(o => o.JsonTime).ToList();
 
                 List<BaseNote> select = null;
 
@@ -79,7 +79,7 @@ namespace Automapper
                     if (selection.All(x => x is BaseNote))
                     {
                         select = new List<BaseNote>(selection.Cast<BaseNote>());
-                        if (notes.Exists(o => o.Time > select.First().Time && o.Time < select.Last().Time && !select.Contains(o)))
+                        if (notes.Exists(o => o.JsonTime > select.First().JsonTime && o.JsonTime < select.Last().JsonTime && !select.Contains(o)))
                         {
                             // This is not a whole selection
                             Debug.Log("Automapper: This is not a whole section selection. Notes might be missing.");
@@ -94,10 +94,10 @@ namespace Automapper
 
                 if(select != null)
                 {
-                    select = select.OrderBy(o => o.Time).ToList();
+                    select = select.OrderBy(o => o.JsonTime).ToList();
 
                     List<BaseEvent> oldEvents = _eventGridContainer.LoadedObjects.Cast<BaseEvent>().Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
-                    ev.Time >= select.First().Time && ev.Time <= select.Last().Time).ToList();
+                    ev.JsonTime >= select.First().JsonTime && ev.JsonTime <= select.Last().JsonTime).ToList();
 
                     if (Options.Light.IgnoreBomb)
                     {
@@ -129,7 +129,7 @@ namespace Automapper
             if (_noteGridContainer.LoadedObjects.Any())
             {
                 List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
-                notes = notes.OrderBy(o => o.Time).ToList();
+                notes = notes.OrderBy(o => o.JsonTime).ToList();
                 List<BaseNote> select = null;
 
                 var selection = SelectionController.SelectedObjects;
@@ -138,7 +138,7 @@ namespace Automapper
                     if (selection.All(x => x is BaseNote))
                     {
                         select = new List<BaseNote>(selection.Cast<BaseNote>());
-                        if (notes.Exists(o => o.Time >= select.First().Time && o.Time <= select.Last().Time && !select.Contains(o)))
+                        if (notes.Exists(o => o.JsonTime >= select.First().JsonTime && o.JsonTime <= select.Last().JsonTime && !select.Contains(o)))
                         {
                             // This is not a whole selection
                             Debug.LogWarning("Automapper: This is not a whole section selection. Make sure to take all notes in the range and double on same beat.");
@@ -157,7 +157,7 @@ namespace Automapper
                     if (select.Contains(notes[1]) && !select.Contains(notes.First()))
                     {
                         select.Add(notes.First());
-                        select.OrderBy(o => o.Time);
+                        select.OrderBy(o => o.JsonTime);
                     }
 
                     List<BaseNote> redNotes = new List<BaseNote>();
@@ -225,11 +225,11 @@ namespace Automapper
 
                     if (select.Any())
                     {
-                        select = select.OrderBy(o => o.Time).ToList();
+                        select = select.OrderBy(o => o.JsonTime).ToList();
 
                         foreach (BaseNote note in select)
                         {
-                            timings.Add(note.Time);
+                            timings.Add(note.JsonTime);
                         }
 
                         BaseNote lastBlue = null;
@@ -239,16 +239,16 @@ namespace Automapper
                         {
                             if(select.First().Type == 0)
                             {
-                                lastRed = notes.FindLast(o => o.Time < select.First().Time && o.Type == select.First().Type);
-                                lastBlue = notes.FindLast(o => o.Time < select.First().Time && o.Type != select.First().Type);
+                                lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
+                                lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
                             }
                             else
                             {
-                                lastBlue = notes.FindLast(o => o.Time < select.First().Time && o.Type == select.First().Type);
-                                lastRed = notes.FindLast(o => o.Time < select.First().Time && o.Type != select.First().Type);
+                                lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
+                                lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
                             }
                         }
-                        else if (!select.Contains(notes.First()) && select.First().Time != notes[0].Time && notes.Count > 1)
+                        else if (!select.Contains(notes.First()) && select.First().JsonTime != notes[0].JsonTime && notes.Count > 1)
                         {
                             int index = notes.FindIndex(o => o == select.First());
                             if (notes[index - 1].Type == 0)
@@ -305,7 +305,7 @@ namespace Automapper
             // Delete old obstacles
             foreach (var o in obstacles)
             {
-                if (o.Time >= Options.Mapper.MinRange && o.Time <= Options.Mapper.MaxRange)
+                if (o.JsonTime >= Options.Mapper.MinRange && o.JsonTime <= Options.Mapper.MaxRange)
                 {
                     _obstacleGridContainer.DeleteObject(o, false);
                 }
@@ -314,7 +314,7 @@ namespace Automapper
             // Delete old notes
             foreach (var n in notes)
             {
-                if(n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
+                if(n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
                 {
                     _noteGridContainer.DeleteObject(n, false);
                 }
@@ -323,7 +323,7 @@ namespace Automapper
             // Add new notes
             foreach (var n in no)
             {
-                if (n.Time >= Options.Mapper.MinRange && n.Time <= Options.Mapper.MaxRange)
+                if (n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
                 {
                     _noteGridContainer.SpawnObject(n, false, false);
                 }
