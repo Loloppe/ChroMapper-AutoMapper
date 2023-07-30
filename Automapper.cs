@@ -116,8 +116,10 @@ namespace Automapper
                     // Add new events
                     foreach (var ev in newEvents)
                     {
-                        _eventGridContainer.SpawnObject(ev, false, false);
+                        _eventGridContainer.SpawnObject(ev, false, false, true);
                     }
+
+                    _eventGridContainer.DoPostObjectsSpawnedWorkflow();
 
                     _eventGridContainer.RefreshPool(true);
                 }
@@ -277,16 +279,19 @@ namespace Automapper
                         // Delete old obstacles
                         foreach (var o in obstacles)
                         {
-                            _obstacleGridContainer.DeleteObject(o, false);
+                            _obstacleGridContainer.DeleteObject(o, false, inCollectionOfDeletes: true);
                         }
 
                         // Add new notes
                         foreach (var n in no)
                         {
-                            _noteGridContainer.SpawnObject(n, false, false);
+                            _noteGridContainer.SpawnObject(n, false, false, true);
                             selection.Add(n);
                         }
                     }
+
+                    _obstacleGridContainer.DoPostObjectsDeleteWorkflow();
+                    _noteGridContainer.DoPostObjectsSpawnedWorkflow();
 
                     _obstacleGridContainer.RefreshPool(true);
                     _noteGridContainer.RefreshPool(true);
@@ -307,7 +312,7 @@ namespace Automapper
             {
                 if (o.JsonTime >= Options.Mapper.MinRange && o.JsonTime <= Options.Mapper.MaxRange)
                 {
-                    _obstacleGridContainer.DeleteObject(o, false);
+                    _obstacleGridContainer.DeleteObject(o, false, inCollectionOfDeletes: true);
                 }
             }
 
@@ -316,7 +321,7 @@ namespace Automapper
             {
                 if(n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
                 {
-                    _noteGridContainer.DeleteObject(n, false);
+                    _noteGridContainer.DeleteObject(n, false, inCollectionOfDeletes: true);
                 }
             }
 
@@ -325,9 +330,12 @@ namespace Automapper
             {
                 if (n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
                 {
-                    _noteGridContainer.SpawnObject(n, false, false);
+                    _noteGridContainer.SpawnObject(n, false, false, true);
                 }
-            }
+            }            
+            
+            _obstacleGridContainer.DoPostObjectsDeleteWorkflow();
+            _noteGridContainer.DoPostObjectsSpawnedWorkflow();
 
             _obstacleGridContainer.RefreshPool(true);
             _noteGridContainer.RefreshPool(true);
