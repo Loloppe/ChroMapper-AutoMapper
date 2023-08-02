@@ -1,0 +1,8 @@
+{
+  "id": "ChroMapper-AutoMapper",
+  "name": "AutoMapper",
+  "author": "Loloppe",
+  "version": "1.1.4",
+  "description": "Lolighter AutoMapper and Light Generator ported to ChroMapper.",
+  "git": "https://github.com/Loloppe/ChroMapper-AutoMapper"
+}

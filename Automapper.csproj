@@ -601,6 +601,7 @@
     <Content Include="NAudio\NAudio\Changes.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="manifest.json" />
     <None Include="NAudio\NAudio.Core\NAudio.Core.csproj" />
     <None Include="NAudio\NAudio.Vorbis\NAudio.Vorbis.csproj" />
     <None Include="NAudio\NAudio.Wasapi\NAudio.Wasapi.csproj" />
