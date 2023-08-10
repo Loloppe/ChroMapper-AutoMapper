@@ -1,6 +1,6 @@
 ﻿using Automapper.Items;
 using Beatmap.Base;
-using Beatmap.V2;
+using Beatmap.Helper;
 using System.Collections.Generic;
 using static Automapper.Items.Enumerator;
 using static Automapper.Items.Helper;
@@ -100,7 +100,7 @@ namespace Automapper.Methods
 
                     if (notes.Count == 0 && lastBlue == null)
                     {
-                        BaseNote n = new V2Note(timing, 2, 0, 1, 1);
+                        BaseNote n = BeatmapFactory.Note(timing, 2, 0, 1, 1, 0);
                         notes.Add(n);
                         lastRight = timing;
                         rightSwing = 1;
@@ -108,7 +108,7 @@ namespace Automapper.Methods
                     }
                     else if (notes.Count == 1 && lastRed == null)
                     {
-                        BaseNote n = new V2Note(timing, 1, 0, 0, 1);
+                        BaseNote n = BeatmapFactory.Note(timing, 1, 0, 0, 1, 0);
                         notes.Add(n);
                         lastLeft = timing;
                         leftSwing = 1;
@@ -168,13 +168,13 @@ namespace Automapper.Methods
                     // Create the note and add it to the list
                     if (hand == 1)
                     {
-                        BaseNote note = new V2Note(timing, 2, 0, hand, direction);
+                        BaseNote note = BeatmapFactory.Note(timing, 2, 0, hand, direction, 0);
                         notes.Add(note);
                         hand = 0; // Switch hand for the next note
                     }
                     else
                     {
-                        BaseNote note = new V2Note(timing, 1, 0, hand, direction);
+                        BaseNote note = BeatmapFactory.Note(timing, 1, 0, hand, direction, 0);
                         notes.Add(note);
                         hand = 1; // Switch hand for the next note
                     }
@@ -258,11 +258,11 @@ namespace Automapper.Methods
 
                     if (notes.Exists(o => o.JsonTime == t))
                     {
-                        beatmapNote = new V2Note(t, 1, 0, 1, 8);
+                        beatmapNote = BeatmapFactory.Note(t, 1, 0, 1, 8, 0);
                     }
                     else
                     {
-                        beatmapNote = new V2Note(t, 0, 0, 0, 8);
+                        beatmapNote = BeatmapFactory.Note(t, 0, 0, 0, 8, 0);
                     }
 
                     notes.Add(beatmapNote);

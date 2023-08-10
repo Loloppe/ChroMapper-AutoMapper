@@ -30,7 +30,7 @@ using UnityEngine.SceneManagement;
 using Automapper.Items;
 using UnityEngine;
 using Beatmap.Base;
-using Beatmap.V2;
+using Beatmap.Helper;
 
 namespace Automapper
 {
@@ -256,18 +256,14 @@ namespace Automapper
                             if (notes[index - 1].Type == 0)
                             {
                                 lastRed = notes[index - 1];
-                                lastBlue = new V2Note
-                                {
-                                    Type = 1
-                                };
+                                lastBlue = BeatmapFactory.Note();
+                                lastBlue.Type = 1;
                             }
                             else
                             {
                                 lastBlue = notes[index - 1];
-                                lastRed = new V2Note
-                                {
-                                    Type = 0
-                                };
+                                lastRed = BeatmapFactory.Note();
+                                lastRed.Type= 0;
                             }
                         }
 

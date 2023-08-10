@@ -1,5 +1,5 @@
-﻿using Beatmap.Base;
-using Beatmap.V2;
+using Beatmap.Base;
+using Beatmap.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using static Automapper.Items.Enumerator;
@@ -2105,14 +2105,14 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BaseNote n = new V2Note
-                        {
-                            JsonTime = notes[i].JsonTime,
-                            PosX = notes[i].PosX,
-                            PosY = notes[i].PosY,
-                            Type = notes[i].Type,
-                            CutDirection = notes[i].CutDirection
-                        };
+                        BaseNote n = BeatmapFactory.Note(
+                            notes[i].JsonTime,
+                            notes[i].PosX,
+                            notes[i].PosY,
+                            notes[i].Type,
+                            notes[i].CutDirection,
+                            0
+                        );
                         pattern.Add(n);
                         notes.RemoveAt(i);
                         patterns.Add(new List<BaseNote>(pattern));
@@ -2130,14 +2130,14 @@ namespace Automapper.Items
                         pattern = new List<BaseNote>();
                         found = true;
                     }
-                    BaseNote n = new V2Note
-                    {
-                        JsonTime = notes[i].JsonTime,
-                        PosX = notes[i].PosX,
-                        PosY = notes[i].PosY,
-                        Type = notes[i].Type,
-                        CutDirection = notes[i].CutDirection
-                    };
+                    BaseNote n = BeatmapFactory.Note(
+                        notes[i].JsonTime,
+                        notes[i].PosX,
+                        notes[i].PosY,
+                        notes[i].Type,
+                        notes[i].CutDirection,
+                        0
+                    );
                     pattern.Add(n);
                     notes.RemoveAt(i);
                     i--;
@@ -2146,14 +2146,14 @@ namespace Automapper.Items
                 {
                     if (found)
                     {
-                        BaseNote n = new V2Note
-                        {
-                            JsonTime = notes[i].JsonTime,
-                            PosX = notes[i].PosX,
-                            PosY = notes[i].PosY,
-                            Type = notes[i].Type,
-                            CutDirection = notes[i].CutDirection
-                        };
+                        BaseNote n = BeatmapFactory.Note(
+                            notes[i].JsonTime,
+                            notes[i].PosX,
+                            notes[i].PosY,
+                            notes[i].Type,
+                            notes[i].CutDirection,
+                            0
+                        );
                         pattern.Add(n);
                         notes.RemoveAt(i);
                         i--;
