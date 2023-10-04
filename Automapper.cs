@@ -68,7 +68,7 @@ namespace Automapper
         {
             if(_noteGridContainer.LoadedObjects.Any())
             {
-                List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
+                List<BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().ToList();
                 notes = notes.OrderBy(o => o.JsonTime).ToList();
 
                 List<BaseNote> select = null;
@@ -105,7 +105,7 @@ namespace Automapper
                     }
 
                     // Get new events
-                    List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList(), select);
+                    List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.LoadedObjects.Cast<BaseNote>().ToList(), select);
 
                     // Delete old events
                     foreach (var ev in oldEvents)

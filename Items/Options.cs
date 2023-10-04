@@ -13,7 +13,7 @@
             public static float ColorSwap { set => colorSwap = value > 0.0f ? value : 4.0f; get => colorSwap; }
             public static bool UseBoostColor { set; get; } = false;
             public static bool NerfStrobes { set; get; } = false;
-            public static bool IgnoreBomb { set; get; } = true;
+            public static bool IgnoreBomb { set; get; } = false;
         }
 
         public static class Mapper
