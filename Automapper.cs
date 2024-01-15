@@ -300,7 +300,7 @@ namespace Automapper
             List<BaseNote> no;
             no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
 
-            List <BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().Where(n => n.Type != 3).ToList();
+            List <BaseNote> notes = _noteGridContainer.LoadedObjects.Cast<BaseNote>().ToList();
             List<BaseObstacle> obstacles = _obstacleGridContainer.LoadedObjects.Cast<BaseObstacle>().ToList();
 
             // Delete old obstacles

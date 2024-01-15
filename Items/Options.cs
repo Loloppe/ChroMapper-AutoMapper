@@ -30,7 +30,7 @@
             public static bool RandomizeLine { set; get; } = false;
             public static bool UpDownOnly { set; get; } = false;
             public static bool BottomRowOnly { set; get; } = false;
-            public static bool GenerateAsTiming { set; get; } = true;
+            public static bool GenerateAsTiming { set; get; } = false;
             public static bool Limiter { set; get; } = true;
             public static float IndistinguishableRange { set => indistinguishableRange = value > 0.0f ? value : 0.003f; get => indistinguishableRange; }
             public static float OnsetSensitivity { set => onsetSensitivity = value > 0.0f ? value : 1.3f; get => onsetSensitivity; }

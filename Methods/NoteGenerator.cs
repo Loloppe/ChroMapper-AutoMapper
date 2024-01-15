@@ -231,6 +231,29 @@ namespace Automapper.Methods
                                 notes[i].PosX = Utils.RandNumber(0, 4);
                             }
                         }
+                        // Temp fix for fused notes after BottomRowOnly or RandomizeLine
+                        if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
+                        {
+                            if (notes[i - 1].PosX == notes[i].PosX && notes[i - 1].PosY == notes[i].PosY)
+                            {
+                                if (notes[i].Type == 0 && notes[i].PosX != 0)
+                                {
+                                    notes[i].PosX -= 1;
+                                }
+                                else if (notes[i].Type == 1 && notes[i].PosX != 3)
+                                {
+                                    notes[i].PosX += 1;
+                                }
+                                else if (notes[i - 1].Type == 0 && notes[i - 1].PosX != 0)
+                                {
+                                    notes[i - 1].PosX -= 1;
+                                }
+                                else if (notes[i - 1].Type == 1 && notes[i - 1].PosX != 3)
+                                {
+                                    notes[i - 1].PosX += 1;
+                                }
+                            }
+                        }
                         if (Options.Mapper.GenerateFused)
                         {
                             if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
