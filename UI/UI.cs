@@ -46,7 +46,7 @@ namespace Automapper.UI
             image.color = new Color(0.24f, 0.24f, 0.24f);
 
             // Options
-            AddLabel(_automapperMenu.transform, "Light", "Light", new Vector2(-35, -15));
+            AddLabel(_automapperMenu.transform, "Light", "Light", new Vector2(-70, -20));
             AddCheckbox(_automapperMenu.transform, "Fused", "Fused Only", new Vector2(-60, -215), Options.Mapper.GenerateFused, (check) =>
             {
                 Options.Mapper.GenerateFused = check;
@@ -62,6 +62,10 @@ namespace Automapper.UI
             AddCheckbox(_automapperMenu.transform, "UpDown", "Up and Down Only", new Vector2(20, -190), Options.Mapper.UpDownOnly, (check) =>
             {
                 Options.Mapper.UpDownOnly = check;
+            });
+            AddCheckbox(_automapperMenu.transform, "Use Chroma", "Use Chroma", new Vector2(20, -25), Options.Light.Chroma, (check) =>
+            {
+                Options.Light.Chroma = check;
             });
             AddCheckbox(_automapperMenu.transform, "Ignore Bombs", "Ignore Bombs", new Vector2(20, -55), Options.Light.IgnoreBomb, (check) =>
             {
@@ -86,7 +90,7 @@ namespace Automapper.UI
             });
 
             // Swap, Speed, Boost, BPM
-            AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -15));
+            AddLabel(_automapperMenu.transform, "Audio", "Audio", new Vector2(100, -20));
             AddLabel(_automapperMenu.transform, "Audio", "Audio Range", new Vector2(-10, -210));
             AddLabel(_automapperMenu.transform, "Map", "Map", new Vector2(-150, -170));
             AddTextInput(_automapperMenu.transform, "Minimum", "Min", new Vector2(35, -210), Options.Mapper.MinRange.ToString(), (value) =>
@@ -171,7 +175,7 @@ namespace Automapper.UI
             });
 
             // Button
-            AddLabel(_automapperMenu.transform, "Algorithm", "Algorithm", new Vector2(-150, -15));
+            AddLabel(_automapperMenu.transform, "Algorithm", "Algorithm", new Vector2(-150, -20));
             AddButton(_automapperMenu.transform, "GenAudio", "Audio", new Vector2(-150, -50), () =>
             {
                 _automapper.Audio();

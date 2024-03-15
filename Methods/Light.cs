@@ -1,9 +1,12 @@
 ﻿using Automapper.Items;
 using Beatmap.Base;
 using Beatmap.Helper;
+using SimpleJSON;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Automapper.Items.Enumerator;
+using Color = UnityEngine.Color;
 using Options = Automapper.Items.Options.Light;
 
 namespace Automapper.Methods
@@ -66,6 +69,24 @@ namespace Automapper.Methods
             // Order note, necessary if we're converting V3 bomb from notes
             Notes = Notes.OrderBy(o => o.JsonTime).ToList();
             Selection = Selection.OrderBy(o => o.JsonTime).ToList();
+
+            // Find color based on waveform
+            var colors = new List<(float beat, Color color)>();
+            if(Options.Chroma)
+            {
+                var results = Onset.GetOnsets("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
+                
+                foreach(var result in results)
+                {
+                    var X = result.Item2;
+                    int red = Math.Min((int)(X * 256), 255);
+                    int green = Math.Min((int)((X * 256 - red) * 256), 255);
+                    int blue = Math.Min((int)(((X * 256 - red) * 256 - green) * 256), 255);
+
+                    Color color = new Color((float)red / 255, (float)green / 255, (float)blue / 255, 1);
+                    colors.Add((result.Item1, color));
+                }
+            }
 
             void ResetTimer() //Pretty much reset everything necessary.
             {
@@ -208,11 +229,23 @@ namespace Automapper.Methods
                 if ((now == time[1] || (now - time[1] <= 0.02 && time[1] != time[2])) && (time[1] != 0.0D && now != last) && !sliderTiming.Exists(e => e.JsonTime == now))
                 {
                     int color = FindColor(Notes.First().JsonTime, time[0]);
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.BACK, color)); //Back Top Laser
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.RING, color)); //Track Ring Neons
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.SIDE, color)); //Side Light
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.LEFT, color)); //Left Laser
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.RIGHT, color)); //Right Laser
+                    if (Options.Chroma)
+                    {
+                        var chroma = colors.LastOrDefault(x => x.beat <= now).color;
+                        eventTempo.Add(ChromaGen(now, EventType.BACK, color, chroma)); //Back Top Laser
+                        eventTempo.Add(ChromaGen(now, EventType.RING, color, chroma)); //Track Ring Neons
+                        eventTempo.Add(ChromaGen(now, EventType.SIDE, color, chroma)); //Side Light
+                        eventTempo.Add(ChromaGen(now, EventType.LEFT, color, chroma)); //Left Laser
+                        eventTempo.Add(ChromaGen(now, EventType.RIGHT, color, chroma)); //Right Laser
+                    }
+                    else
+                    {
+                        eventTempo.Add(BeatmapFactory.Event(now, EventType.BACK, color)); //Back Top Laser
+                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RING, color)); //Track Ring Neons
+                        eventTempo.Add(BeatmapFactory.Event(now, EventType.SIDE, color)); //Side Light
+                        eventTempo.Add(BeatmapFactory.Event(now, EventType.LEFT, color)); //Left Laser
+                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RIGHT, color)); //Right Laser
+                    }
 
                     // Laser speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -386,11 +419,23 @@ namespace Automapper.Methods
 
                     // Place light
                     int color = FindColor(Notes.First().JsonTime, time[0]);
-                    eventTempo.Add(BeatmapFactory.Event(time[0], sliderLight[sliderIndex], color - 2));
-                    eventTempo.Add(BeatmapFactory.Event(time[0] + 0.125f, sliderLight[sliderIndex], color - 1));
-                    eventTempo.Add(BeatmapFactory.Event(time[0] + 0.25f, sliderLight[sliderIndex], color - 2));
-                    eventTempo.Add(BeatmapFactory.Event(time[0] + 0.375f, sliderLight[sliderIndex], color - 1));
-                    eventTempo.Add(BeatmapFactory.Event(time[0] + 0.5f, sliderLight[sliderIndex], 0));
+                    if(Options.Chroma)
+                    {
+                        var chroma = colors.LastOrDefault(x => x.beat <= time[0]).color;
+                        eventTempo.Add(ChromaGen(time[0], sliderLight[sliderIndex], color - 2, chroma));
+                        eventTempo.Add(ChromaGen(time[0] + 0.125f, sliderLight[sliderIndex], color - 1, chroma));
+                        eventTempo.Add(ChromaGen(time[0] + 0.25f, sliderLight[sliderIndex], color - 2, chroma));
+                        eventTempo.Add(ChromaGen(time[0] + 0.375f, sliderLight[sliderIndex], color - 1, chroma));
+                        eventTempo.Add(ChromaGen(time[0] + 0.5f, sliderLight[sliderIndex], color - 0, chroma));
+                    }
+                    else
+                    {
+                        eventTempo.Add(BeatmapFactory.Event(time[0], sliderLight[sliderIndex], color - 2));
+                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.125f, sliderLight[sliderIndex], color - 1));
+                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.25f, sliderLight[sliderIndex], color - 2));
+                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.375f, sliderLight[sliderIndex], color - 1));
+                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.5f, sliderLight[sliderIndex], 0));
+                    }
 
                     sliderIndex--;
 
@@ -428,7 +473,15 @@ namespace Automapper.Methods
                     }
 
                     // Place the next light
-                    eventTempo.Add(BeatmapFactory.Event(time[0], pattern[patternIndex], FindColor(Notes.First().JsonTime, time[0])));
+                    if (Options.Chroma)
+                    {
+                        var chroma = colors.LastOrDefault(x => x.beat <= time[0]).color;
+                        eventTempo.Add(ChromaGen(time[0], pattern[patternIndex], FindColor(Notes.First().JsonTime, time[0]), chroma));
+                    }
+                    else
+                    {
+                        eventTempo.Add(BeatmapFactory.Event(time[0], pattern[patternIndex], FindColor(Notes.First().JsonTime, time[0])));
+                    }
 
                     // Speed based on rhythm
                     if (time[0] - time[1] < 0.25)
@@ -568,6 +621,19 @@ namespace Automapper.Methods
             }
 
             return color;
+        }
+
+        static public BaseEvent ChromaGen(float beat, int type, int value, Color color)
+        {
+            var data = BeatmapFactory.Event(beat, type, value);
+            if (color == null || color == new Color(0, 0, 0, 0))
+            {
+                return data;
+            }
+            data.CustomColor = color;
+            data.GetOrCreateCustom()[data.CustomKeyColor] = (new JSONArray()).WriteColor(color, true);
+            data.RefreshCustom();
+            return data;
         }
     }
 }

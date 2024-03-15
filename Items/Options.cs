@@ -14,6 +14,7 @@
             public static bool UseBoostColor { set; get; } = false;
             public static bool NerfStrobes { set; get; } = false;
             public static bool IgnoreBomb { set; get; } = false;
+            public static bool Chroma { get; set; } = true;
         }
 
         public static class Mapper

@@ -13,6 +13,50 @@ namespace Automapper.Methods
     {
         static public AudioAnalysis audioAnalysis = new AudioAnalysis();
 
+        static public List<(float, float)> GetOnsets(string audioPath, float bpm)
+        {
+            var results = new List<(float beat, float onset)>();
+
+            try
+            {
+                AnalyseSong(audioPath, 0);
+                var onsets = audioAnalysis.GetOnsets().ToList();
+
+                int number = 0;
+                double offset;
+                if (Path.GetExtension(audioPath) == ".mp3")
+                {
+                    offset = 0.125;
+                }
+                else
+                {
+                    offset = 0.05;
+                }
+                double milisec = audioAnalysis.GetTimePerSample();
+
+                foreach (var onset in onsets)
+                {
+                    number++;
+                    if (onset >= 0.01)
+                    {
+                        double time = number * milisec; // Get the time for the current onset
+                        double beat = (time * bpm / 60) - offset; // Convert the time into beat
+                        results.Add(((float)beat, onset));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+            finally
+            {
+                audioAnalysis.DisposeAudioAnalysis();
+            }
+
+            return results;
+        }
+
         static public List<BaseNote> GetMap(string audioPath, float bpm)
         {
             // New list of notes and chain, will be filled via PatternCreator.cs
