@@ -36,6 +36,10 @@ Completely new automapper, audio to onsets and light generation algorithm.
 -   Speed : Color will switch value every x (beat).
 -   Offset : Add an offset from first note for the color switch (in beat).
 -   Boost : Boost will turn on/off every x (beat).
+-   Use Chroma : Generate Chroma lights based on Onsets detection.
+-   Ignore Bombs : Skip bombs while generating lights.
+-   Nerf Strobes : Reduce fast color swap, remove fast strobe spam, etc.
+-   Use Boost Events : Apply Boosts events every 8 beats (on/off)
 
 ### Credits
 
