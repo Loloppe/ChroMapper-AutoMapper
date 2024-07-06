@@ -1,6 +1,6 @@
 ﻿// MIT License
 
-// Copyright (c) 2022 Loloppe
+// Copyright (c) 2024 Loloppe
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -297,8 +297,7 @@ namespace Automapper
 
         public void Audio()
         {
-            List<BaseNote> no;
-            no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
+            List<BaseNote> no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
 
             List <BaseNote> notes = _noteGridContainer.MapObjects.ToList();
             List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();

@@ -27,7 +27,7 @@ namespace Automapper.Onset
         /// <summary>
         /// Raw audio data
         /// </summary>
-        public dynamic PCMStream { get; set; }
+        public VorbisWaveReader PCMStream { get; set; }
 
         // Onset Detection
         OnsetDetection onsetDetection;
@@ -57,18 +57,7 @@ namespace Automapper.Onset
 
         public void LoadAudioFromFile(string filePath)
         {
-            // MP3
-            if (filePath.EndsWith(".mp3"))
-            {
-                PCMStream = new AudioFileReader(filePath);
-            }
-            // WAV
-            else if (filePath.EndsWith(".wav"))
-            {
-                PCMStream = new AudioFileReader(filePath);
-            }
-            // OGG/EGG
-            else if (filePath.EndsWith(".ogg") || filePath.EndsWith(".egg"))
+            if (filePath.EndsWith(".ogg") || filePath.EndsWith(".egg"))
             {
                 PCMStream = new VorbisWaveReader(Automapper._beatSaberSongContainer.Song.Directory + "\\" + Automapper._beatSaberSongContainer.Song.SongFilename);
             }
@@ -285,7 +274,7 @@ namespace Automapper.Onset
     class OnsetDetection
     {
         FastFT fft = new FastFT();
-        dynamic PCM;
+        VorbisWaveReader PCM;
         int SampleSize;
 
         public float[] Onsets { get; set; }
@@ -302,7 +291,7 @@ namespace Automapper.Onset
 
 
         // Constructor
-        public OnsetDetection(dynamic pcm, int sampleWindow)
+        public OnsetDetection(VorbisWaveReader pcm, int sampleWindow)
         {
             PCM = pcm;
             SampleSize = sampleWindow;
