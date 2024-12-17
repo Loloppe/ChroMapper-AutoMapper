@@ -116,11 +116,11 @@ namespace Automapper.Methods
                 //Here we process Spin and Zoom
                 if (now == firstNote && time[1] == 0.0D) //If we are processing the first note, add spin + zoom + boost to it.
                 {
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.SPIN, 0));
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.ZOOM, 0));
+                    eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.SPIN, Value = 0});
+                    eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.ZOOM, Value = 0});
                     if (Options.UseBoostColor)
                     {
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.BOOST, 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.BOOST, Value = 0});
                         boost = false;
                     }
                 }
@@ -133,10 +133,10 @@ namespace Automapper.Methods
                         offset += Options.ColorSwap;
 
                         //Add a spin at timer.
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.SPIN, 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.SPIN, Value = 0});
                         if (count == 0) //Only add zoom every 2 spin.
                         {
-                            eventTempo.Add(BeatmapFactory.Event(now, EventType.ZOOM, 0));
+                            eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.ZOOM, Value = 0});
                             count = 1;
                         }
                         else
@@ -148,7 +148,7 @@ namespace Automapper.Methods
                 //If there's a quarter between two float parallel notes and timer didn't pass the check.
                 else if (time[1] - time[2] == 0.25 && time[3] == time[2] && time[1] == now && timer < offset)
                 {
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.SPIN, 0));
+                    eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.SPIN, Value = 0});
                 }
 
                 // Boost Event
@@ -162,12 +162,12 @@ namespace Automapper.Methods
 
                         if (boost)
                         {
-                            eventTempo.Add(BeatmapFactory.Event(boostIncrement, EventType.BOOST, 0));
+                            eventTempo.Add(new BaseEvent{ JsonTime = boostIncrement, Type = EventType.BOOST, Value = 0});
                             boost = false;
                         }
                         else
                         {
-                            eventTempo.Add(BeatmapFactory.Event(boostIncrement, EventType.BOOST, 1));
+                            eventTempo.Add(new BaseEvent{ JsonTime = boostIncrement, Type = EventType.BOOST, Value = 0});
                             boost = true;
                         }
                     }
@@ -206,20 +206,20 @@ namespace Automapper.Methods
                 {
                     if (now - last >= 1)
                     {
-                        eventTempo.Add(BeatmapFactory.Event(now - (now - last) / 2, EventType.BACK, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now - (now - last) / 2, EventType.RING, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now - (now - last) / 2, EventType.SIDE, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now - (now - last) / 2, EventType.LEFT, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now - (now - last) / 2, EventType.RIGHT, 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = now - (now - last) / 2, Type = EventType.BACK, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now - (now - last) / 2, Type = EventType.RING, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now - (now - last) / 2, Type = EventType.SIDE, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now - (now - last) / 2, Type = EventType.LEFT, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now - (now - last) / 2, Type = EventType.RIGHT, Value = 0 });
                     }
                     else
                     {
                         // Will be fused with some events, but we will sort that out later on.
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.BACK, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RING, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.SIDE, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.LEFT, 0));
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RIGHT, 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.BACK, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.RING, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.SIDE, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.LEFT, Value = 0 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.RIGHT, Value = 0 });
                     }
 
                     doubleOn = false;
@@ -240,11 +240,11 @@ namespace Automapper.Methods
                     }
                     else
                     {
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.BACK, color)); //Back Top Laser
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RING, color)); //Track Ring Neons
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.SIDE, color)); //Side Light
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.LEFT, color)); //Left Laser
-                        eventTempo.Add(BeatmapFactory.Event(now, EventType.RIGHT, color)); //Right Laser
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.BACK, Value = color}); //Back Top Laser
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.RING, Value = color}); //Track Ring Neons
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.SIDE, Value = color}); //Side Light
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.LEFT, Value = color}); //Left Laser
+                        eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.RIGHT, Value = color}); //Right Laser
                     }
 
                     // Laser speed based on rhythm
@@ -265,8 +265,8 @@ namespace Automapper.Methods
                         currentSpeed = 1;
                     }
 
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.LEFT_ROT, currentSpeed)); //Left Rotation
-                    eventTempo.Add(BeatmapFactory.Event(now, EventType.RIGHT_ROT, currentSpeed)); //Right Rotation
+                    eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.LEFT_ROT, Value = currentSpeed}); //Left Rotation
+                    eventTempo.Add(new BaseEvent{ JsonTime = now, Type = EventType.RIGHT_ROT, Value = currentSpeed}); //Right Rotation
 
                     doubleOn = true;
                     last = now;
@@ -430,20 +430,20 @@ namespace Automapper.Methods
                     }
                     else
                     {
-                        eventTempo.Add(BeatmapFactory.Event(time[0], sliderLight[sliderIndex], color - 2));
-                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.125f, sliderLight[sliderIndex], color - 1));
-                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.25f, sliderLight[sliderIndex], color - 2));
-                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.375f, sliderLight[sliderIndex], color - 1));
-                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.5f, sliderLight[sliderIndex], 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = sliderLight[sliderIndex], Value = color - 2 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0] + 0.125f, Type = sliderLight[sliderIndex], Value = color - 1 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0] + 0.25f, Type = sliderLight[sliderIndex], Value = color - 2 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0] + 0.375f, Type = sliderLight[sliderIndex], Value = color - 1 });
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0] + 0.5f, Type = sliderLight[sliderIndex], Value = 0 });
                     }
 
                     sliderIndex--;
 
                     // Spin goes brrr
-                    eventTempo.Add(BeatmapFactory.Event(time[0], EventType.SPIN, 0));
+                    eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = EventType.SPIN, Value = 0});
                     for (int i = 0; i < 8; i++)
                     {
-                        eventTempo.Add(BeatmapFactory.Event(time[0] + 0.5f - (0.5f / 8f * i), EventType.SPIN, 0));
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0] + 0.5f - (0.5f / 8f * i), Type = EventType.SPIN, Value = 0 });
                     }
 
                     wasSlider = true;
@@ -480,7 +480,7 @@ namespace Automapper.Methods
                     }
                     else
                     {
-                        eventTempo.Add(BeatmapFactory.Event(time[0], pattern[patternIndex], FindColor(Notes.First().JsonTime, time[0])));
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = pattern[patternIndex], Value = FindColor(Notes.First().JsonTime, time[0]) });
                     }
 
                     // Speed based on rhythm
@@ -504,11 +504,11 @@ namespace Automapper.Methods
                     // Add laser rotation if necessary
                     if (pattern[patternIndex] == 2)
                     {
-                        eventTempo.Add(BeatmapFactory.Event(time[0], EventType.LEFT_ROT, currentSpeed));
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = EventType.LEFT_ROT, Value = currentSpeed });
                     }
                     else if (pattern[patternIndex] == 3)
                     {
-                        eventTempo.Add(BeatmapFactory.Event(time[0], EventType.RIGHT_ROT, currentSpeed));
+                        eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = EventType.RIGHT_ROT, Value = currentSpeed });
                     }
 
                     // Place off event
@@ -519,12 +519,12 @@ namespace Automapper.Methods
                             if (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime - time[0] <= 2)
                             {
                                 float value = (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime - Selection[Selection.FindIndex(n => n == note)].JsonTime) / 2;
-                                eventTempo.Add(BeatmapFactory.Event(Selection[Selection.FindIndex(n => n == note)].JsonTime + value, pattern[patternIndex], 0));
+                                eventTempo.Add(new BaseEvent{ JsonTime = Selection[Selection.FindIndex(n => n == note)].JsonTime + value, Type = pattern[patternIndex], Value = 0 });
                             }
                         }
                         else
                         {
-                            eventTempo.Add(BeatmapFactory.Event(Selection[Selection.FindIndex(n => n == note) + 1].JsonTime, pattern[patternIndex], 0));
+                            eventTempo.Add(new BaseEvent{ JsonTime = Selection[Selection.FindIndex(n => n == note) + 1].JsonTime, Type = pattern[patternIndex], Value = 0 });
                         }
                     }
 
@@ -625,7 +625,7 @@ namespace Automapper.Methods
 
         static public BaseEvent ChromaGen(float beat, int type, int value, Color color)
         {
-            var data = BeatmapFactory.Event(beat, type, value);
+            var data = new BaseEvent { JsonTime = beat, Type = type, Value = value };
             if (color == null || color == new Color(0, 0, 0, 0))
             {
                 return data;

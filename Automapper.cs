@@ -256,13 +256,13 @@ namespace Automapper
                             if (notes[index - 1].Type == 0)
                             {
                                 lastRed = notes[index - 1];
-                                lastBlue = BeatmapFactory.Note();
+                                lastBlue = new BaseNote();
                                 lastBlue.Type = 1;
                             }
                             else
                             {
                                 lastBlue = notes[index - 1];
-                                lastRed = BeatmapFactory.Note();
+                                lastRed = new BaseNote();
                                 lastRed.Type= 0;
                             }
                         }
