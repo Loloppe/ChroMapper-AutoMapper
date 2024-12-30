@@ -90,5 +90,69 @@ namespace Automapper.Items
                 (list[n], list[k]) = (list[k], list[n]);
             }
         }
+
+        internal static bool DetectShrado(BaseNote previous, BaseNote next)
+        {
+            switch (previous.CutDirection)
+            {
+                case 4:
+                    if (next.CutDirection == 1 && previous.PosX <= next.PosX - 2 && previous.PosY == next.PosY + 1)
+                    {
+                        return true;
+                    }
+                    break;
+                case 5:
+                    if (next.CutDirection == 1 && previous.PosX >= next.PosX + 2 && previous.PosY == next.PosY + 1)
+                    {
+                        return true;
+                    }
+                    break;
+                case 6:
+                    if (next.CutDirection == 0 && previous.PosX <= next.PosX - 2 && previous.PosY == next.PosY - 1)
+                    {
+                        return true;
+                    }
+                    break;
+                case 7:
+                    if (next.CutDirection == 0 && previous.PosX >= next.PosX + 2 && previous.PosY == next.PosY - 1)
+                    {
+                        return true;
+                    }
+                    break;
+            }
+
+            return false;
+        }
+
+        internal static void FixBadPlacement(BaseNote previous, BaseNote next)
+        {
+            switch (previous.CutDirection)
+            {
+                case 0:
+                    if (next.CutDirection == 6 && previous.PosX == next.PosX && next.PosX != 0)
+                    {
+                        next.PosX--;
+                        return;
+                    }
+                    if (next.CutDirection == 7 && previous.PosX == next.PosX && next.PosX != 3)
+                    {
+                        next.PosX++;
+                        return;
+                    }
+                    break;
+                case 1:
+                    if (next.CutDirection == 4 && previous.PosX == next.PosX && next.PosX != 0)
+                    {
+                        next.PosX--;
+                        return;
+                    }
+                    if (next.CutDirection == 5 && previous.PosX == next.PosX && next.PosX != 3)
+                    {
+                        next.PosX++;
+                        return;
+                    }
+                    break;
+            }
+        }
     }
 }

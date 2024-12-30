@@ -8,21 +8,21 @@ namespace Automapper.Items
         {
             // List of angle and their possible next direction
             // First array is direction, second array is possible flow
-            static public readonly int[][] extremeRed = new int[][] { new int[] { 1, 2, 3, 6, 7, 8 }, new int[] { 0, 2, 3, 4, 5, 8 }, new int[] { 0, 1, 3, 5, 7, 8 }, new int[] { 0, 1, 2, 4, 6, 8 },
+            /*static public readonly int[][] extremeRed = new int[][] { new int[] { 1, 2, 3, 6, 7, 8 }, new int[] { 0, 2, 3, 4, 5, 8 }, new int[] { 0, 1, 3, 5, 7, 8 }, new int[] { 0, 1, 2, 4, 6, 8 },
                new int[] { 1, 3, 5, 7, 8 }, new int[] { 1, 2, 6, 7, 8 }, new int[] { 0, 3, 4, 5, 8 }, new int[] { 0, 2, 4, 5, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
 
             static public readonly int[][] techRed = new int[][] { new int[] { 1, 2, 3, 7, 8 }, new int[] { 0, 2, 3, 4, 8 }, new int[] { 0, 1, 3, 5, 7, 8 }, new int[] { 0, 1, 2, 4, 6, 8 },
                new int[] { 1, 3, 7, 8 }, new int[] { 1, 2, 6, 8 }, new int[] { 0, 3, 5, 8 }, new int[] { 0, 2, 4, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
-
+            */
             static public readonly int[][] normalRed = new int[][] { new int[] { 1, 7, 8 }, new int[] { 0, 4, 8 }, new int[] { 3, 5, 7, 8 }, new int[] { 2, 4, 6, 8 },
                new int[] { 1, 3, 7, 8 }, new int[] { 1, 2, 6, 8 }, new int[] { 0, 3, 5, 8 }, new int[] { 0, 2, 4, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
-
+            /*
             static public readonly int[][] extremeBlue = new int[][] { new int[] { 1, 2, 3, 6, 7, 8 }, new int[] { 0, 2, 3, 4, 5, 8 }, new int[] { 0, 1, 3, 5, 7, 8 }, new int[] { 0, 1, 2, 4, 6, 8 },
                new int[] { 1, 3, 5, 7, 8 }, new int[] { 1, 2, 6, 7, 8 }, new int[] { 0, 3, 4, 5, 8 }, new int[] { 0, 2, 4, 5, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
 
             static public readonly int[][] techBlue = new int[][] { new int[] { 1, 2, 3, 6, 8 }, new int[] { 0, 2, 3, 5, 8 }, new int[] { 0, 1, 3, 5, 7, 8 }, new int[] { 0, 1, 2, 4, 6, 8 },
                new int[] { 1, 3, 7, 8 }, new int[] { 1, 2, 6, 8 }, new int[] { 0, 3, 5, 8 }, new int[] { 0, 2, 4, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
-
+            */
             static public readonly int[][] normalBlue = new int[][] { new int[] { 1, 6, 8 }, new int[] { 0, 5, 8 }, new int[] { 3, 5, 7, 8 }, new int[] { 2, 4, 6, 8 },
                new int[] { 1, 3, 7, 8 }, new int[] { 1, 2, 6, 8 }, new int[] { 0, 3, 5, 8 }, new int[] { 0, 2, 4, 8 }, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }};
         }
@@ -32,14 +32,14 @@ namespace Automapper.Items
             // List of angle and their possible next placement
             // First array is direction, second array is possible placement, line and layer
             static public readonly int[][][] placement = new int[][][] { new int[][]
-            { new int[] { 0, 1 }, new int[] { 0, 2 }, new int[] { 1, 2 }, new int[] { 2, 2 } }, // Up
-            new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } },  // Down
-            new int[][] { new int[] { 0, 0 }, new int[] { 0, 1 }, new int[] { 0, 2 } }, // Left
-            new int[][] { new int[] { 2, 0 }, new int[] { 3, 0 }, new int[] { 3, 1 } }, // Right
+            { new int[] { 0, 1 }, new int[] { 0, 2 }, new int[] { 1, 2 } }, // Up
+            new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 } },  // Down
+            new int[][] { new int[] { 0, 0 }, new int[] { 0, 1 } }, // Left
+            new int[][] { new int[] { 2, 0 }}, // Right
             new int[][] { new int[] { 0, 1 }, new int[] { 0, 2 } }, // Up-Left
-            new int[][] { new int[] { 2, 2 }, new int[] { 3, 2 } }, // Up-Right
+            new int[][] { new int[] { 2, 2 }}, // Up-Right
             new int[][] { new int[] { 0, 0 }, new int[] { 0, 1 } }, // Down-Left
-            new int[][] { new int[] { 2, 0 }, new int[] { 3, 0 } } // Down-Right
+            new int[][] { new int[] { 2, 0 }} // Down-Right
             };
         }
 
@@ -48,13 +48,13 @@ namespace Automapper.Items
             // List of angle and their possible next placement
             // First array is direction, second array is possible placement, line and layer
             static public readonly int[][][] placement = new int[][][] { new int[][]
-            { new int[] { 3, 1 }, new int[] { 3, 2 }, new int[] { 2, 2 }, new int[] { 1, 2 } }, // Up
-            new int[][] { new int[] { 3, 0 }, new int[] { 2, 0 }, new int[] { 1, 0 } },  // Down
-            new int[][] { new int[] { 1, 0 }, new int[] { 0, 0 }, new int[] { 0, 1 } }, // Left
-            new int[][] { new int[] { 3, 0 }, new int[] { 3, 1 }, new int[] { 3, 2 } }, // Right
-            new int[][] { new int[] { 1, 2 }, new int[] { 0, 2 } }, // Up-Left
+            { new int[] { 3, 1 }, new int[] { 3, 2 }, new int[] { 2, 2 } }, // Up
+            new int[][] { new int[] { 3, 0 }, new int[] { 2, 0 } },  // Down
+            new int[][] { new int[] { 1, 0 } }, // Left
+            new int[][] { new int[] { 3, 0 }, new int[] { 3, 1 } }, // Right
+            new int[][] { new int[] { 1, 2 } }, // Up-Left
             new int[][] { new int[] { 3, 1 }, new int[] { 3, 2 } }, // Up-Right
-            new int[][] { new int[] { 1, 0 }, new int[] { 0, 0 } }, // Down-Left
+            new int[][] { new int[] { 1, 0 } }, // Down-Left
             new int[][] { new int[] { 3, 0 }, new int[] { 3, 1 } } // Down-Right
             };
         }

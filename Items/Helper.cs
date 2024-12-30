@@ -1836,7 +1836,10 @@ namespace Automapper.Items
             // Get the direction based on speed
             if (hand == 0)
             {
-                if (speed < 0.5) // Under half a beat
+                possibleNext = PossibleFlow.normalRed[last];
+                flow = 2;
+
+                /*if (speed < 0.5) // Under half a beat
                 {
                     possibleNext = PossibleFlow.normalRed[last];
                     flow = 2;
@@ -1850,11 +1853,14 @@ namespace Automapper.Items
                 {
                     possibleNext = PossibleFlow.extremeRed[last];
                     flow = 0;
-                }
+                }*/
             }
             else if (hand == 1)
             {
-                if (speed < 0.5) // Under half a beat
+                possibleNext = PossibleFlow.normalBlue[last];
+                flow = 2;
+
+                /*if (speed < 0.5) // Under half a beat
                 {
                     possibleNext = PossibleFlow.normalBlue[last];
                     flow = 2;
@@ -1868,7 +1874,7 @@ namespace Automapper.Items
                 {
                     possibleNext = PossibleFlow.extremeBlue[last];
                     flow = 0;
-                }
+                }*/
             }
 
 
@@ -1876,7 +1882,7 @@ namespace Automapper.Items
             {
                 next = Utils.RandNumber(0, 8);
 
-                if (hand == 0)
+                /* if (hand == 0)
                 {
                     if (PossibleFlow.extremeRed[last].Contains(next) && !PossibleFlow.techRed[last].Contains(next)) // Extreme roll again
                     {
@@ -1897,10 +1903,7 @@ namespace Automapper.Items
                     {
                         next = Utils.RandNumber(0, 8);
                     }
-                }
-
-
-
+                } */
 
                 // We check if the possible next direction match with the last one before any logic.
                 if (possibleNext.Contains(next))

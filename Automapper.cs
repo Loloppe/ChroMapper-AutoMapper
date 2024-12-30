@@ -30,7 +30,6 @@ using UnityEngine.SceneManagement;
 using Automapper.Items;
 using UnityEngine;
 using Beatmap.Base;
-using Beatmap.Helper;
 
 namespace Automapper
 {

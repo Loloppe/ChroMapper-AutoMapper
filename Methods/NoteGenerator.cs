@@ -180,6 +180,9 @@ namespace Automapper.Methods
                     }
                 }
 
+                BaseNote prevRed = null;
+                BaseNote prevBlue = null;
+
                 // Select all lines and layers (should probably be done together)
                 for (int i = 0; i < notes.Count; i++)
                 {
@@ -197,6 +200,31 @@ namespace Automapper.Methods
 
                     if(i > 0)
                     {
+                        if (notes[i].Type == 0 && prevRed != null)
+                        {
+                            if (Utils.DetectShrado(prevRed, notes[i]))
+                            {
+                                if (notes[i].PosY == 1 && SwingType.Up.Contains(notes[i].CutDirection)) notes[i].PosY++;
+                                else if (notes[i].PosY == 1 && SwingType.Down.Contains(notes[i].CutDirection)) notes[i].PosY--;
+                                else if (prevRed.PosY == 1 && SwingType.Up.Contains(prevRed.CutDirection)) prevRed.PosY++;
+                                else if (prevRed.PosY == 1 && SwingType.Down.Contains(prevRed.CutDirection)) prevRed.PosY--;
+                            }
+
+                            Utils.FixBadPlacement(prevRed, notes[i]);
+                        }
+                        if (notes[i].Type == 1 && prevBlue != null)
+                        {
+                            if (Utils.DetectShrado(prevBlue, notes[i]))
+                            {
+                                if (notes[i].PosY == 1 && SwingType.Up.Contains(notes[i].CutDirection)) notes[i].PosY++;
+                                else if (notes[i].PosY == 1 && SwingType.Down.Contains(notes[i].CutDirection)) notes[i].PosY--;
+                                else if (prevBlue.PosY == 1 && SwingType.Up.Contains(prevBlue.CutDirection)) prevBlue.PosY++;
+                                else if (prevBlue.PosY == 1 && SwingType.Down.Contains(prevBlue.CutDirection)) prevBlue.PosY--;
+                            }
+
+                            Utils.FixBadPlacement(prevBlue, notes[i]);
+                        }
+
                         if (notes[i].JsonTime - notes[i - 1].JsonTime >= -0.02 && notes[i].JsonTime - notes[i - 1].JsonTime <= 0.02)
                         {
                             if (notes[i].Type == 0)
@@ -270,6 +298,14 @@ namespace Automapper.Methods
                                 }
                             }
                         }
+                    }
+                    if (notes[i].Type == 0)
+                    {
+                        prevRed = notes[i];
+                    }
+                    if (notes[i].Type == 1)
+                    {
+                        prevBlue = notes[i];
                     }
                 }
             }
