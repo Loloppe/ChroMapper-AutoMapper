@@ -2,6 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 // https://github.com/Teh-Lemon/Onset-Detection
 namespace Automapper.Onset
@@ -59,7 +60,7 @@ namespace Automapper.Onset
         {
             if (filePath.EndsWith(".ogg") || filePath.EndsWith(".egg"))
             {
-                PCMStream = new VorbisWaveReader(Automapper._beatSaberSongContainer.Song.Directory + "\\" + Automapper._beatSaberSongContainer.Song.SongFilename);
+                PCMStream = new VorbisWaveReader(Path.Combine(Automapper._beatSaberSongContainer.Song.Directory, Automapper._beatSaberSongContainer.Song.SongFilename));
             }
 
             if (PCMStream != null)
