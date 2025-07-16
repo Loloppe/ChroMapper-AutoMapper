@@ -60,7 +60,7 @@ namespace Automapper.Onset
         {
             if (filePath.EndsWith(".ogg") || filePath.EndsWith(".egg"))
             {
-                PCMStream = new VorbisWaveReader(Path.Combine(Automapper._beatSaberSongContainer.Song.Directory, Automapper._beatSaberSongContainer.Song.SongFilename));
+                PCMStream = new VorbisWaveReader(Path.Combine(Automapper._beatSaberSongContainer.Info.Directory, Automapper._beatSaberSongContainer.Info.SongFilename));
             }
 
             if (PCMStream != null)

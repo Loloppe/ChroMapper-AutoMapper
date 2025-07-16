@@ -74,7 +74,7 @@ namespace Automapper.Methods
             var colors = new List<(float beat, Color color)>();
             if(Options.Chroma)
             {
-                var results = Onset.GetOnsets("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
+                var results = Onset.GetOnsets("song.ogg", BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
                 
                 foreach(var result in results)
                 {
