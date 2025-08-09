@@ -267,7 +267,7 @@ namespace Automapper
                         }
 
                         // Get new notes
-                        List<BaseNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Song.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
+                        List<BaseNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Info.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
 
                         List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
 
@@ -296,7 +296,7 @@ namespace Automapper
 
         public void Audio()
         {
-            List<BaseNote> no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Song.BeatsPerMinute);
+            List<BaseNote> no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
 
             List <BaseNote> notes = _noteGridContainer.MapObjects.ToList();
             List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
