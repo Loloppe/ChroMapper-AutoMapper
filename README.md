@@ -4,6 +4,14 @@
 
 Completely new automapper, audio to onsets and light generation algorithm.
 
+### How to use
+
+Press Tab while mapping, an AutoMapper text icon should appear on the menu on the right side of the screen.  
+Clicking that icon will open the AutoMapper menu.  
+Pressing the Audio button will generate the map based on the audio file.  
+Pressing the Map button will remap the existing notes, or the selected notes.  
+Pressing the Light button will generate lights based on the existing notes, or the selected notes.
+
 ### Features
 
 -   Lightshow Generator (based on note timings)
