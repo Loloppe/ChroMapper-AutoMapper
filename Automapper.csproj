@@ -603,6 +603,7 @@
     <Compile Include="Onset\OnsetDetection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\UI.cs" />
+    <Compile Include="UnityThreadDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.png" />

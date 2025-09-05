@@ -30,6 +30,7 @@ using UnityEngine.SceneManagement;
 using Automapper.Items;
 using UnityEngine;
 using Beatmap.Base;
+using System.Threading.Tasks;
 
 namespace Automapper
 {
@@ -63,7 +64,7 @@ namespace Automapper
             }
         }
 
-        public void Light()
+        public async Task LightAsync()
         {
             if(_noteGridContainer.MapObjects.Any())
             {
@@ -80,7 +81,6 @@ namespace Automapper
                         select = new List<BaseNote>(selection.Cast<BaseNote>());
                         if (notes.Exists(o => o.JsonTime > select.First().JsonTime && o.JsonTime < select.Last().JsonTime && !select.Contains(o)))
                         {
-                            // This is not a whole selection
                             Debug.Log("Automapper: This is not a whole section selection. Notes might be missing.");
                             select = null;
                         }
@@ -93,39 +93,45 @@ namespace Automapper
 
                 if(select != null)
                 {
-                    select = select.OrderBy(o => o.JsonTime).ToList();
-
-                    List<BaseEvent> oldEvents = _eventGridContainer.MapObjects.Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
-                    ev.JsonTime >= select.First().JsonTime && ev.JsonTime <= select.Last().JsonTime).ToList();
-
-                    if (Options.Light.IgnoreBomb)
+                    await Task.Run(() =>
                     {
-                        select = new List<BaseNote>(select.Where(x => x.Type != Enumerator.NoteType.BOMB));
-                    }
+                        select = select.OrderBy(o => o.JsonTime).ToList();
 
-                    // Get new events
-                    List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.MapObjects.ToList(), select);
+                        if (Options.Light.IgnoreBomb)
+                        {
+                            select = new List<BaseNote>(select.Where(x => x.Type != Enumerator.NoteType.BOMB));
+                        }
 
-                    // Delete old events
-                    foreach (var ev in oldEvents)
-                    {
-                        _eventGridContainer.DeleteObject(ev, false);
-                    }
+                        // Get new events
+                        List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.MapObjects.ToList(), select);
 
-                    // Add new events
-                    foreach (var ev in newEvents)
-                    {
-                        _eventGridContainer.SpawnObject(ev, false, false, true);
-                    }
+                        // Back on main thread for Unity operations
+                        UnityThreadDispatcher.Instance().Enqueue(() =>
+                        {
+                            List<BaseEvent> oldEvents = _eventGridContainer.MapObjects.Where(ev => Utils.EnvironmentEvent.IsEnvironmentEvent(ev) &&
+                                ev.JsonTime >= select.First().JsonTime && ev.JsonTime <= select.Last().JsonTime).ToList();
 
-                    _eventGridContainer.DoPostObjectsSpawnedWorkflow();
+                            // Delete old events
+                            foreach (var ev in oldEvents)
+                            {
+                                _eventGridContainer.DeleteObject(ev, false);
+                            }
 
-                    _eventGridContainer.RefreshPool(true);
+                            // Add new events
+                            foreach (var ev in newEvents)
+                            {
+                                _eventGridContainer.SpawnObject(ev, false, false, true);
+                            }
+
+                            _eventGridContainer.DoPostObjectsSpawnedWorkflow();
+                            _eventGridContainer.RefreshPool(true);
+                        });
+                    });
                 }
             }
         }
 
-        public void Converter()
+        public async Task ConverterAsync()
         {
             if (_noteGridContainer.MapObjects.Any())
             {
@@ -141,7 +147,6 @@ namespace Automapper
                         select = new List<BaseNote>(selection.Cast<BaseNote>());
                         if (notes.Exists(o => o.JsonTime >= select.First().JsonTime && o.JsonTime <= select.Last().JsonTime && !select.Contains(o)))
                         {
-                            // This is not a whole selection
                             Debug.LogWarning("Automapper: This is not a whole section selection. Make sure to take all notes in the range and double on same beat.");
                             select = null;
                         }
@@ -154,134 +159,164 @@ namespace Automapper
 
                 if (select != null)
                 {
-                    // Add the first note if the second note is selected
-                    if (select.Contains(notes[1]) && !select.Contains(notes.First()))
+                    await Task.Run(() =>
                     {
-                        select.Add(notes.First());
-                        select.OrderBy(o => o.JsonTime);
-                    }
+                        // Move existing conversion logic into the task
+                        if (select.Contains(notes[1]) && !select.Contains(notes.First()))
+                        {
+                            select.Add(notes.First());
+                            select = select.OrderBy(o => o.JsonTime).ToList();
+                        }
 
-                    List<BaseNote> redNotes = new List<BaseNote>();
-                    List<BaseNote> blueNotes = new List<BaseNote>();
+                        List<BaseNote> redNotes = new List<BaseNote>();
+                        List<BaseNote> blueNotes = new List<BaseNote>();
+                        List<BaseNote> toDelete = new List<BaseNote>(select);
+                        select = new List<BaseNote>();
 
-                    // Separate note per type
-                    if (select.Exists(o => o.Type == 0))
-                    {
-                        redNotes = new List<BaseNote>(select.Where(w => w.Type == 0).ToList());
-                    }
+                        if (select.Exists(o => o.Type == 0))
+                        {
+                            redNotes = new List<BaseNote>(select.Where(w => w.Type == 0).ToList());
+                        }
 
-                    if (select.Exists(o => o.Type == 1))
-                    {
-                        blueNotes = new List<BaseNote>(select.Where(w => w.Type == 1).ToList());
-                    }
+                        if (select.Exists(o => o.Type == 1))
+                        {
+                            blueNotes = new List<BaseNote>(select.Where(w => w.Type == 1).ToList());
+                        }
 
-                    // We do nothing with patterns for now
-                    List<List<BaseNote>> patterns = new List<List<BaseNote>>();
+                        List<List<BaseNote>> patterns = new List<List<BaseNote>>();
 
-                    List<BaseNote> toDelete = new List<BaseNote>(select);
-                    select = new List<BaseNote>();
-
-                    if (redNotes.Any())
-                    {
-                        if(redNotes.Count > 1)
+                        if (redNotes.Any() && redNotes.Count > 1)
                         {
                             (patterns, redNotes) = Helper.FindPattern(redNotes);
-
-                            // We keep the first note of each pattern
                             foreach (List<BaseNote> pattern in patterns)
                             {
                                 redNotes.Add(pattern[0]);
                             }
+                            select.AddRange(redNotes);
                         }
 
-                        select.AddRange(redNotes);
-                    }
-
-                    if (blueNotes.Any())
-                    {
-                        patterns = new List<List<BaseNote>>();
-
-                        if (blueNotes.Count > 1)
+                        if (blueNotes.Any() && blueNotes.Count > 1)
                         {
-                            // We do nothing with patterns for now
+                            patterns = new List<List<BaseNote>>();
                             (patterns, blueNotes) = Helper.FindPattern(blueNotes);
-
-                            // We keep the first note of each pattern
                             foreach (List<BaseNote> pattern in patterns)
                             {
                                 blueNotes.Add(pattern[0]);
                             }
+                            select.AddRange(blueNotes);
                         }
 
-                        select.AddRange(blueNotes);
-                    }
-
-                    // Delete old notes
-                    foreach (var n in toDelete)
-                    {
-                        _noteGridContainer.DeleteObject(n, false);
-                    }
-
-                    List<float> timings = new List<float>();
-
-                    if (select.Any())
-                    {
-                        select = select.OrderBy(o => o.JsonTime).ToList();
-
-                        foreach (BaseNote note in select)
-                        {
-                            timings.Add(note.JsonTime);
-                        }
-
+                        // Process timings and generate new notes
+                        List<float> timings = new List<float>();
                         BaseNote lastBlue = null;
                         BaseNote lastRed = null;
 
-                        if (!select.Contains(notes.First()) && !select.Contains(notes[1]))
+                        if (select.Any())
                         {
-                            if(select.First().Type == 0)
+                            select = select.OrderBy(o => o.JsonTime).ToList();
+                            foreach (BaseNote note in select)
                             {
-                                lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
-                                lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
+                                timings.Add(note.JsonTime);
                             }
-                            else
+
+                            if (!select.Contains(notes.First()) && !select.Contains(notes[1]))
                             {
-                                lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
-                                lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
+                                if(select.First().Type == 0)
+                                {
+                                    lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
+                                    lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
+                                }
+                                else
+                                {
+                                    lastBlue = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type == select.First().Type);
+                                    lastRed = notes.FindLast(o => o.JsonTime < select.First().JsonTime && o.Type != select.First().Type);
+                                }
                             }
+                            else if (!select.Contains(notes.First()) && select.First().JsonTime != notes[0].JsonTime && notes.Count > 1)
+                            {
+                                int index = notes.FindIndex(o => o == select.First());
+                                if (notes[index - 1].Type == 0)
+                                {
+                                    lastRed = notes[index - 1];
+                                    lastBlue = new BaseNote { Type = 1 };
+                                }
+                                else
+                                {
+                                    lastBlue = notes[index - 1];
+                                    lastRed = new BaseNote { Type = 0 };
+                                }
+                            }
+
+                            List<BaseNote> newNotes = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Info.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
+
+                            // Back on main thread for Unity operations
+                            UnityThreadDispatcher.Instance().Enqueue(() =>
+                            {
+                                foreach (var n in toDelete)
+                                {
+                                    _noteGridContainer.DeleteObject(n, false);
+                                }
+
+                                List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
+                                foreach (var o in obstacles)
+                                {
+                                    _obstacleGridContainer.DeleteObject(o, false, inCollectionOfDeletes: true);
+                                }
+
+                                foreach (var n in newNotes)
+                                {
+                                    _noteGridContainer.SpawnObject(n, false, false, true);
+                                    selection.Add(n);
+                                }
+
+                                _obstacleGridContainer.DoPostObjectsDeleteWorkflow();
+                                _noteGridContainer.DoPostObjectsSpawnedWorkflow();
+
+                                _obstacleGridContainer.RefreshPool(true);
+                                _noteGridContainer.RefreshPool(true);
+                            });
                         }
-                        else if (!select.Contains(notes.First()) && select.First().JsonTime != notes[0].JsonTime && notes.Count > 1)
-                        {
-                            int index = notes.FindIndex(o => o == select.First());
-                            if (notes[index - 1].Type == 0)
-                            {
-                                lastRed = notes[index - 1];
-                                lastBlue = new BaseNote();
-                                lastBlue.Type = 1;
-                            }
-                            else
-                            {
-                                lastBlue = notes[index - 1];
-                                lastRed = new BaseNote();
-                                lastRed.Type= 0;
-                            }
-                        }
+                    });
+                }
+            }
+        }
 
-                        // Get new notes
-                        List<BaseNote> no = Methods.NoteGenerator.AutoMapper(timings, BeatSaberSongContainer.Instance.Info.BeatsPerMinute, select.First().Type, lastRed, lastBlue);
+        public async Task AudioAsync()
+        {
+            await Task.Run(() =>
+            {
+                List<BaseNote> newNotes = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
 
-                        List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
+                // Back on main thread for Unity operations
+                UnityThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    List<BaseNote> notes = _noteGridContainer.MapObjects.ToList();
+                    List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
 
-                        // Delete old obstacles
-                        foreach (var o in obstacles)
+                    // Delete old obstacles within range
+                    foreach (var o in obstacles)
+                    {
+                        if (o.JsonTime >= Options.Mapper.MinRange && o.JsonTime <= Options.Mapper.MaxRange)
                         {
                             _obstacleGridContainer.DeleteObject(o, false, inCollectionOfDeletes: true);
                         }
+                    }
 
-                        // Add new notes
-                        foreach (var n in no)
+                    // Delete old notes within range
+                    foreach (var n in notes)
+                    {
+                        if(n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
+                        {
+                            _noteGridContainer.DeleteObject(n, false, inCollectionOfDeletes: true);
+                        }
+                    }
+
+                    // Add new notes within range
+                    foreach (var n in newNotes)
+                    {
+                        if (n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
                         {
                             _noteGridContainer.SpawnObject(n, false, false, true);
-                            selection.Add(n);
                         }
                     }
 
@@ -290,49 +325,24 @@ namespace Automapper
 
                     _obstacleGridContainer.RefreshPool(true);
                     _noteGridContainer.RefreshPool(true);
-                }
-            }
+                });
+            });
+        }
+
+        // Keep the original synchronous methods as wrappers for backward compatibility in case someone uses them in a different mod i mean who knows but idk
+        public void Light()
+        {
+            _ = LightAsync();
+        }
+
+        public void Converter()
+        {
+            _ = ConverterAsync();
         }
 
         public void Audio()
         {
-            List<BaseNote> no = Methods.Onset.GetMap("song.ogg", BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
-
-            List <BaseNote> notes = _noteGridContainer.MapObjects.ToList();
-            List<BaseObstacle> obstacles = _obstacleGridContainer.MapObjects.ToList();
-
-            // Delete old obstacles
-            foreach (var o in obstacles)
-            {
-                if (o.JsonTime >= Options.Mapper.MinRange && o.JsonTime <= Options.Mapper.MaxRange)
-                {
-                    _obstacleGridContainer.DeleteObject(o, false, inCollectionOfDeletes: true);
-                }
-            }
-
-            // Delete old notes
-            foreach (var n in notes)
-            {
-                if(n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
-                {
-                    _noteGridContainer.DeleteObject(n, false, inCollectionOfDeletes: true);
-                }
-            }
-
-            // Add new notes
-            foreach (var n in no)
-            {
-                if (n.JsonTime >= Options.Mapper.MinRange && n.JsonTime <= Options.Mapper.MaxRange)
-                {
-                    _noteGridContainer.SpawnObject(n, false, false, true);
-                }
-            }            
-            
-            _obstacleGridContainer.DoPostObjectsDeleteWorkflow();
-            _noteGridContainer.DoPostObjectsSpawnedWorkflow();
-
-            _obstacleGridContainer.RefreshPool(true);
-            _noteGridContainer.RefreshPool(true);
+            _ = AudioAsync();
         }
 
         [Exit]
