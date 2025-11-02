@@ -624,4 +624,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command=" xcopy /Y /F &quot;$(ProjectDir)bin\x64\$(Configuration)\$(TargetName).dll&quot; &quot;$(ChroMapperDir)\Plugins\&quot;" />
+	</Target>
 </Project>

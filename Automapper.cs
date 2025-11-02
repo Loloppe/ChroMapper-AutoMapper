@@ -104,7 +104,8 @@ namespace Automapper
                     }
 
                     // Get new events
-                    List<BaseEvent> newEvents = Methods.Light.CreateLight(_noteGridContainer.MapObjects.ToList(), select);
+                    Helper.HandlePattern(notes);
+                    List<BaseEvent> newEvents = Methods.Light.CreateLight(notes, select);
 
                     // Delete old events
                     foreach (var ev in oldEvents)

@@ -36,11 +36,9 @@ namespace Automapper.Methods
             float nextDouble = 0;
 
             // Slider stuff
-            bool firstSlider = false;
             float nextSlider = new float();
             List<int> sliderLight = new List<int>() { 4, 1, 0 };
             int sliderIndex = 0;
-            float sliderNoteCount = 0;
             bool wasSlider = false;
 
             // Pattern for specific rhythm
@@ -104,8 +102,6 @@ namespace Automapper.Methods
             }
 
             ResetTimer();
-
-            bool found = false;
 
             // Place all spin/zoom/boost
             foreach(BaseNote note in Notes)
@@ -182,20 +178,10 @@ namespace Automapper.Methods
             ResetTimer();
 
             // Find all sliders
-            for (int i = 1; i < Selection.Count; i++)
-            {
-                // Between 1/8 and 0, same cut direction or dots
-                if (Notes[i].JsonTime - Notes[i - 1].JsonTime <= 0.125 && Notes[i].JsonTime - Notes[i - 1].JsonTime > 0 && (Notes[i].CutDirection == Notes[i - 1].CutDirection || Notes[i].CutDirection == 8 || Notes[i - 1].CutDirection == 8))
-                {
-                    sliderTiming.Add(Notes[i - 1]);
-                    found = true;
-                }
-                else if (found)
-                {
-                    sliderTiming.Add(Notes[i - 1]);
-                    found = false;
-                }
-            }
+            var redNotes = Selection.Where(x => x.Color == 0).ToList();
+            var blueNotes = Selection.Where(x => x.Color == 1).ToList();
+            if (redNotes.Count > 1) sliderTiming.AddRange(Helper.GetSliders(redNotes));
+            if (blueNotes.Count > 1) sliderTiming.AddRange(Helper.GetSliders(blueNotes));
 
             foreach (BaseNote note in Selection) //Process specific light using time.
             {
@@ -342,10 +328,8 @@ namespace Automapper.Methods
 
                 if (wasSlider)
                 {
-                    if (sliderNoteCount != 0)
+                    if (time[0] - nextSlider < 0.5)
                     {
-                        sliderNoteCount--;
-
                         for (int i = 3; i > 0; i--) //Keep the timing of up to three notes before.
                         {
                             time[i] = time[i - 1];
@@ -356,12 +340,6 @@ namespace Automapper.Methods
                     {
                         wasSlider = false;
                     }
-                }
-
-                if (firstSlider)
-                {
-                    firstSlider = false;
-                    continue;
                 }
 
                 // Find the next double
@@ -380,32 +358,9 @@ namespace Automapper.Methods
                     }
                 }
 
-                // Find the next slider (1/8 minimum) or chain
-                if (time[0] >= nextSlider)
+                if (sliderTiming.Exists(x => x.JsonTime == time[0]))
                 {
-                    sliderNoteCount = 0;
-
-                    for (int i = Selection.FindIndex(n => n == note); i < Selection.Count - 1; i++)
-                    {
-                        if (i != 0 && i < Selection.Count)
-                        {
-                            // Between 1/8 and 0, same cut direction or dots
-                            if (Selection[i].JsonTime - Selection[i - 1].JsonTime <= 0.125 && Selection[i].JsonTime - Selection[i - 1].JsonTime > 0 && (Selection[i].CutDirection == Selection[i - 1].CutDirection || Selection[i].CutDirection == 8))
-                            {
-                                // Search for the last note of the slider
-                                if (sliderNoteCount == 0)
-                                {
-                                    // This is the first note of the slider
-                                    nextSlider = Selection[i - 1].JsonTime;
-                                }
-                                sliderNoteCount++;
-                            }
-                            else if (sliderNoteCount != 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
+                    nextSlider = time[0];
                 }
 
                 // It's the next slider or chain
@@ -426,7 +381,7 @@ namespace Automapper.Methods
                         eventTempo.Add(ChromaGen(time[0] + 0.125f, sliderLight[sliderIndex], color - 1, chroma));
                         eventTempo.Add(ChromaGen(time[0] + 0.25f, sliderLight[sliderIndex], color - 2, chroma));
                         eventTempo.Add(ChromaGen(time[0] + 0.375f, sliderLight[sliderIndex], color - 1, chroma));
-                        eventTempo.Add(ChromaGen(time[0] + 0.5f, sliderLight[sliderIndex], color - 0, chroma));
+                        eventTempo.Add(new BaseEvent { JsonTime = time[0] + 0.5f, Type = sliderLight[sliderIndex], Value = 0 });
                     }
                     else
                     {
@@ -511,7 +466,6 @@ namespace Automapper.Methods
                         eventTempo.Add(new BaseEvent{ JsonTime = time[0], Type = EventType.RIGHT_ROT, Value = currentSpeed });
                     }
 
-                    // Place off event
                     if (Selection[Selection.Count - 1].JsonTime != note.JsonTime)
                     {
                         if (Selection[Selection.FindIndex(n => n == note) + 1].JsonTime == nextDouble)
